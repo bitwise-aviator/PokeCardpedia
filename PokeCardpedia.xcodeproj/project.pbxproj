@@ -1,0 +1,609 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DC660CCA29BD098600610965 /* PokeCardpediaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CC929BD098600610965 /* PokeCardpediaApp.swift */; };
+		DC660CCC29BD098600610965 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CCB29BD098600610965 /* ContentView.swift */; };
+		DC660CCE29BD098700610965 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC660CCD29BD098700610965 /* Assets.xcassets */; };
+		DC660CD129BD098700610965 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC660CD029BD098700610965 /* Preview Assets.xcassets */; };
+		DC660CD329BD098700610965 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CD229BD098700610965 /* Persistence.swift */; };
+		DC660CD629BD098700610965 /* PokeCardpedia.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DC660CD429BD098700610965 /* PokeCardpedia.xcdatamodeld */; };
+		DC660CE029BD098700610965 /* PokeCardpediaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CDF29BD098700610965 /* PokeCardpediaTests.swift */; };
+		DC660CEA29BD098700610965 /* PokeCardpediaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CE929BD098700610965 /* PokeCardpediaUITests.swift */; };
+		DC660CEC29BD098700610965 /* PokeCardpediaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CEB29BD098700610965 /* PokeCardpediaUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DC660CDC29BD098700610965 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC660CBE29BD098600610965 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DC660CC529BD098600610965;
+			remoteInfo = PokeCardpedia;
+		};
+		DC660CE629BD098700610965 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC660CBE29BD098600610965 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DC660CC529BD098600610965;
+			remoteInfo = PokeCardpedia;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DC660CC629BD098600610965 /* PokeCardpedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokeCardpedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC660CC929BD098600610965 /* PokeCardpediaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeCardpediaApp.swift; sourceTree = "<group>"; };
+		DC660CCB29BD098600610965 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DC660CCD29BD098700610965 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DC660CD029BD098700610965 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DC660CD229BD098700610965 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		DC660CD529BD098700610965 /* PokeCardpedia.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PokeCardpedia.xcdatamodel; sourceTree = "<group>"; };
+		DC660CDB29BD098700610965 /* PokeCardpediaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokeCardpediaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC660CDF29BD098700610965 /* PokeCardpediaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeCardpediaTests.swift; sourceTree = "<group>"; };
+		DC660CE529BD098700610965 /* PokeCardpediaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokeCardpediaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC660CE929BD098700610965 /* PokeCardpediaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeCardpediaUITests.swift; sourceTree = "<group>"; };
+		DC660CEB29BD098700610965 /* PokeCardpediaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeCardpediaUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DC660CC329BD098600610965 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC660CD829BD098700610965 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC660CE229BD098700610965 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DC660CBD29BD098600610965 = {
+			isa = PBXGroup;
+			children = (
+				DC660CC829BD098600610965 /* PokeCardpedia */,
+				DC660CDE29BD098700610965 /* PokeCardpediaTests */,
+				DC660CE829BD098700610965 /* PokeCardpediaUITests */,
+				DC660CC729BD098600610965 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DC660CC729BD098600610965 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DC660CC629BD098600610965 /* PokeCardpedia.app */,
+				DC660CDB29BD098700610965 /* PokeCardpediaTests.xctest */,
+				DC660CE529BD098700610965 /* PokeCardpediaUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DC660CC829BD098600610965 /* PokeCardpedia */ = {
+			isa = PBXGroup;
+			children = (
+				DC660CC929BD098600610965 /* PokeCardpediaApp.swift */,
+				DC660CCB29BD098600610965 /* ContentView.swift */,
+				DC660CCD29BD098700610965 /* Assets.xcassets */,
+				DC660CD229BD098700610965 /* Persistence.swift */,
+				DC660CD429BD098700610965 /* PokeCardpedia.xcdatamodeld */,
+				DC660CCF29BD098700610965 /* Preview Content */,
+			);
+			path = PokeCardpedia;
+			sourceTree = "<group>";
+		};
+		DC660CCF29BD098700610965 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				DC660CD029BD098700610965 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DC660CDE29BD098700610965 /* PokeCardpediaTests */ = {
+			isa = PBXGroup;
+			children = (
+				DC660CDF29BD098700610965 /* PokeCardpediaTests.swift */,
+			);
+			path = PokeCardpediaTests;
+			sourceTree = "<group>";
+		};
+		DC660CE829BD098700610965 /* PokeCardpediaUITests */ = {
+			isa = PBXGroup;
+			children = (
+				DC660CE929BD098700610965 /* PokeCardpediaUITests.swift */,
+				DC660CEB29BD098700610965 /* PokeCardpediaUITestsLaunchTests.swift */,
+			);
+			path = PokeCardpediaUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DC660CC529BD098600610965 /* PokeCardpedia */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC660CEF29BD098700610965 /* Build configuration list for PBXNativeTarget "PokeCardpedia" */;
+			buildPhases = (
+				DC660CC229BD098600610965 /* Sources */,
+				DC660CC329BD098600610965 /* Frameworks */,
+				DC660CC429BD098600610965 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PokeCardpedia;
+			productName = PokeCardpedia;
+			productReference = DC660CC629BD098600610965 /* PokeCardpedia.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DC660CDA29BD098700610965 /* PokeCardpediaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC660CF229BD098700610965 /* Build configuration list for PBXNativeTarget "PokeCardpediaTests" */;
+			buildPhases = (
+				DC660CD729BD098700610965 /* Sources */,
+				DC660CD829BD098700610965 /* Frameworks */,
+				DC660CD929BD098700610965 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DC660CDD29BD098700610965 /* PBXTargetDependency */,
+			);
+			name = PokeCardpediaTests;
+			productName = PokeCardpediaTests;
+			productReference = DC660CDB29BD098700610965 /* PokeCardpediaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DC660CE429BD098700610965 /* PokeCardpediaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC660CF529BD098700610965 /* Build configuration list for PBXNativeTarget "PokeCardpediaUITests" */;
+			buildPhases = (
+				DC660CE129BD098700610965 /* Sources */,
+				DC660CE229BD098700610965 /* Frameworks */,
+				DC660CE329BD098700610965 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DC660CE729BD098700610965 /* PBXTargetDependency */,
+			);
+			name = PokeCardpediaUITests;
+			productName = PokeCardpediaUITests;
+			productReference = DC660CE529BD098700610965 /* PokeCardpediaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DC660CBE29BD098600610965 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					DC660CC529BD098600610965 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					DC660CDA29BD098700610965 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = DC660CC529BD098600610965;
+					};
+					DC660CE429BD098700610965 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = DC660CC529BD098600610965;
+					};
+				};
+			};
+			buildConfigurationList = DC660CC129BD098600610965 /* Build configuration list for PBXProject "PokeCardpedia" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DC660CBD29BD098600610965;
+			productRefGroup = DC660CC729BD098600610965 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DC660CC529BD098600610965 /* PokeCardpedia */,
+				DC660CDA29BD098700610965 /* PokeCardpediaTests */,
+				DC660CE429BD098700610965 /* PokeCardpediaUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DC660CC429BD098600610965 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC660CD129BD098700610965 /* Preview Assets.xcassets in Resources */,
+				DC660CCE29BD098700610965 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC660CD929BD098700610965 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC660CE329BD098700610965 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DC660CC229BD098600610965 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC660CD329BD098700610965 /* Persistence.swift in Sources */,
+				DC660CCC29BD098600610965 /* ContentView.swift in Sources */,
+				DC660CD629BD098700610965 /* PokeCardpedia.xcdatamodeld in Sources */,
+				DC660CCA29BD098600610965 /* PokeCardpediaApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC660CD729BD098700610965 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC660CE029BD098700610965 /* PokeCardpediaTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC660CE129BD098700610965 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC660CEA29BD098700610965 /* PokeCardpediaUITests.swift in Sources */,
+				DC660CEC29BD098700610965 /* PokeCardpediaUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DC660CDD29BD098700610965 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DC660CC529BD098600610965 /* PokeCardpedia */;
+			targetProxy = DC660CDC29BD098700610965 /* PBXContainerItemProxy */;
+		};
+		DC660CE729BD098700610965 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DC660CC529BD098600610965 /* PokeCardpedia */;
+			targetProxy = DC660CE629BD098700610965 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		DC660CED29BD098700610965 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DC660CEE29BD098700610965 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DC660CF029BD098700610965 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PokeCardpedia/Preview Content\"";
+				DEVELOPMENT_TEAM = YG5N57HMZ9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ds-aero.PokeCardpedia";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DC660CF129BD098700610965 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PokeCardpedia/Preview Content\"";
+				DEVELOPMENT_TEAM = YG5N57HMZ9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ds-aero.PokeCardpedia";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		DC660CF329BD098700610965 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YG5N57HMZ9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ds-aero.PokeCardpediaTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PokeCardpedia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PokeCardpedia";
+			};
+			name = Debug;
+		};
+		DC660CF429BD098700610965 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YG5N57HMZ9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ds-aero.PokeCardpediaTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PokeCardpedia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PokeCardpedia";
+			};
+			name = Release;
+		};
+		DC660CF629BD098700610965 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YG5N57HMZ9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ds-aero.PokeCardpediaUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PokeCardpedia;
+			};
+			name = Debug;
+		};
+		DC660CF729BD098700610965 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YG5N57HMZ9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ds-aero.PokeCardpediaUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PokeCardpedia;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DC660CC129BD098600610965 /* Build configuration list for PBXProject "PokeCardpedia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC660CED29BD098700610965 /* Debug */,
+				DC660CEE29BD098700610965 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DC660CEF29BD098700610965 /* Build configuration list for PBXNativeTarget "PokeCardpedia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC660CF029BD098700610965 /* Debug */,
+				DC660CF129BD098700610965 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DC660CF229BD098700610965 /* Build configuration list for PBXNativeTarget "PokeCardpediaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC660CF329BD098700610965 /* Debug */,
+				DC660CF429BD098700610965 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DC660CF529BD098700610965 /* Build configuration list for PBXNativeTarget "PokeCardpediaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC660CF629BD098700610965 /* Debug */,
+				DC660CF729BD098700610965 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		DC660CD429BD098700610965 /* PokeCardpedia.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DC660CD529BD098700610965 /* PokeCardpedia.xcdatamodel */,
+			);
+			currentVersion = DC660CD529BD098700610965 /* PokeCardpedia.xcdatamodel */;
+			path = PokeCardpedia.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = DC660CBE29BD098600610965 /* Project object */;
+}
