@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import pokemon_tcg_sdk_swift
 
 @main
 struct PokeCardpediaApp: App {
     let persistenceController = PersistenceController.shared
-
     var body: some Scene {
         WindowGroup {
             ContentView()
