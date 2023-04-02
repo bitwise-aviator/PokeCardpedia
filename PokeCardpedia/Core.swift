@@ -26,6 +26,7 @@ class Core: ObservableObject {
     @Published private(set) var activeData: [String: Card] = [:]
     @Published private(set) var activeOwned: Int = 0
     @Published private(set) var activeUniqueOwned: Int = 0
+    @Published private(set) var inventoryLocked: Bool = true
     /*var activeOwned: Int {
         return Array(activeData.values).reduce(0) { $0 + Int($1.collection?.amount ?? 0) }
     }
@@ -40,6 +41,10 @@ class Core: ObservableObject {
         Task {
             await getCardsBySet(set: set.id)
         }
+    }
+    
+    func setInventoryLock(target: Bool) {
+        inventoryLocked = target
     }
     
     func setNonSetViewModeAsActive(target: ViewMode) {

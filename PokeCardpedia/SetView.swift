@@ -56,6 +56,9 @@ struct SetView: View {
             ScrollViewReader { scroller in
                 Text("Overview").frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 5)
                 LazyVGrid(columns: layout, content: {
+                    NonSetButtonView(imagePath: core.inventoryLocked ? "lock.fill" : "lock.open.fill", text: core.inventoryLocked ? "Inventory locked" : "Inventory unlocked").id("lock").frame(maxWidth: .infinity).background(core.inventoryLocked ? Color(uiColor: .systemRed) : Color(uiColor: .systemGreen)).onTapGesture {
+                        core.setInventoryLock(target: !core.inventoryLocked)
+                    }
                     NonSetButtonView(imagePath: "checkmark", text: "Owned").id("owned").frame(maxWidth: .infinity).background(core.viewMode == .owned ? Color(.lightGray) : .clear).onTapGesture {
                         core.setNonSetViewModeAsActive(target: .owned)
                     }

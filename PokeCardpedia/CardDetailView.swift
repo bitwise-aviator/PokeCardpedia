@@ -21,6 +21,7 @@ struct CardDetailView: View {
     var counter: Int16 {
         card.collection!.amount
     }
+    @ViewBuilder
     var body: some View {
         Button(action: {imageDetailShown = false}) {
             Text("Go back")
@@ -52,20 +53,27 @@ struct CardDetailView: View {
                 }.padding(10).background((favorite ? Color(uiColor: .systemPink) : .clear)).cornerRadius(10)
             }
             Spacer().frame(width: 100)
-            Button(action: {
-                card.setNumberOwned(counter - 1)
-            }) {
-                Image(systemName: "minus").foregroundColor(Color(uiColor: .systemGray)).padding(10)
-                    .background((counter > 0 ? Color(uiColor: .clear) : .clear)).cornerRadius(10)
-            }.disabled(counter <= 0)
+            if !core.inventoryLocked {
+                Button(action: {
+                    card.setNumberOwned(counter - 1)
+                }) {
+                    Image(systemName: "minus").foregroundColor(Color(uiColor: .systemGray)).padding(10)
+                        .background((counter > 0 ? Color(uiColor: .clear) : .clear)).cornerRadius(10)
+                }.disabled(counter <= 0)
+            }
             Text(String(counter)).foregroundColor(counter != 0 ? Color(uiColor: .systemGreen) : Color.primary)
-            Button(action: {
-                card.setNumberOwned(counter + 1)
-            }) {
-                Image(systemName: "plus").foregroundColor(Color(uiColor: .systemGray)).padding(10)
-                    .background((counter < 999 ? Color(uiColor: .clear) : .clear))
-                    .cornerRadius(10)
-            }.disabled(counter >= 999)
+            if !core.inventoryLocked {
+                Button(action: {
+                    card.setNumberOwned(counter + 1)
+                }) {
+                    Image(systemName: "plus").foregroundColor(Color(uiColor: .systemGray)).padding(10)
+                        .background((counter < 999 ? Color(uiColor: .clear) : .clear))
+                        .cornerRadius(10)
+                }.disabled(counter >= 999)
+            }
+        }
+        if core.inventoryLocked {
+            Text("Card amounts are locked. Tap on the \"Inventory locked\" icon under Overview to allow editing.").foregroundColor(Color(uiColor: .systemRed))
         }
     }
 }
