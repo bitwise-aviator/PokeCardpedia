@@ -19,7 +19,6 @@ struct CardThumbnail: View {
     @Binding var activeImage: String
     @Binding var imageDetailShown: Bool
     @ObservedObject var card: Card
-    
     var favorite: Bool {
         card.collection!.favorite
     }
@@ -73,9 +72,10 @@ struct CardThumbnail: View {
                 Label {
                     Text("\(card.setNumber)").font(.footnote).padding(.trailing, 5)
                 } icon: { AsyncImage(url: card.setIconUrl) { image in
-                        image.resizable().scaledToFit().frame(width:10, height:10)
+                        image.resizable().scaledToFit().frame(width: 10, height: 10)
                     } placeholder: {
-                        Image(systemName: "questionmark.app.fill").resizable().scaledToFit().frame(width:10, height:10)
+                        Image(systemName: "questionmark.app.fill")
+                            .resizable().scaledToFit().frame(width: 10, height: 10)
                     }
                 }
             }
@@ -96,7 +96,6 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
-    
     /*private func testData() async {
         let data = await ApiClient.client.getBySetId(id: "bwp")
         //let data = await ApiClient.client.getById(id: "g1-72"/*"bwp-BW94"*/)
@@ -106,11 +105,8 @@ struct ContentView: View {
             //imageUrls = parseCardsFromJson(data: data)
             imageUrls = parseCardsFromJson(data: data)
         }
-        
     }*/
-    
     let layout = [GridItem(.adaptive(minimum: 100))]
-    
     @ViewBuilder
     var body: some View {
         NavigationSplitView {
@@ -123,8 +119,9 @@ struct ContentView: View {
                                     (filterBy == .owned && (cardData[$0]?.collection?.amount ?? 0) > 0) ||
                                     (filterBy == .favorite && (cardData[$0]?.collection?.favorite ?? false)) ||
                                     (filterBy == .want && (cardData[$0]?.collection?.wantIt ?? false))
-                                {
-                                    CardThumbnail(activeImage: $activeImage, imageDetailShown: $imageDetailShown, card: cardData[$0]!)
+                                { CardThumbnail(activeImage: $activeImage,
+                                    imageDetailShown: $imageDetailShown,
+                                    card: cardData[$0]!)
                                 }
                             }
                         }
@@ -134,14 +131,18 @@ struct ContentView: View {
                     Spacer()
                     Image(systemName: (filterBy == .want ? "star.fill" : "star"))
                         .foregroundColor((filterBy == .want ? Color(uiColor: .black): Color(uiColor: .systemGray)))
-                        .padding(10).background((filterBy == .want ? Color(uiColor: .systemYellow) : .clear)).cornerRadius(10)
+                        .padding(10)
+                        .background((filterBy == .want ? Color(uiColor: .systemYellow) : .clear))
+                        .cornerRadius(10)
                         .onTapGesture {
                             filterBy = filterBy != .want ? .want : .none
                         }
                     Spacer()
                     Image(systemName: (filterBy == .favorite ? "heart.fill" : "heart"))
                         .foregroundColor((filterBy == .favorite ? Color(uiColor: .black): Color(uiColor: .systemGray)))
-                        .padding(10).background((filterBy == .favorite ? Color(uiColor: .systemPink) : .clear)).cornerRadius(10)
+                        .padding(10)
+                        .background((filterBy == .favorite ? Color(uiColor: .systemPink) : .clear))
+                        .cornerRadius(10)
                         .onTapGesture {
                             filterBy = filterBy != .favorite ? .favorite : .none
                         }
@@ -151,7 +152,9 @@ struct ContentView: View {
                             .foregroundColor((filterBy == .owned ? Color(uiColor: .black): Color(uiColor: .systemGray)))
                         Text("\(Core.core.activeUniqueOwned)").foregroundColor(filterBy == .owned ? .black : .primary)
                     }
-                    .padding(10).background((filterBy == .owned ? Color(uiColor: .systemGreen) : .clear)).cornerRadius(10)
+                    .padding(10)
+                    .background((filterBy == .owned ? Color(uiColor: .systemGreen) : .clear))
+                    .cornerRadius(10)
                     .onTapGesture {
                         filterBy = filterBy != .owned ? .owned : .none
                     }
@@ -183,7 +186,9 @@ struct ContentView: View {
                 try viewContext.save()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                // fatalError() causes the application to generate a crash log and terminate.
+                // You should not use this function in a shipping application,
+                // although it may be useful during development.
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
@@ -198,7 +203,9 @@ struct ContentView: View {
                 try viewContext.save()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                // fatalError() causes the application to generate a crash log and terminate.
+                // You should not use this function in a shipping application,
+                // although it may be useful during development.
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }

@@ -27,13 +27,10 @@ class Card: ObservableObject {
         let formattedNumber = String(format: "%03d", Int(match.output.number)!)
         return String("\(setCode)-\(match.output.prefix)\(formattedNumber)\(match.output.suffix)")
     }
-    
     var setIconUrl: URL? {
         return URL(string: "https://images.pokemontcg.io/\(setCode)/symbol.png")
     }
-    
     @Published var collection: CardCollectionData?
-    
     init(from source: CardFromJson) {
         id = source.id
         setCode = source.set.id
@@ -41,20 +38,25 @@ class Card: ObservableObject {
         imagePaths = CardImageUrl(pathObject: source.images)
         collection = nil
     }
-    
-    // init? is a failable initializer, where nil can be returned if initalization cannot be completed, such as a guard statement triggering.
+    // init? is a failable initializer, where nil can be returned if initalization cannot be completed,
+    // such as a guard statement triggering.
     init?(from source: CollectionTracker) {
-        guard let newId = source.id, let newSet = source.set else { print("Failed unwrapping... id: \(source.id), set: \(source.set) "); return nil }
+        guard let newId = source.id, let newSet = source.set else {
+            print("Failed unwrapping... id: \(String(describing: source.id)), set: \(String(describing: source.set)) ")
+            return nil
+        }
         id = newId
         setCode = newSet
-        guard let match = id.firstMatch(of: Card.setNumberFromIdRegex) else { print("Failed unwrapping... id: \(id) did not produce a regex match"); return nil }
+        guard let match = id.firstMatch(of: Card.setNumberFromIdRegex) else {
+            print("Failed unwrapping... id: \(id) did not produce a regex match")
+            return nil
+        }
         setNumber = String(match.output.number)
         let smallUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber).png")
         let largeUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber)_hires.png")
         imagePaths = CardImageUrl(small: smallUrl, large: largeUrl)
         collection = source.toNativeForm
     }
-    
     func setFavorite(_ target: Bool) {
         if var newCollection = collection {
             newCollection.favorite = target
@@ -64,7 +66,6 @@ class Card: ObservableObject {
             }
         }
     }
-    
     func setWantIt(_ target: Bool) {
         if var newCollection = collection {
             newCollection.wantIt = target
@@ -75,7 +76,6 @@ class Card: ObservableObject {
             print(target, success)
         }
     }
-    
     func setNumberOwned(_ target: Int16) {
         if var newCollection = collection, target >= 0 {
             newCollection.amount = target
@@ -87,7 +87,6 @@ class Card: ObservableObject {
             print(target, success)
         }
     }
-    
     func addOne() {
         if self.collection != nil {
             let newCount = self.collection!.amount + 1
@@ -96,7 +95,6 @@ class Card: ObservableObject {
             self.setNumberOwned(newCount)
         }
     }
-    
     deinit {
         print("Destroying \(setCode)-\(setNumber)")
     }
@@ -155,4 +153,3 @@ struct CardCollectionData {
     var wantIt: Bool = false
     var amount: Int16 = 0
 }
-

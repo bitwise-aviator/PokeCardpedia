@@ -18,8 +18,8 @@ enum ViewMode {
 class Core: ObservableObject {
     static let core = Core() // singleton
     @Published var viewMode: ViewMode = .none
-    @Published var activeSet: SetFromJson? = nil
-    @Published private(set) var sets: [SetFromJson]? = nil
+    @Published var activeSet: SetFromJson?
+    @Published private(set) var sets: [SetFromJson]?
     @Published private(set) var setImages: [String: Data] = [:]
     private var loadedSets = Set<String>()
     private var loadedData: [String: Card] = [:]
@@ -34,7 +34,6 @@ class Core: ObservableObject {
     var activeUniqueOwned: Int {
         return Array(activeData.values).reduce(0) { $0 + min(Int($1.collection?.amount ?? 0), 1)}
     }*/
-    
     func setActiveSet(set: SetFromJson) {
         viewMode = .set
         activeSet = set
@@ -42,32 +41,29 @@ class Core: ObservableObject {
             await getCardsBySet(set: set.id)
         }
     }
-    
     func setInventoryLock(target: Bool) {
         inventoryLocked = target
     }
-    
     func setNonSetViewModeAsActive(target: ViewMode) {
-        print(target)
         viewMode = target
         activeSet = nil
         getCardsByViewMode(viewMode)
     }
-    
     func updateActiveCounters() {
         let owned: Int = Array(activeData.values).reduce(0) { $0 + Int($1.collection?.amount ?? 0) }
         let unique: Int = Array(activeData.values).reduce(0) { $0 + min(Int($1.collection?.amount ?? 0), 1)}
         (activeOwned, activeUniqueOwned) = (owned, unique)
     }
-    
     func getCardsBySet(set: String) async {
         if !loadedSets.contains(set) {
-            // 1) Get JSON response from API (include image URLs, not image data). Simultaneously, fire a FetchRequest for cards in the same set.
+            // 1) Get JSON response from API (include image URLs, not image data).
+            // Simultaneously, fire a FetchRequest for cards in the same set.
             enum DataResult {
                 case cardData(Data?)
                 case collectionData([String: CollectionTracker]?)
             }
-            let result = await withTaskGroup(of: DataResult.self) { group -> (cardData: Data?, collectionData: [String: CollectionTracker]?) in
+            let result = await withTaskGroup(of: DataResult.self) { group -> (
+                cardData: Data?, collectionData: [String: CollectionTracker]?) in
                 group.addTask {
                     return await .cardData(ApiClient.client.getBySetId(id: set))
                 }
@@ -75,9 +71,8 @@ class Core: ObservableObject {
                     let fetched = PersistenceController.shared.fetchCards([.bySet(id: set)])
                     return .collectionData(fetched?.toDict())
                 }
-                var cardData: Data? = nil
-                var collectionData: [String: CollectionTracker]? = nil
-                
+                var cardData: Data?
+                var collectionData: [String: CollectionTracker]?
                 for await value in group {
                     switch value {
                     case .cardData(let value):
@@ -86,7 +81,6 @@ class Core: ObservableObject {
                         collectionData = value
                     }
                 }
-                
                 return (cardData: cardData, collectionData: collectionData)
             }
             // 2) Check if data is already loaded. If not, merge into.
@@ -96,20 +90,19 @@ class Core: ObservableObject {
                         // Skip loaded data
                         guard loadedData[elem.sortId] == nil else {return}
                         // Skip bad data
-                        //guard let cardObject = elem.toCardObject() else {return}
+                        // guard let cardObject = elem.toCardObject() else {return}
                         let cardObject = elem.toCardObject()
                         loadedData[elem.sortId] = cardObject
                         if let collectionRecord = result.collectionData?[elem.id] {
                             loadedData[elem.sortId]!.collection = collectionRecord.toNativeForm
                         } else {
-                            loadedData[elem.sortId]!.collection = PersistenceController.shared.newCardCollectionDefaults(loadedData[elem.sortId]!)?.toNativeForm
+                            loadedData[elem.sortId]!.collection = PersistenceController.shared
+                                .newCardCollectionDefaults(loadedData[elem.sortId]!)?.toNativeForm
                         }
-                        
                     }
                 }
             }
         }
-        
         // 3) Refine active view accordingly.
         loadedSets.insert(set)
         DispatchQueue.main.async {
@@ -117,18 +110,17 @@ class Core: ObservableObject {
             self.updateActiveCounters()
         }
     }
-    
     func getCardsByViewMode(_ view: ViewMode) {
         Task {
             let fetched = {
-                switch(view) {
+                switch view {
                 case .owned: return PersistenceController.shared.fetchCards([.owned(true)])?.toDict()
                 case .favorite: return PersistenceController.shared.fetchCards([.favorite(true)])?.toDict()
                 case .want: return PersistenceController.shared.fetchCards([.wantIt(true)])?.toDict()
                 default: return nil
                 }
             }()
-            //let fetched = PersistenceController.shared.fetchCards([.owned(true)])?.toDict()
+            // let fetched = PersistenceController.shared.fetchCards([.owned(true)])?.toDict()
             if let fetched {
                 for key in Array(fetched.keys) {
                     if let item = fetched[key], let newCard = Card(from: item), loadedData[newCard.sortId] == nil {
@@ -138,7 +130,7 @@ class Core: ObservableObject {
             }
             DispatchQueue.main.async {
                 let newActiveData: [String: Card]? = {
-                    switch(view) {
+                    switch view {
                     case .owned: return self.loadedData.filter({($0.value.collection?.amount ?? 0) > 0})
                     case .favorite: return self.loadedData.filter({($0.value.collection?.favorite ?? false)})
                     case .want: return self.loadedData.filter({($0.value.collection?.wantIt ?? false)})
@@ -150,30 +142,25 @@ class Core: ObservableObject {
             }
         }
     }
-    
     func getAllSets() async {
         let setData = await parseSetsFromJson(data: ApiClient.client.getSetById())
         DispatchQueue.main.async {
             self.sets = setData?.sorted { $0.releaseDate < $1.releaseDate }
         }
     }
-    
     func getSetImages() async {
         if let setData = sets {
             var cache: [String: Data] = [:]
-            for elem in setData {
-                if setImages[elem.id] == nil {
-                    guard let url = URL(string: elem.images.symbol) else {continue}
-                    if let imgData = try? await URLSession.shared.data(from: url) {
-                        cache[elem.id] = imgData.0
-                    }
+            for elem in setData where setImages[elem.id] == nil {
+                guard let url = URL(string: elem.images.symbol) else {continue}
+                if let imgData = try? await URLSession.shared.data(from: url) {
+                    cache[elem.id] = imgData.0
                 }
             }
             DispatchQueue.main.async {
             }
         }
     }
-    
     init() {
         Task {
             print("Getting card data")

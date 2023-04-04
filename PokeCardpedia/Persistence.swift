@@ -28,7 +28,6 @@ extension CollectionTracker {
     var toNativeForm: CardCollectionData {
         return CardCollectionData(favorite: self.favorite, wantIt: self.wantIt, amount: self.amount)
     }
-    
     func mergeWithCard(_ card: some Card) {
         guard card.id == self.id, card.setCode == self.set else {
             return
@@ -52,7 +51,9 @@ struct PersistenceController {
             try viewContext.save()
         } catch {
             // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            // fatalError() causes the application to generate a crash log and terminate.
+            // You should not use this function in a shipping application,
+            // although it may be useful during development.
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
@@ -84,7 +85,6 @@ struct PersistenceController {
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
-    
     func newCardCollectionDefaults(_ card: some Card) -> CollectionTracker? {
         PersistenceController.shared.container.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         let cardCollectionItem = CollectionTracker(context: PersistenceController.context)
@@ -93,7 +93,6 @@ struct PersistenceController {
         cardCollectionItem.amount = 0
         cardCollectionItem.favorite = false
         cardCollectionItem.wantIt = false
-        
         do {
             try PersistenceController.context.save()
             return cardCollectionItem
@@ -121,10 +120,8 @@ struct PersistenceController {
         })
     }
      */
-    
     func patchCard(_ card: some Card, with newData: CardCollectionData) -> Bool {
         PersistenceController.shared.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        
         let cardCollectionItem = CollectionTracker(context: PersistenceController.shared.container.viewContext)
         cardCollectionItem.id = card.id
         cardCollectionItem.set = card.setCode
@@ -139,14 +136,13 @@ struct PersistenceController {
             return false
         }
     }
-    
     func fetchCards(_ searchParameters: [SearchType] = []) -> [CollectionTracker]? {
         // TODO: Make async.
         // Note: records retrieved will satisfy ALL criteria parameters passed.
         // Passing mutually exclusive parameters, such as owned and not owned, will return nothing.
         let fetchRequest = CollectionTracker.fetchRequest()
         var predicates: [NSPredicate] = []
-        searchParameters.forEach( { parameter in
+        searchParameters.forEach({ parameter in
             switch parameter {
             case .owned(true): predicates.append(NSPredicate(format: "amount > 0"))
             case .owned(false): predicates.append(NSPredicate(format: "amount = 0"))

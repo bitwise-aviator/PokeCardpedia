@@ -8,6 +8,7 @@
 import Foundation
 import AVFoundation
 
+/*
 class Scanner {
     private let captureSession = AVCaptureSession()
     private func setCameraInput() {
@@ -47,3 +48,5 @@ class Scanner {
         scanSession!.addInput(input!)
     }
 }
+
+*/

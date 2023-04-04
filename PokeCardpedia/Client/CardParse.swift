@@ -11,7 +11,9 @@ extension Data {
     var prettyPrintedJSONString: NSString? { /// NSString gives us a nice sanitized debugDescription
         guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
               let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
-              let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else { return nil }
+              let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else {
+            return nil
+        }
 
         return prettyPrintedString
     }
@@ -40,7 +42,6 @@ struct SetFromJson: Codable, Hashable {
     static func == (lhs: SetFromJson, rhs: SetFromJson) -> Bool {
         lhs.id == rhs.id
     }
-    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
@@ -49,7 +50,6 @@ struct SetFromJson: Codable, Hashable {
     let series: String
     let images: SetImagePath
     let releaseDate: String
-    
 }
 
 struct CardFromJson: Codable {
@@ -61,7 +61,6 @@ struct CardFromJson: Codable {
     let types: [String]?
     let subtypes: [String]?
     let images: CardImagePath
-    
     var sortId: String {
         let match = number.firstMatch(of: Card.sortRegex)
         let setId = set.id
@@ -69,7 +68,6 @@ struct CardFromJson: Codable {
         let formattedNumber = String(format: "%03d", Int(match.output.number)!)
         return String("\(setId)-\(match.output.prefix)\(formattedNumber)\(match.output.suffix)")
     }
-    
     func toCardObject() -> Card {
         return Card(from: self)
     }
@@ -88,20 +86,16 @@ struct CardImagePath: Codable {
 struct CardImageUrl: Hashable {
     let small: URL?
     let large: URL?
-    
     static func == (lhs: CardImageUrl, rhs: CardImageUrl) -> Bool {
         lhs.small == rhs.small
     }
-    
     func hash(into hasher: inout Hasher) {
         hasher.combine(small)
     }
-    
     init(pathObject: CardImagePath) {
         small = URL(string: pathObject.small)
         large = URL(string: pathObject.large)
     }
-    
     init(small smallUrl: URL?, large largeUrl: URL?) {
         small = smallUrl
         large = largeUrl
@@ -113,7 +107,7 @@ func parseSetsFromJson(data: Data?) -> [SetFromJson]? {
         guard let data else {return nil}
         let decoder = JSONDecoder()
         let jsonStruct: SetJsonData?
-        //print(data.prettyPrintedJSONString ?? "")
+        // print(data.prettyPrintedJSONString ?? "")
         let jsonMultipleOutput = try? decoder.decode(SetJsonData.self, from: data)
         if let jsonMultipleOutput {
             jsonStruct = jsonMultipleOutput
@@ -133,11 +127,11 @@ func parseSetsFromJson(data: Data?) -> [SetFromJson]? {
     }
 }
 
-func parseCardsFromJson(data: Data) -> /*[any Card]*/[CardFromJson]? {
+func parseCardsFromJson(data: Data) -> [CardFromJson]? {
     do {
         let decoder = JSONDecoder()
         let jsonStruct: CardJsonData?
-        //print(data.prettyPrintedJSONString ?? "")
+        // print(data.prettyPrintedJSONString ?? "")
         let jsonMultipleOutput = try? decoder.decode(CardJsonData.self, from: data)
         if let jsonMultipleOutput {
             jsonStruct = jsonMultipleOutput

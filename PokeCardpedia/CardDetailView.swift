@@ -10,7 +10,7 @@ import SwiftUI
 struct CardDetailView: View {
     @ObservedObject var core = Core.core
     @Binding var imageDetailShown: Bool
-    //@Binding var activeImage: String
+    // @Binding var activeImage: String
     @ObservedObject var card: Card
     var favorite: Bool {
         card.collection!.favorite

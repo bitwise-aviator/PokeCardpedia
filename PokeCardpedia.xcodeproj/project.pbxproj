@@ -220,6 +220,7 @@
 				DC660CC229BD098600610965 /* Sources */,
 				DC660CC329BD098600610965 /* Frameworks */,
 				DC660CC429BD098600610965 /* Resources */,
+				DC23ED5429DC53CB00493AAB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -337,6 +338,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DC23ED5429DC53CB00493AAB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\n  echo \"linted\"\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DC660CC229BD098600610965 /* Sources */ = {
