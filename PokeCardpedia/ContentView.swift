@@ -15,6 +15,12 @@ enum Filter {
     case none
 }
 
+enum CardTab {
+    case next
+    case previous
+    case current
+}
+
 struct CardThumbnail: View {
     @Binding var activeImage: String
     @Binding var imageDetailShown: Bool
@@ -39,7 +45,7 @@ struct CardThumbnail: View {
                     image.resizable().scaledToFit().saturation(haveIt ? 1.0 : 0.0)
                 } placeholder: {
                     Image("CardBack").resizable().scaledToFit()
-                }.onTapGesture {
+                }.border(activeImage == card.sortId ? Color(uiColor: .systemBlue) : .clear, width: 5).onTapGesture {
                     activeImage = card.sortId
                     imageDetailShown = true
                 }
@@ -79,8 +85,6 @@ struct CardThumbnail: View {
                     }
                 }
             }
-        }.onTapGesture(count: 2) {
-            card.addOne()
         }
     }
 }
@@ -107,24 +111,39 @@ struct ContentView: View {
         }
     }*/
     let layout = [GridItem(.adaptive(minimum: 100))]
+    var navTitle: String {
+        switch core.viewMode {
+        case .want: return "My wishlist"
+        case .favorite: return "My favorites"
+        case .owned: return "My collection"
+        case .set: return "Set: \(core.activeSet?.name ?? "---")"
+        case .dex: return "Species: #\(core.activeDex ?? 0)"
+        case .none: return "Cards"
+        }
+    }
+    @State private var cardTab = CardTab.current
     @ViewBuilder
     var body: some View {
         NavigationSplitView {
             VStack {
                 ScrollView {
-                    LazyVGrid(columns: layout) {
-                        if let cardData = core.activeData {
-                            ForEach(Array(cardData.keys).sorted(by: <), id: \.self) {
-                                if (filterBy == .none) ||
-                                    (filterBy == .owned && (cardData[$0]?.collection?.amount ?? 0) > 0) ||
-                                    (filterBy == .favorite && (cardData[$0]?.collection?.favorite ?? false)) ||
-                                    (filterBy == .want && (cardData[$0]?.collection?.wantIt ?? false))
-                                { CardThumbnail(activeImage: $activeImage,
-                                    imageDetailShown: $imageDetailShown,
-                                    card: cardData[$0]!)
+                    ScrollViewReader { scroller in
+                        LazyVGrid(columns: layout) {
+                            if let cardData = core.activeData {
+                                ForEach(Array(cardData.keys).sorted(by: <), id: \.self) {
+                                    if (filterBy == .none) ||
+                                        (filterBy == .owned && (cardData[$0]?.collection?.amount ?? 0) > 0) ||
+                                        (filterBy == .favorite && (cardData[$0]?.collection?.favorite ?? false)) ||
+                                        (filterBy == .want && (cardData[$0]?.collection?.wantIt ?? false)) {
+                                        CardThumbnail(activeImage: $activeImage,
+                                                      imageDetailShown: $imageDetailShown,
+                                                      card: cardData[$0]!).id($0)
+                                    }
                                 }
                             }
-                        }
+                        }.onChange(of: activeImage, perform: { newValue in
+                            scroller.scrollTo(newValue)
+                        })
                     }
                 }
                 HStack {
@@ -167,10 +186,22 @@ struct ContentView: View {
                 }
             }
             .navigationSplitViewColumnWidth(min: 310, ideal: 480, max: 600)
-            .navigationTitle("Cards")
+            .navigationTitle(navTitle)
         } detail: {
             if imageDetailShown && core.activeData[activeImage] != nil {
-                CardDetailView(imageDetailShown: $imageDetailShown, card: core.activeData[activeImage]!)
+                VStack {
+                    Button(action: {
+                        imageDetailShown = false
+                        activeImage = ""
+                    }, label: {
+                        Text("Go back")
+                    })
+                    PagerView(imageDetailShown: $imageDetailShown, activePage: $activeImage)
+                    if core.inventoryLocked {
+                        Text("Card amounts are locked. Tap on the \"Inventory locked\"" +
+                             " icon under Overview to allow editing.").foregroundColor(Color(uiColor: .systemRed))
+                    }
+                }
             } else {
                 SetView()
             }

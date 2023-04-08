@@ -61,6 +61,7 @@ struct CardFromJson: Codable {
     let types: [String]?
     let subtypes: [String]?
     let images: CardImagePath
+    let nationalPokedexNumbers: [Int]?
     var sortId: String {
         let match = number.firstMatch(of: Card.sortRegex)
         let setId = set.id

@@ -12,6 +12,7 @@ enum ViewMode {
     case owned
     case favorite
     case want
+    case dex
     case none
 }
 
@@ -19,9 +20,11 @@ class Core: ObservableObject {
     static let core = Core() // singleton
     @Published var viewMode: ViewMode = .none
     @Published var activeSet: SetFromJson?
+    @Published var activeDex: Int?
     @Published private(set) var sets: [SetFromJson]?
     @Published private(set) var setImages: [String: Data] = [:]
     private var loadedSets = Set<String>()
+    private var loadedDexs = Set<Int>()
     private var loadedData: [String: Card] = [:]
     @Published private(set) var activeData: [String: Card] = [:]
     @Published private(set) var activeOwned: Int = 0
@@ -37,8 +40,17 @@ class Core: ObservableObject {
     func setActiveSet(set: SetFromJson) {
         viewMode = .set
         activeSet = set
+        activeDex = nil
         Task {
             await getCardsBySet(set: set.id)
+        }
+    }
+    func setActiveDex(dex: Int) {
+        viewMode = .dex
+        activeDex = dex
+        activeSet = nil
+        Task {
+            await getCardsByPokedex(dex: dex)
         }
     }
     func setInventoryLock(target: Bool) {
@@ -47,6 +59,7 @@ class Core: ObservableObject {
     func setNonSetViewModeAsActive(target: ViewMode) {
         viewMode = target
         activeSet = nil
+        activeDex = nil
         getCardsByViewMode(viewMode)
     }
     func updateActiveCounters() {
@@ -107,6 +120,67 @@ class Core: ObservableObject {
         loadedSets.insert(set)
         DispatchQueue.main.async {
             self.activeData = self.loadedData.filter({$0.value.setCode == set})
+            self.updateActiveCounters()
+        }
+    }
+    func getCardsByPokedex(dex: Int) async {
+        if !loadedDexs.contains(dex) {
+            // 1) Get JSON response from API (include image URLs, not image data).
+            // Simultaneously, fire a FetchRequest for cards in the same set.
+            enum DataResult {
+                case cardData(Data?)
+                case collectionData([String: CollectionTracker]?)
+            }
+            let result = await withTaskGroup(of: DataResult.self) { group -> (
+                cardData: Data?, collectionData: [String: CollectionTracker]?) in
+                group.addTask {
+                    return await .cardData(ApiClient.client.getByPokedex(id: dex))
+                }
+                group.addTask {
+                    let fetched = PersistenceController.shared.fetchCards([])
+                    return .collectionData(fetched?.toDict())
+                }
+                var cardData: Data?
+                var collectionData: [String: CollectionTracker]?
+                for await value in group {
+                    switch value {
+                    case .cardData(let value):
+                        cardData = value
+                    case .collectionData(let value):
+                        collectionData = value
+                    }
+                }
+                return (cardData: cardData, collectionData: collectionData)
+            }
+            // 2) Check if data is already loaded. If not, merge into.
+            if let data = result.cardData {
+                if let parsedCards = parseCardsFromJson(data: data) {
+                    parsedCards.forEach { elem in
+                        // Skip loaded data
+                        guard loadedData[elem.sortId] == nil && loadedData[elem.sortId]?.collection == nil else {
+                            loadedData[elem.sortId]!.dex = elem.nationalPokedexNumbers
+                            return
+                        }
+                        // Skip bad data
+                        // guard let cardObject = elem.toCardObject() else {return}
+                        let cardObject = elem.toCardObject()
+                        loadedData[elem.sortId] = cardObject
+                        if let collectionRecord = result.collectionData?[elem.id] {
+                            loadedData[elem.sortId]!.collection = collectionRecord.toNativeForm
+                        } else {
+                            loadedData[elem.sortId]!.collection = PersistenceController.shared
+                                .newCardCollectionDefaults(loadedData[elem.sortId]!)?.toNativeForm
+                        }
+                    }
+                }
+            }
+        }
+        // 3) Refine active view accordingly.
+        loadedDexs.insert(dex)
+        DispatchQueue.main.async {
+            self.activeData = self.loadedData.filter({
+                return $0.value.dex?.contains(dex) ?? false
+            })
             self.updateActiveCounters()
         }
     }

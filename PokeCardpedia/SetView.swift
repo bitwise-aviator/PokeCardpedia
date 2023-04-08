@@ -31,6 +31,27 @@ struct SetButtonView: View {
     }
 }
 
+struct PokemonButtonView: View {
+    let dexNumber: Int
+    /*var body: some View {
+        Text(String(dexNumber)).multilineTextAlignment(.center).lineLimit(3, reservesSpace: true)
+    }*/
+    @ViewBuilder
+    var body: some View {
+        let url = URL(
+            string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(dexNumber).png"
+        )
+        Label {
+            Text(String(dexNumber)).multilineTextAlignment(.center).lineLimit(3, reservesSpace: true)
+            } icon: { AsyncImage(url: url) { image in
+                image.resizable().scaledToFit().frame(width: 50, height: 50)
+            } placeholder: {
+                Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+            }
+        }.labelStyle(SetButtonStyle())
+    }
+}
+
 struct NonSetButtonView: View {
     let imagePath: String
     let text: String
@@ -92,8 +113,24 @@ struct SetView: View {
                             }
                         }
                     }
+                }
+                Text("Pokédex").frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 5)
+                LazyVGrid(columns: layout ) {
+                    ForEach((1...1010), id: \.self) { ident in
+                        PokemonButtonView(dexNumber: ident)
+                            .id("#\(String(ident))")
+                            .frame(maxWidth: .infinity)
+                            .background(core.activeDex == ident ? Color(.lightGray) : .clear)
+                            .onTapGesture {
+                            core.setActiveDex(dex: ident)
+                        }
+                    }
                 }.onAppear {
-                    scroller.scrollTo(core.activeSet)
+                    switch core.viewMode {
+                    case .set: scroller.scrollTo(core.activeSet)
+                    case .dex: scroller.scrollTo("#\(core.activeDex ?? 0)")
+                    default: break
+                    }
                 }
             }
         }

@@ -28,6 +28,8 @@
 		DC660D5229C2AE5800610965 /* SetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5129C2AE5800610965 /* SetView.swift */; };
 		DC660D5429C2BC5500610965 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5329C2BC5500610965 /* Core.swift */; };
 		DC660D5629C3EF9900610965 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5529C3EF9900610965 /* CardDetailView.swift */; };
+		DCA0E35129E1E22200E54F9B /* SwiftUIPager in Frameworks */ = {isa = PBXBuildFile; productRef = DCA0E35029E1E22200E54F9B /* SwiftUIPager */; };
+		DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0E35229E1E2D400E54F9B /* PagerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,7 @@
 		DC660D5129C2AE5800610965 /* SetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetView.swift; sourceTree = "<group>"; };
 		DC660D5329C2BC5500610965 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		DC660D5529C3EF9900610965 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
+		DCA0E35229E1E2D400E54F9B /* PagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCA0E35129E1E22200E54F9B /* SwiftUIPager in Frameworks */,
 				DC660D4B29BFF1E000610965 /* PokemonTcgSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,6 +136,7 @@
 				DC660CF829BD09AA00610965 /* Scanner */,
 				DC660CCB29BD098600610965 /* ContentView.swift */,
 				DC660D5529C3EF9900610965 /* CardDetailView.swift */,
+				DCA0E35229E1E2D400E54F9B /* PagerView.swift */,
 				DC660D5129C2AE5800610965 /* SetView.swift */,
 				DC660CCD29BD098700610965 /* Assets.xcassets */,
 				DC660CD229BD098700610965 /* Persistence.swift */,
@@ -229,6 +234,7 @@
 			name = PokeCardpedia;
 			packageProductDependencies = (
 				DC660D4A29BFF1E000610965 /* PokemonTcgSDK */,
+				DCA0E35029E1E22200E54F9B /* SwiftUIPager */,
 			);
 			productName = PokeCardpedia;
 			productReference = DC660CC629BD098600610965 /* PokeCardpedia.app */;
@@ -302,6 +308,9 @@
 				Base,
 			);
 			mainGroup = DC660CBD29BD098600610965;
+			packageReferences = (
+				DCA0E34F29E1E22200E54F9B /* XCRemoteSwiftPackageReference "SwiftUIPager" */,
+			);
 			productRefGroup = DC660CC729BD098600610965 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -375,6 +384,7 @@
 				DC660CD629BD098700610965 /* PokeCardpedia.xcdatamodeld in Sources */,
 				DC660CFA29BD09F500610965 /* CameraView.swift in Sources */,
 				DC660D3D29BEC8C500610965 /* TrainerCard.swift in Sources */,
+				DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */,
 				DC660D5429C2BC5500610965 /* Core.swift in Sources */,
 				DC660CCA29BD098600610965 /* PokeCardpediaApp.swift in Sources */,
 				DC660D5629C3EF9900610965 /* CardDetailView.swift in Sources */,
@@ -536,7 +546,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.001;
+				CURRENT_PROJECT_VERSION = 1.002;
 				DEVELOPMENT_ASSET_PATHS = "\"PokeCardpedia/Preview Content\"";
 				DEVELOPMENT_TEAM = YG5N57HMZ9;
 				ENABLE_PREVIEWS = YES;
@@ -572,7 +582,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.001;
+				CURRENT_PROJECT_VERSION = 1.002;
 				DEVELOPMENT_ASSET_PATHS = "\"PokeCardpedia/Preview Content\"";
 				DEVELOPMENT_TEAM = YG5N57HMZ9;
 				ENABLE_PREVIEWS = YES;
@@ -719,10 +729,26 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		DCA0E34F29E1E22200E54F9B /* XCRemoteSwiftPackageReference "SwiftUIPager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fermoya/SwiftUIPager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		DC660D4A29BFF1E000610965 /* PokemonTcgSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PokemonTcgSDK;
+		};
+		DCA0E35029E1E22200E54F9B /* SwiftUIPager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DCA0E34F29E1E22200E54F9B /* XCRemoteSwiftPackageReference "SwiftUIPager" */;
+			productName = SwiftUIPager;
 		};
 /* End XCSwiftPackageProductDependency section */
 

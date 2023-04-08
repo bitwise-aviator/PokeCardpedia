@@ -15,6 +15,7 @@ class Card: ObservableObject {
     let setCode: String
     let setNumber: String
     let imagePaths: CardImageUrl
+    var dex: [Int]?
     lazy var imageDataSmall: Data? = {
         nil
     }()
@@ -37,6 +38,7 @@ class Card: ObservableObject {
         setNumber = source.number
         imagePaths = CardImageUrl(pathObject: source.images)
         collection = nil
+        dex = source.nationalPokedexNumbers
     }
     // init? is a failable initializer, where nil can be returned if initalization cannot be completed,
     // such as a guard statement triggering.
@@ -56,6 +58,7 @@ class Card: ObservableObject {
         let largeUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber)_hires.png")
         imagePaths = CardImageUrl(small: smallUrl, large: largeUrl)
         collection = source.toNativeForm
+        dex = nil
     }
     func setFavorite(_ target: Bool) {
         if var newCollection = collection {
