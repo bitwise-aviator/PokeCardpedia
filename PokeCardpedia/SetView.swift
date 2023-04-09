@@ -65,6 +65,7 @@ struct NonSetButtonView: View {
 
 struct SetView: View {
     @ObservedObject var core = Core.core
+    @Binding var nameAlert: Bool
     let layout = [GridItem(.adaptive(minimum: 100, maximum: 150))]
     var body: some View {
         ScrollView {
@@ -98,6 +99,13 @@ struct SetView: View {
                     NonSetButtonView(imagePath: "star.fill", text: "Wishlist").id("wanted").frame(maxWidth: .infinity)
                         .background(core.viewMode == .want ? Color(.lightGray) : .clear).onTapGesture {
                         core.setNonSetViewModeAsActive(target: .want)
+                    }
+                    NonSetButtonView(imagePath: "person.fill", text: "About me").id("aboutMe")
+                        .frame(maxWidth: .infinity)
+                        .background(.clear).onTapGesture {
+                            if !nameAlert {
+                               nameAlert = true
+                            }
                     }
                 })
                 Text("Sets").frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 5)
@@ -136,9 +144,10 @@ struct SetView: View {
         }
     }
 }
-
+/*
 struct SetView_Previews: PreviewProvider {
     static var previews: some View {
         SetView()
     }
 }
+*/

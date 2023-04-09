@@ -35,6 +35,7 @@ struct CardDetailView: View {
                 }, label: {
                     Label {
                         Text("I want it")
+                            .lineLimit(1)
                             .foregroundColor((wantIt ? Color(uiColor: .black): Color(uiColor: .systemGray)))
                     } icon: {
                         Image(systemName: (wantIt ? "star.fill" : "star"))
@@ -46,6 +47,7 @@ struct CardDetailView: View {
                 }, label: {
                     Label {
                         Text("Love it")
+                            .lineLimit(1)
                             .foregroundColor((favorite ? Color(uiColor: .white): Color(uiColor: .systemGray)))
                     } icon: {
                         Image(systemName: (favorite ? "heart.fill" : "heart"))

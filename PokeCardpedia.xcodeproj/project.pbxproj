@@ -28,6 +28,7 @@
 		DC660D5229C2AE5800610965 /* SetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5129C2AE5800610965 /* SetView.swift */; };
 		DC660D5429C2BC5500610965 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5329C2BC5500610965 /* Core.swift */; };
 		DC660D5629C3EF9900610965 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5529C3EF9900610965 /* CardDetailView.swift */; };
+		DC679B3229E3182600668E0D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DC679B3129E3182600668E0D /* Settings.bundle */; };
 		DCA0E35129E1E22200E54F9B /* SwiftUIPager in Frameworks */ = {isa = PBXBuildFile; productRef = DCA0E35029E1E22200E54F9B /* SwiftUIPager */; };
 		DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0E35229E1E2D400E54F9B /* PagerView.swift */; };
 /* End PBXBuildFile section */
@@ -74,6 +75,7 @@
 		DC660D5129C2AE5800610965 /* SetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetView.swift; sourceTree = "<group>"; };
 		DC660D5329C2BC5500610965 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		DC660D5529C3EF9900610965 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
+		DC679B3129E3182600668E0D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		DCA0E35229E1E2D400E54F9B /* PagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,6 +133,7 @@
 			children = (
 				DC660CC929BD098600610965 /* PokeCardpediaApp.swift */,
 				DC660D5329C2BC5500610965 /* Core.swift */,
+				DC679B3129E3182600668E0D /* Settings.bundle */,
 				DC660D4E29BFFA9700610965 /* Client */,
 				DC660D3729BEC5DD00610965 /* Cards */,
 				DC660CF829BD09AA00610965 /* Scanner */,
@@ -328,6 +331,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC660CD129BD098700610965 /* Preview Assets.xcassets in Resources */,
+				DC679B3229E3182600668E0D /* Settings.bundle in Resources */,
 				DC660CCE29BD098700610965 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

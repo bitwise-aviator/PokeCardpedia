@@ -16,6 +16,29 @@ enum ViewMode {
     case none
 }
 
+class CoreSettings: ObservableObject {
+    static var settings = CoreSettings()
+    @Published var trainerName: String = ""
+    func getTrainerName() {
+        guard let newTrainerName = UserDefaults.standard.string(forKey: "trainer_name") else {
+            trainerName = ""
+            return
+        }
+        trainerName = newTrainerName
+    }
+    
+    func setTrainerName(target: String) {
+        UserDefaults.standard.set(target, forKey: "trainer_name")
+        getAll()
+    }
+    func getAll() {
+        getTrainerName()
+    }
+    private init() {
+        getAll()
+    }
+}
+
 class Core: ObservableObject {
     static let core = Core() // singleton
     @Published var viewMode: ViewMode = .none
@@ -30,13 +53,6 @@ class Core: ObservableObject {
     @Published private(set) var activeOwned: Int = 0
     @Published private(set) var activeUniqueOwned: Int = 0
     @Published private(set) var inventoryLocked: Bool = true
-    /*var activeOwned: Int {
-        return Array(activeData.values).reduce(0) { $0 + Int($1.collection?.amount ?? 0) }
-    }
-    
-    var activeUniqueOwned: Int {
-        return Array(activeData.values).reduce(0) { $0 + min(Int($1.collection?.amount ?? 0), 1)}
-    }*/
     func setActiveSet(set: SetFromJson) {
         viewMode = .set
         activeSet = set

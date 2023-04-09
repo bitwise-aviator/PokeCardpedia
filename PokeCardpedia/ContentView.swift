@@ -91,10 +91,14 @@ struct CardThumbnail: View {
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.scenePhase) var scenePhase
+    @State var partialUsername: String = ""
     @State var activeImage: String = ""
     @ObservedObject var core = Core.core
+    @ObservedObject var settigns = CoreSettings.settings
     @State var imageDetailShown: Bool = false
     @State var filterBy = Filter.none
+    @State var isShowingNameAlert = false
 
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
@@ -111,11 +115,21 @@ struct ContentView: View {
         }
     }*/
     let layout = [GridItem(.adaptive(minimum: 100))]
+    var userNamePossessive: String {
+        let userName = CoreSettings.settings.trainerName
+        if userName.count == 0 {
+            return "My"
+        } else if userName.uppercased().hasSuffix("S") {
+            return userName + "'"
+        } else {
+            return userName + "'s"
+        }
+    }
     var navTitle: String {
         switch core.viewMode {
-        case .want: return "My wishlist"
-        case .favorite: return "My favorites"
-        case .owned: return "My collection"
+        case .want: return "\(userNamePossessive) wishlist"
+        case .favorite: return "\(userNamePossessive) favorites"
+        case .owned: return "\(userNamePossessive) collection"
         case .set: return "Set: \(core.activeSet?.name ?? "---")"
         case .dex: return "Species: #\(core.activeDex ?? 0)"
         case .none: return "Cards"
@@ -186,7 +200,7 @@ struct ContentView: View {
                 }
             }
             .navigationSplitViewColumnWidth(min: 310, ideal: 480, max: 600)
-            .navigationTitle(navTitle)
+            .navigationTitle(Text(navTitle))
         } detail: {
             if imageDetailShown && core.activeData[activeImage] != nil {
                 VStack {
@@ -203,9 +217,32 @@ struct ContentView: View {
                     }
                 }
             } else {
-                SetView()
+                SetView(nameAlert: $isShowingNameAlert)
             }
-        }.animation(.default.speed(0.5), value: imageDetailShown).navigationSplitViewStyle(.balanced)
+        }
+        .alert("What's your name?", isPresented: $isShowingNameAlert) {
+            TextField("First name", text: $partialUsername)
+                .textInputAutocapitalization(.words)
+            Button("OK") {
+                CoreSettings.settings.setTrainerName(target: partialUsername)
+            }
+            Button("Cancel", role: .cancel) {}
+        }
+        .animation(.default.speed(0.5), value: imageDetailShown).navigationSplitViewStyle(.balanced)
+        .onChange(of: scenePhase) { newPhase in
+            switch newPhase {
+            case .active, .inactive: CoreSettings.settings.getAll()
+            default: ()
+            }
+        }
+        .onChange(of: isShowingNameAlert) { newVal in
+            if newVal == true {
+                partialUsername = CoreSettings.settings.trainerName
+            }
+        }
+        .onAppear {
+            CoreSettings.settings.getAll()
+        }
     }
 
     private func addItem() {
