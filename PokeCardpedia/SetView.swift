@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CachedAsyncImage
 
 struct SetButtonStyle: LabelStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -19,15 +20,32 @@ struct SetButtonStyle: LabelStyle {
 struct SetButtonView: View {
     let url: String
     let text: String
+    func loadedImage(_ image: Image) -> some View {
+        return image.resizable().scaledToFit().frame(width: 50, height: 50)
+    }
+    func failedToLoadImage(_ error: Error) -> some View {
+        print(error)
+        return Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50).border(.red)
+    }
+    @ViewBuilder
     var body: some View {
         Label {
             Text(text).multilineTextAlignment(.center).lineLimit(3, reservesSpace: true)
-            } icon: { AsyncImage(url: URL(string: url)!) { image in
-                image.resizable().scaledToFit().frame(width: 50, height: 50)
-            } placeholder: {
-                Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+        } icon: {
+            CachedAsyncImage(url: URL(string: url)!) { phase in
+                switch phase {
+                case .success(let image):
+                    loadedImage(image)
+                case .failure(let error):
+                    failedToLoadImage(error)
+                case .empty:
+                    Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                @unknown default:
+                    Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                }
             }
-        }.labelStyle(SetButtonStyle())
+        }
+        .labelStyle(SetButtonStyle())
     }
 }
 
@@ -36,6 +54,13 @@ struct PokemonButtonView: View {
     /*var body: some View {
         Text(String(dexNumber)).multilineTextAlignment(.center).lineLimit(3, reservesSpace: true)
     }*/
+    func loadedImage(_ image: Image) -> some View {
+        return image.resizable().scaledToFit().frame(width: 50, height: 50)
+    }
+    func failedToLoadImage(_ error: Error) -> some View {
+        print(error)
+        return Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50).border(.red)
+    }
     @ViewBuilder
     var body: some View {
         let url = URL(
@@ -43,10 +68,18 @@ struct PokemonButtonView: View {
         )
         Label {
             Text(String(dexNumber)).multilineTextAlignment(.center).lineLimit(3, reservesSpace: true)
-            } icon: { AsyncImage(url: url) { image in
-                image.resizable().scaledToFit().frame(width: 50, height: 50)
-            } placeholder: {
-                Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+        } icon: {
+            CachedAsyncImage(url: url) { phase in
+                switch phase {
+                case .success(let image):
+                    loadedImage(image)
+                case .failure(let error):
+                    failedToLoadImage(error)
+                case .empty:
+                    Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                @unknown default:
+                    Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                }
             }
         }.labelStyle(SetButtonStyle())
     }

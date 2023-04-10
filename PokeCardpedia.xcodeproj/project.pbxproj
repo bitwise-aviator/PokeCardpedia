@@ -29,6 +29,7 @@
 		DC660D5429C2BC5500610965 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5329C2BC5500610965 /* Core.swift */; };
 		DC660D5629C3EF9900610965 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5529C3EF9900610965 /* CardDetailView.swift */; };
 		DC679B3229E3182600668E0D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DC679B3129E3182600668E0D /* Settings.bundle */; };
+		DC679B3529E4B4DB00668E0D /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = DC679B3429E4B4DB00668E0D /* CachedAsyncImage */; };
 		DCA0E35129E1E22200E54F9B /* SwiftUIPager in Frameworks */ = {isa = PBXBuildFile; productRef = DCA0E35029E1E22200E54F9B /* SwiftUIPager */; };
 		DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0E35229E1E2D400E54F9B /* PagerView.swift */; };
 /* End PBXBuildFile section */
@@ -84,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC679B3529E4B4DB00668E0D /* CachedAsyncImage in Frameworks */,
 				DCA0E35129E1E22200E54F9B /* SwiftUIPager in Frameworks */,
 				DC660D4B29BFF1E000610965 /* PokemonTcgSDK in Frameworks */,
 			);
@@ -238,6 +240,7 @@
 			packageProductDependencies = (
 				DC660D4A29BFF1E000610965 /* PokemonTcgSDK */,
 				DCA0E35029E1E22200E54F9B /* SwiftUIPager */,
+				DC679B3429E4B4DB00668E0D /* CachedAsyncImage */,
 			);
 			productName = PokeCardpedia;
 			productReference = DC660CC629BD098600610965 /* PokeCardpedia.app */;
@@ -313,6 +316,7 @@
 			mainGroup = DC660CBD29BD098600610965;
 			packageReferences = (
 				DCA0E34F29E1E22200E54F9B /* XCRemoteSwiftPackageReference "SwiftUIPager" */,
+				DC679B3329E4B4DB00668E0D /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 			);
 			productRefGroup = DC660CC729BD098600610965 /* Products */;
 			projectDirPath = "";
@@ -734,6 +738,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DC679B3329E4B4DB00668E0D /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		DCA0E34F29E1E22200E54F9B /* XCRemoteSwiftPackageReference "SwiftUIPager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/fermoya/SwiftUIPager.git";
@@ -748,6 +760,11 @@
 		DC660D4A29BFF1E000610965 /* PokemonTcgSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PokemonTcgSDK;
+		};
+		DC679B3429E4B4DB00668E0D /* CachedAsyncImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC679B3329E4B4DB00668E0D /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
+			productName = CachedAsyncImage;
 		};
 		DCA0E35029E1E22200E54F9B /* SwiftUIPager */ = {
 			isa = XCSwiftPackageProductDependency;
