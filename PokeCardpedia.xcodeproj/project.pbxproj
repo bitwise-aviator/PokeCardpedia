@@ -30,6 +30,10 @@
 		DC660D5629C3EF9900610965 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5529C3EF9900610965 /* CardDetailView.swift */; };
 		DC679B3229E3182600668E0D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DC679B3129E3182600668E0D /* Settings.bundle */; };
 		DC679B3529E4B4DB00668E0D /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = DC679B3429E4B4DB00668E0D /* CachedAsyncImage */; };
+		DC679B3729E4C34C00668E0D /* CardThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B3629E4C34C00668E0D /* CardThumbnail.swift */; };
+		DC679B3929E4C5A300668E0D /* TopLevelItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B3829E4C5A300668E0D /* TopLevelItems.swift */; };
+		DC679B3B29E4C95E00668E0D /* Sprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B3A29E4C95E00668E0D /* Sprites.swift */; };
+		DC679B3E29E4E43600668E0D /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = DC679B3D29E4E43600668E0D /* NavigationStack */; };
 		DCA0E35129E1E22200E54F9B /* SwiftUIPager in Frameworks */ = {isa = PBXBuildFile; productRef = DCA0E35029E1E22200E54F9B /* SwiftUIPager */; };
 		DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0E35229E1E2D400E54F9B /* PagerView.swift */; };
 /* End PBXBuildFile section */
@@ -77,6 +81,9 @@
 		DC660D5329C2BC5500610965 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		DC660D5529C3EF9900610965 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
 		DC679B3129E3182600668E0D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		DC679B3629E4C34C00668E0D /* CardThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardThumbnail.swift; sourceTree = "<group>"; };
+		DC679B3829E4C5A300668E0D /* TopLevelItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLevelItems.swift; sourceTree = "<group>"; };
+		DC679B3A29E4C95E00668E0D /* Sprites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sprites.swift; sourceTree = "<group>"; };
 		DCA0E35229E1E2D400E54F9B /* PagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC679B3529E4B4DB00668E0D /* CachedAsyncImage in Frameworks */,
+				DC679B3E29E4E43600668E0D /* NavigationStack in Frameworks */,
 				DCA0E35129E1E22200E54F9B /* SwiftUIPager in Frameworks */,
 				DC660D4B29BFF1E000610965 /* PokemonTcgSDK in Frameworks */,
 			);
@@ -140,6 +148,9 @@
 				DC660D3729BEC5DD00610965 /* Cards */,
 				DC660CF829BD09AA00610965 /* Scanner */,
 				DC660CCB29BD098600610965 /* ContentView.swift */,
+				DC679B3A29E4C95E00668E0D /* Sprites.swift */,
+				DC679B3829E4C5A300668E0D /* TopLevelItems.swift */,
+				DC679B3629E4C34C00668E0D /* CardThumbnail.swift */,
 				DC660D5529C3EF9900610965 /* CardDetailView.swift */,
 				DCA0E35229E1E2D400E54F9B /* PagerView.swift */,
 				DC660D5129C2AE5800610965 /* SetView.swift */,
@@ -241,6 +252,7 @@
 				DC660D4A29BFF1E000610965 /* PokemonTcgSDK */,
 				DCA0E35029E1E22200E54F9B /* SwiftUIPager */,
 				DC679B3429E4B4DB00668E0D /* CachedAsyncImage */,
+				DC679B3D29E4E43600668E0D /* NavigationStack */,
 			);
 			productName = PokeCardpedia;
 			productReference = DC660CC629BD098600610965 /* PokeCardpedia.app */;
@@ -317,6 +329,7 @@
 			packageReferences = (
 				DCA0E34F29E1E22200E54F9B /* XCRemoteSwiftPackageReference "SwiftUIPager" */,
 				DC679B3329E4B4DB00668E0D /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
+				DC679B3C29E4E43600668E0D /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
 			);
 			productRefGroup = DC660CC729BD098600610965 /* Products */;
 			projectDirPath = "";
@@ -387,14 +400,17 @@
 				DC660CD329BD098700610965 /* Persistence.swift in Sources */,
 				DC660D3F29BEC8E200610965 /* PokemonCard.swift in Sources */,
 				DC660CCC29BD098600610965 /* ContentView.swift in Sources */,
+				DC679B3729E4C34C00668E0D /* CardThumbnail.swift in Sources */,
 				DC660D3929BEC5F000610965 /* Card.swift in Sources */,
 				DC660CFC29BD0B4000610965 /* Scanner.swift in Sources */,
 				DC660CD629BD098700610965 /* PokeCardpedia.xcdatamodeld in Sources */,
+				DC679B3929E4C5A300668E0D /* TopLevelItems.swift in Sources */,
 				DC660CFA29BD09F500610965 /* CameraView.swift in Sources */,
 				DC660D3D29BEC8C500610965 /* TrainerCard.swift in Sources */,
 				DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */,
 				DC660D5429C2BC5500610965 /* Core.swift in Sources */,
 				DC660CCA29BD098600610965 /* PokeCardpediaApp.swift in Sources */,
+				DC679B3B29E4C95E00668E0D /* Sprites.swift in Sources */,
 				DC660D5629C3EF9900610965 /* CardDetailView.swift in Sources */,
 				DC660D3B29BEC7A300610965 /* EnergyCard.swift in Sources */,
 				DC660D5029BFFAD100610965 /* CardParse.swift in Sources */,
@@ -746,6 +762,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		DC679B3C29E4E43600668E0D /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		DCA0E34F29E1E22200E54F9B /* XCRemoteSwiftPackageReference "SwiftUIPager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/fermoya/SwiftUIPager.git";
@@ -765,6 +789,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DC679B3329E4B4DB00668E0D /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
 			productName = CachedAsyncImage;
+		};
+		DC679B3D29E4E43600668E0D /* NavigationStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC679B3C29E4E43600668E0D /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
+			productName = NavigationStack;
 		};
 		DCA0E35029E1E22200E54F9B /* SwiftUIPager */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -63,9 +63,7 @@ struct PokemonButtonView: View {
     }
     @ViewBuilder
     var body: some View {
-        let url = URL(
-            string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(dexNumber).png"
-        )
+        let url = getPokemonSpritePath(dex: dexNumber)
         Label {
             Text(String(dexNumber)).multilineTextAlignment(.center).lineLimit(3, reservesSpace: true)
         } icon: {

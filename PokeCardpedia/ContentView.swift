@@ -7,6 +7,19 @@
 
 import SwiftUI
 import CoreData
+import CachedAsyncImage
+import NavigationStack
+
+prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
+    Binding<Bool>(
+        get: { !value.wrappedValue },
+        set: { value.wrappedValue = !$0 }
+    )
+}
+
+enum Region {
+    case kanto, johto, hoenn, sinnoh, unova, kalos, alola, galar, paldea
+}
 
 enum Filter {
     case owned
@@ -15,73 +28,240 @@ enum Filter {
     case none
 }
 
-enum CardTab {
-    case next
-    case previous
-    case current
-}
-
-struct CardThumbnail: View {
-    @Binding var activeImage: String
-    @Binding var imageDetailShown: Bool
-    @ObservedObject var card: Card
-    var favorite: Bool {
-        card.collection!.favorite
+struct TierOneListView: View {
+    @Binding var userNameAlertActive: Bool
+    @Binding var activeFirstLevel: String?
+    @Binding var activeSecondLevel: String?
+    @ObservedObject var core = Core.core
+    var userNamePossessive: String {
+        let userName = CoreSettings.settings.trainerName
+        if userName.isEmpty {
+            return "My"
+        } else if userName.uppercased().hasSuffix("S") {
+            return userName + "'"
+        } else {
+            return userName + "'s"
+        }
     }
-    var wantIt: Bool {
-        card.collection!.wantIt
-    }
-    var haveIt: Bool {
-        card.collection!.amount > 0
-    }
-    var amount: Int {
-        Int(card.collection!.amount)
-    }
+    
     @ViewBuilder
     var body: some View {
-        VStack(alignment: .leading) {
-            ZStack(alignment: .topTrailing) {
-                AsyncImage(url: card.imagePaths.small) { image in
-                    image.resizable().scaledToFit().saturation(haveIt ? 1.0 : 0.0)
-                } placeholder: {
-                    Image("CardBack").resizable().scaledToFit()
-                }.border(activeImage == card.sortId ? Color(uiColor: .systemBlue) : .clear, width: 5).onTapGesture {
-                    activeImage = card.sortId
-                    imageDetailShown = true
+        NavigationStackView {
+            List {
+                HStack {
+                    Image(systemName: core.inventoryLocked ? "lock.fill" : "lock.open.fill").resizable().scaledToFit().frame(width: 50, height: 50)
+                    Toggle(isOn: !$core.inventoryLocked) {
+                        Text(core.inventoryLocked ? "Locked" : "Unlocked")
+                            .font(.system(.title3, design: .rounded))
+                            .bold()
+                    }.tint(.red).foregroundColor(core.inventoryLocked ? .green : .red)
                 }
-                VStack {
-                    if haveIt {
-                        Text("\(amount)").foregroundColor(.white).padding(.horizontal, 5).background(.green)
+                HStack {
+                    Image(systemName: "person.fill").resizable().scaledToFit().frame(width: 50, height: 50)
+                    Text(!CoreSettings.settings.trainerName.isEmpty ? CoreSettings.settings.trainerName : "User")
+                        .font(.system(.title3, design: .rounded))
+                        .bold()
+                }.onTapGesture {
+                    userNameAlertActive = true
+                }
+                ForEach(TopLevelItems.myCollection, id: \.id) { elem in
+                    PushView(destination: CollectionSubMenuView(activeFirstLevel: $activeFirstLevel),
+                             tag: elem.id, selection: $activeFirstLevel) {
+                        HStack {
+                            Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                            Text("\(userNamePossessive) collection")
+                                .font(.system(.title3, design: .rounded))
+                                .bold()
+                        }
                     }
-                    if favorite {
-                        Image(systemName: "heart.fill").foregroundColor(Color(uiColor: .systemPink))
+                }
+                ForEach(TopLevelItems.sets, id: \.id) { elem in
+                    PushView(destination: SetSubMenuView(activeFirstLevel: $activeFirstLevel),
+                             tag: elem.id, selection: $activeFirstLevel) {
+                        HStack {
+                            Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                            Text("Sets")
+                                .font(.system(.title3, design: .rounded))
+                                .bold()
+                        }
                     }
-                    if wantIt {
-                        Image(systemName: "star.fill").foregroundColor(Color(uiColor: .systemYellow))
+                }
+                Section(header: Text("Species")) {
+                    ForEach(TopLevelItems.pokedex, id: \.id) { elem in
+                        PushView(destination: DexSubMenuView(region: elem.id, activeFirstLevel: $activeFirstLevel),
+                                 tag: elem.name, selection: $activeFirstLevel) {
+                            HStack {
+                                CachedAsyncImage(url: elem.imageURL) { phase in
+                                    switch phase {
+                                    case .success(let image):
+                                        image.resizable().scaledToFit().frame(width: 50, height: 50)
+                                    case .failure:
+                                        Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                                    case .empty:
+                                        Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                                    @unknown default:
+                                        Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                                    }
+                                }
+                                Text(elem.name)
+                                    .font(.system(.title3, design: .rounded))
+                                    .bold()
+                            }
+                        }
                     }
-                }.offset(x: -5, y: 5)
-                VStack {
-                    if haveIt {
-                        Text("\(amount)").foregroundColor(.white).padding(.horizontal, 5).background(.green)
-                    }
-                    if favorite {
-                        Image(systemName: "heart").foregroundColor(Color(uiColor: .black))
-                    }
-                    if wantIt {
-                        Image(systemName: "star").foregroundColor(Color(uiColor: .black))
-                    }
-                }.offset(x: -5, y: 5)
+                }
             }
-            if Core.core.viewMode == .set {
-                Text("\(card.setNumber)").font(.footnote).padding(.horizontal, 5)
-            } else {
-                Label {
-                    Text("\(card.setNumber)").font(.footnote).padding(.trailing, 5)
-                } icon: { AsyncImage(url: card.setIconUrl) { image in
-                        image.resizable().scaledToFit().frame(width: 10, height: 10)
-                    } placeholder: {
-                        Image(systemName: "questionmark.app.fill")
-                            .resizable().scaledToFit().frame(width: 10, height: 10)
+        }.onChange(of: activeFirstLevel, perform: { newVal in
+            print(newVal)
+        })
+    }
+}
+
+struct CollectionSubMenuView: View {
+    @Binding var activeFirstLevel: String?
+    @ObservedObject var core = Core.core
+    var userNamePossessive: String {
+        let userName = CoreSettings.settings.trainerName
+        if userName.count == 0 {
+            return "My"
+        } else if userName.uppercased().hasSuffix("S") {
+            return userName + "'"
+        } else {
+            return userName + "'s"
+        }
+    }
+    
+    @ViewBuilder
+    var body: some View {
+        VStack {
+            PopView(destination: .root) {
+                HStack {
+                    Image(systemName: "arrow.left").resizable().scaledToFit().frame(width: 20, height: 20)
+                    Text("Main menu")
+                        .font(.system(.title3, design: .rounded)).foregroundColor(.red)
+                        .bold()
+                }
+            }
+            List(selection: $core.viewMode) {
+                ForEach(SecondLevelItems.myCollection, id: \.id) { elem in
+                    HStack {
+                        Image(systemName: elem.imagePath).resizable().scaledToFit().frame(width: 50, height: 50)
+                        Text(elem.name)
+                            .font(.system(.title3, design: .rounded))
+                            .bold()
+                    }
+                    .onTapGesture {
+                        core.setNonSetViewModeAsActive(target: elem.id)
+                    }
+                }
+            }
+        }.onAppear {
+        }
+    }
+}
+
+struct SetSubMenuView: View {
+    @Binding var activeFirstLevel: String?
+    @ObservedObject var core = Core.core
+    @ViewBuilder
+    var body: some View {
+        VStack {
+            PopView(destination: .root) {
+                HStack {
+                    Image(systemName: "arrow.left").resizable().scaledToFit().frame(width: 20, height: 20)
+                    Text("Main menu")
+                        .font(.system(.title3, design: .rounded)).foregroundColor(.red)
+                        .bold()
+                }
+            }
+            List(selection: $core.activeSet) {
+                if let sets = core.sets {
+                    ForEach(Array(sets.enumerated()), id: \.element) { _, elem in
+                        HStack {
+                            CachedAsyncImage(url: URL(string: elem.images.symbol)!) { phase in
+                                switch phase {
+                                case .success(let image):
+                                    image.resizable().scaledToFit().frame(width: 50, height: 50)
+                                case .failure:
+                                    Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                                case .empty:
+                                    Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                                @unknown default:
+                                    Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                                }
+                            }
+                            Text(elem.name)
+                                .font(.system(.title3, design: .rounded))
+                                .bold()
+                        }.onTapGesture {
+                            core.setActiveSet(set: elem)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct DexSubMenuView: View {
+    let region: Region
+    @Binding var activeFirstLevel: String?
+    @ObservedObject var core = Core.core
+    
+    func getRange() -> ClosedRange<Int> {
+        switch region {
+        case .kanto:
+            return 1...151
+        case .johto:
+            return 152...251
+        case .hoenn:
+            return 252...386
+        case .sinnoh:
+            return 387...493
+        case .unova:
+            return 494...649
+        case .kalos:
+            return 650...721
+        case .alola:
+            return 722...809
+        case .galar:
+            return 810...905
+        case .paldea:
+            return 906...1010
+        }
+    }
+    
+    @ViewBuilder
+    var body: some View {
+        VStack {
+            PopView(destination: .root) {
+                HStack {
+                    Image(systemName: "arrow.left").resizable().scaledToFit().frame(width: 20, height: 20)
+                    Text("Main menu")
+                        .font(.system(.title3, design: .rounded)).foregroundColor(.red)
+                        .bold()
+                }
+            }
+            List(selection: $core.activeDex) {
+                ForEach(getRange(), id: \.self) { elem in
+                    HStack {
+                        CachedAsyncImage(url: getPokemonSpritePath(dex: elem)) { phase in
+                            switch phase {
+                            case .success(let image):
+                                image.resizable().scaledToFit().frame(width: 50, height: 50)
+                            case .failure:
+                                Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                            case .empty:
+                                Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                            @unknown default:
+                                Image("CardBack").resizable().scaledToFit().frame(width: 50, height: 50)
+                            }
+                        }
+                        Text(String("#\(elem)"))
+                            .font(.system(.title3, design: .rounded))
+                            .bold()
+                    }.onTapGesture {
+                        core.setActiveDex(dex: elem)
                     }
                 }
             }
@@ -92,13 +272,17 @@ struct CardThumbnail: View {
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.scenePhase) var scenePhase
+    @State var activeFirstLevel: String?
+    @State var activeSecondLevel: String?
     @State var partialUsername: String = ""
     @State var activeImage: String = ""
     @ObservedObject var core = Core.core
-    @ObservedObject var settigns = CoreSettings.settings
+    @ObservedObject var settings = CoreSettings.settings
     @State var imageDetailShown: Bool = false
     @State var filterBy = Filter.none
     @State var isShowingNameAlert = false
+
+    @State var navColumnVisiblity = NavigationSplitViewVisibility.automatic
 
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
@@ -114,7 +298,8 @@ struct ContentView: View {
             imageUrls = parseCardsFromJson(data: data)
         }
     }*/
-    let layout = [GridItem(.adaptive(minimum: 100))]
+    let multiLineLayout = [GridItem(.adaptive(minimum: 150))]
+    let singleLineLayout = [GridItem(.fixed(150))]
     var userNamePossessive: String {
         let userName = CoreSettings.settings.trainerName
         if userName.count == 0 {
@@ -132,76 +317,142 @@ struct ContentView: View {
         case .owned: return "\(userNamePossessive) collection"
         case .set: return "Set: \(core.activeSet?.name ?? "---")"
         case .dex: return "Species: #\(core.activeDex ?? 0)"
-        case .none: return "Cards"
+        default: return "Cards"
         }
     }
-    @State private var cardTab = CardTab.current
     @ViewBuilder
     var body: some View {
-        NavigationSplitView {
-            VStack {
-                ScrollView {
-                    ScrollViewReader { scroller in
-                        LazyVGrid(columns: layout) {
-                            if let cardData = core.activeData {
-                                ForEach(Array(cardData.keys).sorted(by: <), id: \.self) {
-                                    if (filterBy == .none) ||
-                                        (filterBy == .owned && (cardData[$0]?.collection?.amount ?? 0) > 0) ||
-                                        (filterBy == .favorite && (cardData[$0]?.collection?.favorite ?? false)) ||
-                                        (filterBy == .want && (cardData[$0]?.collection?.wantIt ?? false)) {
-                                        CardThumbnail(activeImage: $activeImage,
-                                                      imageDetailShown: $imageDetailShown,
-                                                      card: cardData[$0]!).id($0)
+        NavigationSplitView(columnVisibility: $navColumnVisiblity) {
+            TierOneListView(userNameAlertActive: $isShowingNameAlert, activeFirstLevel: $activeFirstLevel, activeSecondLevel: $activeSecondLevel)
+        } detail: {
+            if imageDetailShown && core.activeData[activeImage] != nil {
+                HStack {
+                    ScrollView {
+                        ScrollViewReader { scroller in
+                            LazyVGrid(columns: singleLineLayout) {
+                                if let cardData = core.activeData {
+                                    ForEach(Array(cardData.keys).sorted(by: <), id: \.self) {
+                                        if (filterBy == .none) ||
+                                            (filterBy == .owned && (cardData[$0]?.collection?.amount ?? 0) > 0) ||
+                                            (filterBy == .favorite && (cardData[$0]?.collection?.favorite ?? false)) ||
+                                            (filterBy == .want && (cardData[$0]?.collection?.wantIt ?? false)) {
+                                            CardThumbnail(activeImage: $activeImage,
+                                                          imageDetailShown: $imageDetailShown,
+                                                          card: cardData[$0]!).id($0)
+                                        }
                                     }
                                 }
                             }
-                        }.onChange(of: activeImage, perform: { newValue in
-                            scroller.scrollTo(newValue)
+                            .onAppear {
+                                scroller.scrollTo(activeImage)
+                            }
+                            .onChange(of: activeImage, perform: { newValue in
+                                scroller.scrollTo(newValue)
+                            })
+                        }.frame(maxWidth: 190)
+                    }
+                    VStack {
+                        Button(action: {
+                            imageDetailShown = false
+                            activeImage = ""
+                        }, label: {
+                            Text("Go back")
                         })
+                        PagerView(imageDetailShown: $imageDetailShown, activePage: $activeImage)
+                        if core.inventoryLocked {
+                            Text("Card amounts are locked. Tap on the \"Inventory locked\"" +
+                                 " icon under Overview to allow editing.").foregroundColor(Color(uiColor: .systemRed))
+                        }
                     }
                 }
-                HStack {
-                    Spacer()
-                    Image(systemName: (filterBy == .want ? "star.fill" : "star"))
-                        .foregroundColor((filterBy == .want ? Color(uiColor: .black): Color(uiColor: .systemGray)))
+            } else {
+                VStack {
+                    ScrollView {
+                        ScrollViewReader { scroller in
+                            LazyVGrid(columns: multiLineLayout) {
+                                if let cardData = core.activeData {
+                                    ForEach(Array(cardData.keys).sorted(by: <), id: \.self) {
+                                        if (filterBy == .none) ||
+                                            (filterBy == .owned && (cardData[$0]?.collection?.amount ?? 0) > 0) ||
+                                            (filterBy == .favorite && (cardData[$0]?.collection?.favorite ?? false)) ||
+                                            (filterBy == .want && (cardData[$0]?.collection?.wantIt ?? false)) {
+                                            CardThumbnail(activeImage: $activeImage,
+                                                          imageDetailShown: $imageDetailShown,
+                                                          card: cardData[$0]!).id($0)
+                                        }
+                                    }
+                                }
+                            }.onChange(of: activeImage, perform: { newValue in
+                                scroller.scrollTo(newValue)
+                            })
+                        }
+                    }
+                    HStack {
+                        Spacer()
+                        Image(systemName: (filterBy == .want ? "star.fill" : "star"))
+                            .foregroundColor((filterBy == .want ? Color(uiColor: .black): Color(uiColor: .systemGray)))
+                            .padding(10)
+                            .background((filterBy == .want ? Color(uiColor: .systemYellow) : .clear))
+                            .cornerRadius(10)
+                            .onTapGesture {
+                                filterBy = filterBy != .want ? .want : .none
+                            }
+                        Spacer()
+                        Image(systemName: (filterBy == .favorite ? "heart.fill" : "heart"))
+                            .foregroundColor((filterBy == .favorite ? Color(uiColor: .black): Color(uiColor: .systemGray)))
+                            .padding(10)
+                            .background((filterBy == .favorite ? Color(uiColor: .systemPink) : .clear))
+                            .cornerRadius(10)
+                            .onTapGesture {
+                                filterBy = filterBy != .favorite ? .favorite : .none
+                            }
+                        Spacer()
+                        HStack {
+                            Image(systemName: "checkmark.square")
+                                .foregroundColor((filterBy == .owned ? Color(uiColor: .black): Color(uiColor: .systemGray)))
+                            Text("\(Core.core.activeUniqueOwned)").foregroundColor(filterBy == .owned ? .black : .primary)
+                        }
                         .padding(10)
-                        .background((filterBy == .want ? Color(uiColor: .systemYellow) : .clear))
+                        .background((filterBy == .owned ? Color(uiColor: .systemGreen) : .clear))
                         .cornerRadius(10)
                         .onTapGesture {
-                            filterBy = filterBy != .want ? .want : .none
+                            filterBy = filterBy != .owned ? .owned : .none
                         }
-                    Spacer()
-                    Image(systemName: (filterBy == .favorite ? "heart.fill" : "heart"))
-                        .foregroundColor((filterBy == .favorite ? Color(uiColor: .black): Color(uiColor: .systemGray)))
-                        .padding(10)
-                        .background((filterBy == .favorite ? Color(uiColor: .systemPink) : .clear))
-                        .cornerRadius(10)
-                        .onTapGesture {
-                            filterBy = filterBy != .favorite ? .favorite : .none
+                        Spacer()
+                        HStack {
+                            Image(systemName: "rectangle.stack")
+                            Text("\(Core.core.activeOwned)")
                         }
-                    Spacer()
-                    HStack {
-                        Image(systemName: "checkmark.square")
-                            .foregroundColor((filterBy == .owned ? Color(uiColor: .black): Color(uiColor: .systemGray)))
-                        Text("\(Core.core.activeUniqueOwned)").foregroundColor(filterBy == .owned ? .black : .primary)
+                        Spacer()
                     }
-                    .padding(10)
-                    .background((filterBy == .owned ? Color(uiColor: .systemGreen) : .clear))
-                    .cornerRadius(10)
-                    .onTapGesture {
-                        filterBy = filterBy != .owned ? .owned : .none
-                    }
-                    Spacer()
-                    HStack {
-                        Image(systemName: "rectangle.stack")
-                        Text("\(Core.core.activeOwned)")
-                    }
-                    Spacer()
                 }
             }
-            .navigationSplitViewColumnWidth(min: 310, ideal: 480, max: 600)
-            .navigationTitle(Text(navTitle))
-        } detail: {
+        }
+        .alert("What's your name?", isPresented: $isShowingNameAlert) {
+            TextField("First name", text: $partialUsername)
+                .textInputAutocapitalization(.words)
+            Button("OK") {
+                CoreSettings.settings.setTrainerName(target: partialUsername)
+            }
+            Button("Cancel", role: .cancel) {}
+        }
+        .onChange(of: activeFirstLevel) { newVal in
+            print(newVal)
+        }
+        .animation(.default.speed(0.5), value: imageDetailShown).navigationSplitViewStyle(.balanced)
+        .onChange(of: scenePhase) { newPhase in
+            switch newPhase {
+            case .active, .inactive:
+                CoreSettings.settings.getAll()
+                partialUsername = CoreSettings.settings.trainerName
+            default: ()
+            }
+        }
+        .onAppear {
+            CoreSettings.settings.getAll()
+            partialUsername = CoreSettings.settings.trainerName
+        }
+        /*detail: {
             if imageDetailShown && core.activeData[activeImage] != nil {
                 VStack {
                     Button(action: {
@@ -240,9 +491,12 @@ struct ContentView: View {
                 partialUsername = CoreSettings.settings.trainerName
             }
         }
+        .onChange(of: navColumnVisiblity, perform: { newVal in
+            print(newVal)
+        })
         .onAppear {
             CoreSettings.settings.getAll()
-        }
+        } */
     }
 
     private func addItem() {

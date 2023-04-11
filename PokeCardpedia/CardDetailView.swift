@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CachedAsyncImage
 
 struct CardDetailView: View {
     @ObservedObject var core = Core.core
@@ -24,7 +25,7 @@ struct CardDetailView: View {
     @ViewBuilder
     var body: some View {
         VStack {
-            AsyncImage(url: card.imagePaths.large) { image in
+            CachedAsyncImage(url: card.imagePaths.large) { image in
                 image.resizable().padding(.all).scaledToFit()
             } placeholder: {
                 Image("CardBack").resizable().padding(.all).scaledToFit()

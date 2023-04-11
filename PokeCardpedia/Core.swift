@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ViewMode {
+enum ViewMode: String {
     case set
     case owned
     case favorite
@@ -26,7 +26,6 @@ class CoreSettings: ObservableObject {
         }
         trainerName = newTrainerName
     }
-    
     func setTrainerName(target: String) {
         UserDefaults.standard.set(target, forKey: "trainer_name")
         getAll()
@@ -41,7 +40,7 @@ class CoreSettings: ObservableObject {
 
 class Core: ObservableObject {
     static let core = Core() // singleton
-    @Published var viewMode: ViewMode = .none
+    @Published var viewMode: ViewMode?
     @Published var activeSet: SetFromJson?
     @Published var activeDex: Int?
     @Published private(set) var sets: [SetFromJson]?
@@ -52,7 +51,7 @@ class Core: ObservableObject {
     @Published private(set) var activeData: [String: Card] = [:]
     @Published private(set) var activeOwned: Int = 0
     @Published private(set) var activeUniqueOwned: Int = 0
-    @Published private(set) var inventoryLocked: Bool = true
+    @Published var inventoryLocked: Bool = true
     func setActiveSet(set: SetFromJson) {
         viewMode = .set
         activeSet = set
@@ -72,11 +71,14 @@ class Core: ObservableObject {
     func setInventoryLock(target: Bool) {
         inventoryLocked = target
     }
-    func setNonSetViewModeAsActive(target: ViewMode) {
+    func setNonSetViewModeAsActive(target: ViewMode?) {
+        print(loadedData.count)
         viewMode = target
         activeSet = nil
         activeDex = nil
+        guard let viewMode else { return }
         getCardsByViewMode(viewMode)
+        print(loadedData.count)
     }
     func updateActiveCounters() {
         let owned: Int = Array(activeData.values).reduce(0) { $0 + Int($1.collection?.amount ?? 0) }

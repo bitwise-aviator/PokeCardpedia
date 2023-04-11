@@ -98,9 +98,6 @@ class Card: ObservableObject {
             self.setNumberOwned(newCount)
         }
     }
-    deinit {
-        print("Destroying \(setCode)-\(setNumber)")
-    }
 }
 
 /*
