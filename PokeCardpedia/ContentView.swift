@@ -32,7 +32,8 @@ struct TierOneListView: View {
     @Binding var userNameAlertActive: Bool
     @Binding var activeFirstLevel: String?
     @Binding var activeSecondLevel: String?
-    @ObservedObject var core = Core.core
+    // WARNING!
+    // Do NOT observe Core here. Use ad-hoc bindings instead.
     var userNamePossessive: String {
         let userName = CoreSettings.settings.trainerName
         if userName.isEmpty {
@@ -46,15 +47,22 @@ struct TierOneListView: View {
     
     @ViewBuilder
     var body: some View {
+        let lockBinding = Binding(
+            get: { Core.core.inventoryLocked },
+            set: {
+                Core.core.setInventoryLock(target: $0)
+                print(Core.core.inventoryLocked)
+            }
+        )
         NavigationStackView {
             List {
                 HStack {
-                    Image(systemName: core.inventoryLocked ? "lock.fill" : "lock.open.fill").resizable().scaledToFit().frame(width: 50, height: 50)
-                    Toggle(isOn: !$core.inventoryLocked) {
-                        Text(core.inventoryLocked ? "Locked" : "Unlocked")
+                    Image(systemName: Core.core.inventoryLocked ? "lock.fill" : "lock.open.fill").resizable().scaledToFit().frame(width: 50, height: 50)
+                    Toggle(isOn: !lockBinding) {
+                        Text(Core.core.inventoryLocked ? "Locked" : "Unlocked")
                             .font(.system(.title3, design: .rounded))
                             .bold()
-                    }.tint(.red).foregroundColor(core.inventoryLocked ? .green : .red)
+                    }.tint(.red).foregroundColor(Core.core.inventoryLocked ? .green : .red)
                 }
                 HStack {
                     Image(systemName: "person.fill").resizable().scaledToFit().frame(width: 50, height: 50)
@@ -111,7 +119,8 @@ struct TierOneListView: View {
                     }
                 }
             }
-        }.onChange(of: activeFirstLevel, perform: { newVal in
+        }
+        .onChange(of: activeFirstLevel, perform: { newVal in
             print(newVal)
         })
     }
@@ -155,7 +164,6 @@ struct CollectionSubMenuView: View {
                     }
                 }
             }
-        }.onAppear {
         }
     }
 }
@@ -360,8 +368,8 @@ struct ContentView: View {
                         })
                         PagerView(imageDetailShown: $imageDetailShown, activePage: $activeImage)
                         if core.inventoryLocked {
-                            Text("Card amounts are locked. Tap on the \"Inventory locked\"" +
-                                 " icon under Overview to allow editing.").foregroundColor(Color(uiColor: .systemRed))
+                            Text("Card amounts are locked. Tap on the lock" +
+                                 " icon in the navigation menu to allow editing.").foregroundColor(Color(uiColor: .systemRed))
                         }
                     }
                 }
@@ -435,9 +443,6 @@ struct ContentView: View {
                 CoreSettings.settings.setTrainerName(target: partialUsername)
             }
             Button("Cancel", role: .cancel) {}
-        }
-        .onChange(of: activeFirstLevel) { newVal in
-            print(newVal)
         }
         .animation(.default.speed(0.5), value: imageDetailShown).navigationSplitViewStyle(.balanced)
         .onChange(of: scenePhase) { newPhase in

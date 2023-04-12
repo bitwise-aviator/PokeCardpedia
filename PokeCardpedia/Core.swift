@@ -72,13 +72,9 @@ class Core: ObservableObject {
         inventoryLocked = target
     }
     func setNonSetViewModeAsActive(target: ViewMode?) {
-        print(loadedData.count)
-        viewMode = target
-        activeSet = nil
-        activeDex = nil
+        (viewMode, activeSet, activeDex) = (target, nil, nil)
         guard let viewMode else { return }
         getCardsByViewMode(viewMode)
-        print(loadedData.count)
     }
     func updateActiveCounters() {
         let owned: Int = Array(activeData.values).reduce(0) { $0 + Int($1.collection?.amount ?? 0) }
