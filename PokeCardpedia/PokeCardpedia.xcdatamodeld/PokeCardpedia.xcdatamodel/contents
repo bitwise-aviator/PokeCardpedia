@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="CardStore" representedClassName="CardStore" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="String"/>
-        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
-    </entity>
     <entity name="CollectionTracker" representedClassName="CollectionTracker" syncable="YES" codeGenerationType="class">
         <attribute name="amount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="favorite" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -18,5 +14,8 @@
     </entity>
     <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="StoredImage" representedClassName="StoredImage" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
 </model>

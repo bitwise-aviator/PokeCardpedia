@@ -16,28 +16,6 @@ enum ViewMode: String {
     case none
 }
 
-class CoreSettings: ObservableObject {
-    static var settings = CoreSettings()
-    @Published var trainerName: String = ""
-    func getTrainerName() {
-        guard let newTrainerName = UserDefaults.standard.string(forKey: "trainer_name") else {
-            trainerName = ""
-            return
-        }
-        trainerName = newTrainerName
-    }
-    func setTrainerName(target: String) {
-        UserDefaults.standard.set(target, forKey: "trainer_name")
-        getAll()
-    }
-    func getAll() {
-        getTrainerName()
-    }
-    private init() {
-        getAll()
-    }
-}
-
 class Core: ObservableObject {
     static let core = Core() // singleton
     @Published var viewMode: ViewMode?
@@ -51,7 +29,6 @@ class Core: ObservableObject {
     @Published private(set) var activeData: [String: Card] = [:]
     @Published private(set) var activeOwned: Int = 0
     @Published private(set) var activeUniqueOwned: Int = 0
-    @Published var inventoryLocked: Bool = true
     func setActiveSet(set: SetFromJson) {
         viewMode = .set
         activeSet = set
@@ -67,9 +44,6 @@ class Core: ObservableObject {
         Task {
             await getCardsByPokedex(dex: dex)
         }
-    }
-    func setInventoryLock(target: Bool) {
-        inventoryLocked = target
     }
     func setNonSetViewModeAsActive(target: ViewMode?) {
         (viewMode, activeSet, activeDex) = (target, nil, nil)

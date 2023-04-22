@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import CachedAsyncImage
+import NukeUI
 
 struct CardThumbnail: View {
     @Binding var activeImage: String
@@ -28,14 +28,7 @@ struct CardThumbnail: View {
     var body: some View {
         VStack(alignment: .leading) {
             ZStack(alignment: .topTrailing) {
-                CachedAsyncImage(url: card.imagePaths.small) { image in
-                    image.resizable().scaledToFit().saturation(haveIt ? 1.0 : 0.0)
-                } placeholder: {
-                    Image("CardBack").resizable().scaledToFit()
-                }.border(activeImage == card.sortId ? Color(uiColor: .systemBlue) : .clear, width: 5).onTapGesture {
-                    activeImage = card.sortId
-                    imageDetailShown = true
-                }
+                CardThumbnailImage(card: card, haveIt: haveIt, activeImage: $activeImage, imageDetailShown: $imageDetailShown)
                 VStack {
                     if haveIt {
                         Text("\(amount)").foregroundColor(.white).padding(.horizontal, 5).background(.green)

@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC10EEE729F474D700168736 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = DC10EEE629F474D700168736 /* Nuke */; };
+		DC10EEE929F474D700168736 /* NukeExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = DC10EEE829F474D700168736 /* NukeExtensions */; };
+		DC10EEEB29F474D700168736 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = DC10EEEA29F474D700168736 /* NukeUI */; };
+		DC10EEED29F474D700168736 /* NukeVideo in Frameworks */ = {isa = PBXBuildFile; productRef = DC10EEEC29F474D700168736 /* NukeVideo */; };
+		DC10EEEF29F47EC400168736 /* CardThumbnailImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC10EEEE29F47EC400168736 /* CardThumbnailImage.swift */; };
+		DC10EEF129F4814A00168736 /* Padlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC10EEF029F4814A00168736 /* Padlock.swift */; };
+		DC10EEF329F4842C00168736 /* MenuThumbnailImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC10EEF229F4842C00168736 /* MenuThumbnailImage.swift */; };
+		DC10EEF529F485D700168736 /* CardLargeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC10EEF429F485D700168736 /* CardLargeImage.swift */; };
 		DC660CCA29BD098600610965 /* PokeCardpediaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CC929BD098600610965 /* PokeCardpediaApp.swift */; };
 		DC660CCC29BD098600610965 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CCB29BD098600610965 /* ContentView.swift */; };
 		DC660CCE29BD098700610965 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC660CCD29BD098700610965 /* Assets.xcassets */; };
@@ -25,15 +33,22 @@
 		DC660D4B29BFF1E000610965 /* PokemonTcgSDK in Frameworks */ = {isa = PBXBuildFile; productRef = DC660D4A29BFF1E000610965 /* PokemonTcgSDK */; };
 		DC660D4D29BFF23900610965 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D4C29BFF23900610965 /* ApiClient.swift */; };
 		DC660D5029BFFAD100610965 /* CardParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D4F29BFFAD100610965 /* CardParse.swift */; };
-		DC660D5229C2AE5800610965 /* SetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5129C2AE5800610965 /* SetView.swift */; };
 		DC660D5429C2BC5500610965 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5329C2BC5500610965 /* Core.swift */; };
 		DC660D5629C3EF9900610965 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660D5529C3EF9900610965 /* CardDetailView.swift */; };
 		DC679B3229E3182600668E0D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DC679B3129E3182600668E0D /* Settings.bundle */; };
-		DC679B3529E4B4DB00668E0D /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = DC679B3429E4B4DB00668E0D /* CachedAsyncImage */; };
 		DC679B3729E4C34C00668E0D /* CardThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B3629E4C34C00668E0D /* CardThumbnail.swift */; };
 		DC679B3929E4C5A300668E0D /* TopLevelItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B3829E4C5A300668E0D /* TopLevelItems.swift */; };
 		DC679B3B29E4C95E00668E0D /* Sprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B3A29E4C95E00668E0D /* Sprites.swift */; };
 		DC679B3E29E4E43600668E0D /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = DC679B3D29E4E43600668E0D /* NavigationStack */; };
+		DC679B4229E8CC1200668E0D /* CollectionLockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B4129E8CC1200668E0D /* CollectionLockView.swift */; };
+		DC679B4429E8D03700668E0D /* UsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B4329E8D03700668E0D /* UsernameView.swift */; };
+		DC679B4929E8D3D500668E0D /* CollectionMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B4829E8D3D500668E0D /* CollectionMenuItemView.swift */; };
+		DC679B4B29E8D4B900668E0D /* CoreSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B4A29E8D4B900668E0D /* CoreSettings.swift */; };
+		DC679B4D29E8D6E900668E0D /* SetMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B4C29E8D6E900668E0D /* SetMenuItemView.swift */; };
+		DC679B4F29E8D77A00668E0D /* CollectionSubMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B4E29E8D77A00668E0D /* CollectionSubMenuView.swift */; };
+		DC679B5129E8D82100668E0D /* BackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B5029E8D82100668E0D /* BackButtonView.swift */; };
+		DC679B5629EC612B00668E0D /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B5529EC612B00668E0D /* ImageManager.swift */; };
+		DC679B7429ECDBCD00668E0D /* ImageIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B7329ECDBCD00668E0D /* ImageIO.swift */; };
 		DCA0E35129E1E22200E54F9B /* SwiftUIPager in Frameworks */ = {isa = PBXBuildFile; productRef = DCA0E35029E1E22200E54F9B /* SwiftUIPager */; };
 		DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0E35229E1E2D400E54F9B /* PagerView.swift */; };
 /* End PBXBuildFile section */
@@ -56,6 +71,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DC10EEEE29F47EC400168736 /* CardThumbnailImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardThumbnailImage.swift; sourceTree = "<group>"; };
+		DC10EEF029F4814A00168736 /* Padlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Padlock.swift; sourceTree = "<group>"; };
+		DC10EEF229F4842C00168736 /* MenuThumbnailImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuThumbnailImage.swift; sourceTree = "<group>"; };
+		DC10EEF429F485D700168736 /* CardLargeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLargeImage.swift; sourceTree = "<group>"; };
 		DC660CC629BD098600610965 /* PokeCardpedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokeCardpedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC660CC929BD098600610965 /* PokeCardpediaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeCardpediaApp.swift; sourceTree = "<group>"; };
 		DC660CCB29BD098600610965 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -77,13 +96,21 @@
 		DC660D4929BFF1B300610965 /* pokemon-tcg-sdk-swift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "pokemon-tcg-sdk-swift"; path = "../pokemon-tcg-sdk-swift"; sourceTree = "<group>"; };
 		DC660D4C29BFF23900610965 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		DC660D4F29BFFAD100610965 /* CardParse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardParse.swift; sourceTree = "<group>"; };
-		DC660D5129C2AE5800610965 /* SetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetView.swift; sourceTree = "<group>"; };
 		DC660D5329C2BC5500610965 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		DC660D5529C3EF9900610965 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
 		DC679B3129E3182600668E0D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		DC679B3629E4C34C00668E0D /* CardThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardThumbnail.swift; sourceTree = "<group>"; };
 		DC679B3829E4C5A300668E0D /* TopLevelItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLevelItems.swift; sourceTree = "<group>"; };
 		DC679B3A29E4C95E00668E0D /* Sprites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sprites.swift; sourceTree = "<group>"; };
+		DC679B4129E8CC1200668E0D /* CollectionLockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionLockView.swift; sourceTree = "<group>"; };
+		DC679B4329E8D03700668E0D /* UsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameView.swift; sourceTree = "<group>"; };
+		DC679B4829E8D3D500668E0D /* CollectionMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionMenuItemView.swift; sourceTree = "<group>"; };
+		DC679B4A29E8D4B900668E0D /* CoreSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSettings.swift; sourceTree = "<group>"; };
+		DC679B4C29E8D6E900668E0D /* SetMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMenuItemView.swift; sourceTree = "<group>"; };
+		DC679B4E29E8D77A00668E0D /* CollectionSubMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSubMenuView.swift; sourceTree = "<group>"; };
+		DC679B5029E8D82100668E0D /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
+		DC679B5529EC612B00668E0D /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
+		DC679B7329ECDBCD00668E0D /* ImageIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageIO.swift; sourceTree = "<group>"; };
 		DCA0E35229E1E2D400E54F9B /* PagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -92,10 +119,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC679B3529E4B4DB00668E0D /* CachedAsyncImage in Frameworks */,
+				DC10EEEB29F474D700168736 /* NukeUI in Frameworks */,
 				DC679B3E29E4E43600668E0D /* NavigationStack in Frameworks */,
+				DC10EEED29F474D700168736 /* NukeVideo in Frameworks */,
 				DCA0E35129E1E22200E54F9B /* SwiftUIPager in Frameworks */,
 				DC660D4B29BFF1E000610965 /* PokemonTcgSDK in Frameworks */,
+				DC10EEE729F474D700168736 /* Nuke in Frameworks */,
+				DC10EEE929F474D700168736 /* NukeExtensions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,18 +172,19 @@
 			isa = PBXGroup;
 			children = (
 				DC660CC929BD098600610965 /* PokeCardpediaApp.swift */,
-				DC660D5329C2BC5500610965 /* Core.swift */,
+				DC679B3F29E8CB8400668E0D /* Core */,
 				DC679B3129E3182600668E0D /* Settings.bundle */,
 				DC660D4E29BFFA9700610965 /* Client */,
 				DC660D3729BEC5DD00610965 /* Cards */,
 				DC660CF829BD09AA00610965 /* Scanner */,
 				DC660CCB29BD098600610965 /* ContentView.swift */,
+				DC679B4029E8CBDF00668E0D /* NavItems */,
 				DC679B3A29E4C95E00668E0D /* Sprites.swift */,
+				DC679B4529E8D10000668E0D /* ViewModels */,
 				DC679B3829E4C5A300668E0D /* TopLevelItems.swift */,
 				DC679B3629E4C34C00668E0D /* CardThumbnail.swift */,
 				DC660D5529C3EF9900610965 /* CardDetailView.swift */,
 				DCA0E35229E1E2D400E54F9B /* PagerView.swift */,
-				DC660D5129C2AE5800610965 /* SetView.swift */,
 				DC660CCD29BD098700610965 /* Assets.xcassets */,
 				DC660CD229BD098700610965 /* Persistence.swift */,
 				DC660CD429BD098700610965 /* PokeCardpedia.xcdatamodeld */,
@@ -231,6 +262,49 @@
 			path = Client;
 			sourceTree = "<group>";
 		};
+		DC679B3F29E8CB8400668E0D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				DC660D5329C2BC5500610965 /* Core.swift */,
+				DC10EEF029F4814A00168736 /* Padlock.swift */,
+				DC679B5229EC60C300668E0D /* Images */,
+				DC679B4A29E8D4B900668E0D /* CoreSettings.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		DC679B4029E8CBDF00668E0D /* NavItems */ = {
+			isa = PBXGroup;
+			children = (
+				DC679B4129E8CC1200668E0D /* CollectionLockView.swift */,
+				DC679B4329E8D03700668E0D /* UsernameView.swift */,
+				DC679B4829E8D3D500668E0D /* CollectionMenuItemView.swift */,
+				DC679B4E29E8D77A00668E0D /* CollectionSubMenuView.swift */,
+				DC679B4C29E8D6E900668E0D /* SetMenuItemView.swift */,
+				DC679B5029E8D82100668E0D /* BackButtonView.swift */,
+			);
+			path = NavItems;
+			sourceTree = "<group>";
+		};
+		DC679B4529E8D10000668E0D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		DC679B5229EC60C300668E0D /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				DC679B5529EC612B00668E0D /* ImageManager.swift */,
+				DC679B7329ECDBCD00668E0D /* ImageIO.swift */,
+				DC10EEEE29F47EC400168736 /* CardThumbnailImage.swift */,
+				DC10EEF429F485D700168736 /* CardLargeImage.swift */,
+				DC10EEF229F4842C00168736 /* MenuThumbnailImage.swift */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -251,8 +325,11 @@
 			packageProductDependencies = (
 				DC660D4A29BFF1E000610965 /* PokemonTcgSDK */,
 				DCA0E35029E1E22200E54F9B /* SwiftUIPager */,
-				DC679B3429E4B4DB00668E0D /* CachedAsyncImage */,
 				DC679B3D29E4E43600668E0D /* NavigationStack */,
+				DC10EEE629F474D700168736 /* Nuke */,
+				DC10EEE829F474D700168736 /* NukeExtensions */,
+				DC10EEEA29F474D700168736 /* NukeUI */,
+				DC10EEEC29F474D700168736 /* NukeVideo */,
 			);
 			productName = PokeCardpedia;
 			productReference = DC660CC629BD098600610965 /* PokeCardpedia.app */;
@@ -328,8 +405,8 @@
 			mainGroup = DC660CBD29BD098600610965;
 			packageReferences = (
 				DCA0E34F29E1E22200E54F9B /* XCRemoteSwiftPackageReference "SwiftUIPager" */,
-				DC679B3329E4B4DB00668E0D /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 				DC679B3C29E4E43600668E0D /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
+				DC10EEE529F474D700168736 /* XCRemoteSwiftPackageReference "Nuke" */,
 			);
 			productRefGroup = DC660CC729BD098600610965 /* Products */;
 			projectDirPath = "";
@@ -395,25 +472,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC660D5229C2AE5800610965 /* SetView.swift in Sources */,
 				DC660D4D29BFF23900610965 /* ApiClient.swift in Sources */,
+				DC10EEF129F4814A00168736 /* Padlock.swift in Sources */,
+				DC679B4B29E8D4B900668E0D /* CoreSettings.swift in Sources */,
+				DC679B5629EC612B00668E0D /* ImageManager.swift in Sources */,
 				DC660CD329BD098700610965 /* Persistence.swift in Sources */,
+				DC10EEEF29F47EC400168736 /* CardThumbnailImage.swift in Sources */,
 				DC660D3F29BEC8E200610965 /* PokemonCard.swift in Sources */,
 				DC660CCC29BD098600610965 /* ContentView.swift in Sources */,
 				DC679B3729E4C34C00668E0D /* CardThumbnail.swift in Sources */,
+				DC679B5129E8D82100668E0D /* BackButtonView.swift in Sources */,
+				DC679B4929E8D3D500668E0D /* CollectionMenuItemView.swift in Sources */,
 				DC660D3929BEC5F000610965 /* Card.swift in Sources */,
 				DC660CFC29BD0B4000610965 /* Scanner.swift in Sources */,
 				DC660CD629BD098700610965 /* PokeCardpedia.xcdatamodeld in Sources */,
 				DC679B3929E4C5A300668E0D /* TopLevelItems.swift in Sources */,
 				DC660CFA29BD09F500610965 /* CameraView.swift in Sources */,
 				DC660D3D29BEC8C500610965 /* TrainerCard.swift in Sources */,
+				DC679B4D29E8D6E900668E0D /* SetMenuItemView.swift in Sources */,
 				DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */,
 				DC660D5429C2BC5500610965 /* Core.swift in Sources */,
 				DC660CCA29BD098600610965 /* PokeCardpediaApp.swift in Sources */,
+				DC679B4229E8CC1200668E0D /* CollectionLockView.swift in Sources */,
 				DC679B3B29E4C95E00668E0D /* Sprites.swift in Sources */,
+				DC679B7429ECDBCD00668E0D /* ImageIO.swift in Sources */,
+				DC679B4429E8D03700668E0D /* UsernameView.swift in Sources */,
+				DC679B4F29E8D77A00668E0D /* CollectionSubMenuView.swift in Sources */,
 				DC660D5629C3EF9900610965 /* CardDetailView.swift in Sources */,
 				DC660D3B29BEC7A300610965 /* EnergyCard.swift in Sources */,
+				DC10EEF529F485D700168736 /* CardLargeImage.swift in Sources */,
 				DC660D5029BFFAD100610965 /* CardParse.swift in Sources */,
+				DC10EEF329F4842C00168736 /* MenuThumbnailImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -754,12 +843,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		DC679B3329E4B4DB00668E0D /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+		DC10EEE529F474D700168736 /* XCRemoteSwiftPackageReference "Nuke" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
+			repositoryURL = "https://github.com/kean/Nuke";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 12.0.0;
 			};
 		};
 		DC679B3C29E4E43600668E0D /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
@@ -781,14 +870,29 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DC10EEE629F474D700168736 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC10EEE529F474D700168736 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		DC10EEE829F474D700168736 /* NukeExtensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC10EEE529F474D700168736 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeExtensions;
+		};
+		DC10EEEA29F474D700168736 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC10EEE529F474D700168736 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
+		DC10EEEC29F474D700168736 /* NukeVideo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC10EEE529F474D700168736 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeVideo;
+		};
 		DC660D4A29BFF1E000610965 /* PokemonTcgSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PokemonTcgSDK;
-		};
-		DC679B3429E4B4DB00668E0D /* CachedAsyncImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DC679B3329E4B4DB00668E0D /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
-			productName = CachedAsyncImage;
 		};
 		DC679B3D29E4E43600668E0D /* NavigationStack */ = {
 			isa = XCSwiftPackageProductDependency;

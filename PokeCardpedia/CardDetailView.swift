@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-import CachedAsyncImage
 
 struct CardDetailView: View {
-    @ObservedObject var core = Core.core
+    @ObservedObject var lock = Padlock.lock
     @Binding var imageDetailShown: Bool
+    // @Binding var activeCard: String
     // @Binding var activeImage: String
     @ObservedObject var card: Card
     var favorite: Bool {
@@ -25,11 +25,7 @@ struct CardDetailView: View {
     @ViewBuilder
     var body: some View {
         VStack {
-            CachedAsyncImage(url: card.imagePaths.large) { image in
-                image.resizable().padding(.all).scaledToFit()
-            } placeholder: {
-                Image("CardBack").resizable().padding(.all).scaledToFit()
-            }
+            CardLargeImage(url: card.imagePaths.large)
             HStack {
                 Button(action: {
                     card.setWantIt(!wantIt)
@@ -56,7 +52,7 @@ struct CardDetailView: View {
                     }.padding(10).background((favorite ? Color(uiColor: .systemPink) : .clear)).cornerRadius(10)
                 })
                 Spacer().frame(width: 100)
-                if !core.inventoryLocked {
+                if !lock.isLocked {
                     Button(action: {
                         card.setNumberOwned(counter - 1)
                     }, label: {
@@ -65,7 +61,7 @@ struct CardDetailView: View {
                     }).disabled(counter <= 0)
                 }
                 Text(String(counter)).foregroundColor(counter != 0 ? Color(uiColor: .systemGreen) : Color.primary)
-                if !core.inventoryLocked {
+                if !lock.isLocked {
                     Button(action: {
                         card.setNumberOwned(counter + 1)
                     }, label: {
