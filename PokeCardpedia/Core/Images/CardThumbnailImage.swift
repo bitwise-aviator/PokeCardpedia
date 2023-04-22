@@ -14,7 +14,6 @@ struct CardThumbnailImage: View {
     var haveIt: Bool
     @Binding var activeImage: String
     @Binding var imageDetailShown: Bool
-    
     @ViewBuilder
     var body: some View {
         LazyImage(request: ImageRequest(url: card.imagePaths.small)) { state in

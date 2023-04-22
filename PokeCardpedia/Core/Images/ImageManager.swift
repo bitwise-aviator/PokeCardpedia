@@ -16,12 +16,10 @@ class ImageManager {
         case invalidDirectory
         case writingFailed
     }
-    
     let fileManager: FileManager
     init(_ fileManager: FileManager = .default) {
         self.fileManager = fileManager
     }
-    
     func saveImage(_ image: Image) {
         print("image being saved...")
     }

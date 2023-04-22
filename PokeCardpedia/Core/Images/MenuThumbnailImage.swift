@@ -11,7 +11,6 @@ import NukeUI
 
 struct MenuThumbnailImage: View {
     var url: URL?
-    
     @ViewBuilder
     var body: some View {
         LazyImage(request: ImageRequest(url: url)) { state in

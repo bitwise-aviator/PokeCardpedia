@@ -132,10 +132,8 @@ class Core: ObservableObject {
                 var collectionData: [String: CollectionTracker]?
                 for await value in group {
                     switch value {
-                    case .cardData(let value):
-                        cardData = value
-                    case .collectionData(let value):
-                        collectionData = value
+                    case .cardData(let value): cardData = value
+                    case .collectionData(let value): collectionData = value
                     }
                 }
                 return (cardData: cardData, collectionData: collectionData)
@@ -224,6 +222,9 @@ class Core: ObservableObject {
         }
     }
     init() {
+        Task {
+            _ = PokemonNameset.common // trigger lazy initialization of Pokemon names object.
+        }
         Task {
             print("Getting card data")
             setNonSetViewModeAsActive(target: .owned)

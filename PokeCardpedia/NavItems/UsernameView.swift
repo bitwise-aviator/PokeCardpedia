@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UsernameView: View {
-    @Binding var userNameSelectionActive: Bool    
+    @Binding var userNameSelectionActive: Bool
     var body: some View {
         HStack {
             Image(systemName: "person.fill").resizable().scaledToFit().frame(width: 50, height: 50)

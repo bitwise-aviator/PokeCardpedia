@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CollectionLockView: View {
     @ObservedObject var lock = Padlock.lock
-    
     @ViewBuilder
     var body: some View {
         let lockBinding = Binding(

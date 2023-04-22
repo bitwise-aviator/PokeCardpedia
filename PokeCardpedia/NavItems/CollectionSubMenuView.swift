@@ -10,7 +10,6 @@ import NavigationStack
 
 struct CollectionSubMenuView: View {
     @ObservedObject var core = Core.core
-    
     @ViewBuilder
     var body: some View {
         VStack {

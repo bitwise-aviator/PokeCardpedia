@@ -15,6 +15,11 @@
 		DC10EEF129F4814A00168736 /* Padlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC10EEF029F4814A00168736 /* Padlock.swift */; };
 		DC10EEF329F4842C00168736 /* MenuThumbnailImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC10EEF229F4842C00168736 /* MenuThumbnailImage.swift */; };
 		DC10EEF529F485D700168736 /* CardLargeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC10EEF429F485D700168736 /* CardLargeImage.swift */; };
+		DC10EEFC29F4962A00168736 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = DC10EEFB29F4962A00168736 /* SwiftCSV */; };
+		DC10EEFE29F4966000168736 /* PokemonNameset.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC10EEFD29F4966000168736 /* PokemonNameset.swift */; };
+		DC10EEFF29F49D4B00168736 /* pokemon_names.csv in Resources */ = {isa = PBXBuildFile; fileRef = DC10EEF829F4956400168736 /* pokemon_names.csv */; };
+		DC10EF0029F49D4B00168736 /* pokemon_names.csv in Resources */ = {isa = PBXBuildFile; fileRef = DC10EEF829F4956400168736 /* pokemon_names.csv */; };
+		DC10EF0129F49D4C00168736 /* pokemon_names.csv in Resources */ = {isa = PBXBuildFile; fileRef = DC10EEF829F4956400168736 /* pokemon_names.csv */; };
 		DC660CCA29BD098600610965 /* PokeCardpediaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CC929BD098600610965 /* PokeCardpediaApp.swift */; };
 		DC660CCC29BD098600610965 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CCB29BD098600610965 /* ContentView.swift */; };
 		DC660CCE29BD098700610965 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC660CCD29BD098700610965 /* Assets.xcassets */; };
@@ -75,6 +80,8 @@
 		DC10EEF029F4814A00168736 /* Padlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Padlock.swift; sourceTree = "<group>"; };
 		DC10EEF229F4842C00168736 /* MenuThumbnailImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuThumbnailImage.swift; sourceTree = "<group>"; };
 		DC10EEF429F485D700168736 /* CardLargeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLargeImage.swift; sourceTree = "<group>"; };
+		DC10EEF829F4956400168736 /* pokemon_names.csv */ = {isa = PBXFileReference; lastKnownFileType = text; name = pokemon_names.csv; path = PokeCardpedia/Data/pokemon_names.csv; sourceTree = SOURCE_ROOT; };
+		DC10EEFD29F4966000168736 /* PokemonNameset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonNameset.swift; sourceTree = "<group>"; };
 		DC660CC629BD098600610965 /* PokeCardpedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokeCardpedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC660CC929BD098600610965 /* PokeCardpediaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeCardpediaApp.swift; sourceTree = "<group>"; };
 		DC660CCB29BD098600610965 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -120,6 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC10EEEB29F474D700168736 /* NukeUI in Frameworks */,
+				DC10EEFC29F4962A00168736 /* SwiftCSV in Frameworks */,
 				DC679B3E29E4E43600668E0D /* NavigationStack in Frameworks */,
 				DC10EEED29F474D700168736 /* NukeVideo in Frameworks */,
 				DCA0E35129E1E22200E54F9B /* SwiftUIPager in Frameworks */,
@@ -146,6 +154,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC10EEF929F4957200168736 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				DC10EEFD29F4966000168736 /* PokemonNameset.swift */,
+				DC10EEF829F4956400168736 /* pokemon_names.csv */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		DC660CBD29BD098600610965 = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +188,7 @@
 		DC660CC829BD098600610965 /* PokeCardpedia */ = {
 			isa = PBXGroup;
 			children = (
+				DC10EEF929F4957200168736 /* Data */,
 				DC660CC929BD098600610965 /* PokeCardpediaApp.swift */,
 				DC679B3F29E8CB8400668E0D /* Core */,
 				DC679B3129E3182600668E0D /* Settings.bundle */,
@@ -330,6 +348,7 @@
 				DC10EEE829F474D700168736 /* NukeExtensions */,
 				DC10EEEA29F474D700168736 /* NukeUI */,
 				DC10EEEC29F474D700168736 /* NukeVideo */,
+				DC10EEFB29F4962A00168736 /* SwiftCSV */,
 			);
 			productName = PokeCardpedia;
 			productReference = DC660CC629BD098600610965 /* PokeCardpedia.app */;
@@ -407,6 +426,7 @@
 				DCA0E34F29E1E22200E54F9B /* XCRemoteSwiftPackageReference "SwiftUIPager" */,
 				DC679B3C29E4E43600668E0D /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
 				DC10EEE529F474D700168736 /* XCRemoteSwiftPackageReference "Nuke" */,
+				DC10EEFA29F4962A00168736 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 			);
 			productRefGroup = DC660CC729BD098600610965 /* Products */;
 			projectDirPath = "";
@@ -427,6 +447,7 @@
 				DC660CD129BD098700610965 /* Preview Assets.xcassets in Resources */,
 				DC679B3229E3182600668E0D /* Settings.bundle in Resources */,
 				DC660CCE29BD098700610965 /* Assets.xcassets in Resources */,
+				DC10EEFF29F49D4B00168736 /* pokemon_names.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,6 +455,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC10EF0029F49D4B00168736 /* pokemon_names.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +463,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC10EF0129F49D4C00168736 /* pokemon_names.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +516,7 @@
 				DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */,
 				DC660D5429C2BC5500610965 /* Core.swift in Sources */,
 				DC660CCA29BD098600610965 /* PokeCardpediaApp.swift in Sources */,
+				DC10EEFE29F4966000168736 /* PokemonNameset.swift in Sources */,
 				DC679B4229E8CC1200668E0D /* CollectionLockView.swift in Sources */,
 				DC679B3B29E4C95E00668E0D /* Sprites.swift in Sources */,
 				DC679B7429ECDBCD00668E0D /* ImageIO.swift in Sources */,
@@ -660,7 +684,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.002;
-				DEVELOPMENT_ASSET_PATHS = "\"PokeCardpedia/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "PokeCardpedia/Preview\\ Content";
 				DEVELOPMENT_TEAM = YG5N57HMZ9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -696,7 +720,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.002;
-				DEVELOPMENT_ASSET_PATHS = "\"PokeCardpedia/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "PokeCardpedia/Preview\\ Content";
 				DEVELOPMENT_TEAM = YG5N57HMZ9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -851,6 +875,14 @@
 				minimumVersion = 12.0.0;
 			};
 		};
+		DC10EEFA29F4962A00168736 /* XCRemoteSwiftPackageReference "SwiftCSV" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftcsv/SwiftCSV.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.1;
+			};
+		};
 		DC679B3C29E4E43600668E0D /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack";
@@ -889,6 +921,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DC10EEE529F474D700168736 /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = NukeVideo;
+		};
+		DC10EEFB29F4962A00168736 /* SwiftCSV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC10EEFA29F4962A00168736 /* XCRemoteSwiftPackageReference "SwiftCSV" */;
+			productName = SwiftCSV;
 		};
 		DC660D4A29BFF1E000610965 /* PokemonTcgSDK */ = {
 			isa = XCSwiftPackageProductDependency;

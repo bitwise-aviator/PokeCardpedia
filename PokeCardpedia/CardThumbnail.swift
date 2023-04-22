@@ -28,7 +28,9 @@ struct CardThumbnail: View {
     var body: some View {
         VStack(alignment: .leading) {
             ZStack(alignment: .topTrailing) {
-                CardThumbnailImage(card: card, haveIt: haveIt, activeImage: $activeImage, imageDetailShown: $imageDetailShown)
+                CardThumbnailImage(
+                    card: card, haveIt: haveIt, activeImage: $activeImage, imageDetailShown: $imageDetailShown
+                )
                 VStack {
                     if haveIt {
                         Text("\(amount)").foregroundColor(.white).padding(.horizontal, 5).background(.green)

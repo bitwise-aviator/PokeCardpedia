@@ -16,7 +16,7 @@ struct TopLevelMenuItem: Identifiable, Hashable {
     var name: String
     var imageType: ImageType
     var imagePath: String = ""
-    var imageURL: URL? = nil
+    var imageURL: URL?
 }
 
 struct CollectionMenuItem: Identifiable, Hashable {
@@ -24,7 +24,7 @@ struct CollectionMenuItem: Identifiable, Hashable {
     var name: String
     var imageType: ImageType
     var imagePath: String = ""
-    var imageURL: URL? = nil
+    var imageURL: URL?
 }
 
 struct PokedexMenuItem: Identifiable, Hashable {
@@ -32,18 +32,16 @@ struct PokedexMenuItem: Identifiable, Hashable {
     var name: String
     var imageType: ImageType
     var imagePath: String = ""
-    var imageURL: URL? = nil
+    var imageURL: URL?
 }
 
 struct TopLevelItems {
     static var myCollection: [TopLevelMenuItem] = [
         TopLevelMenuItem(id: "collection", name: "Collection", imageType: .asset, imagePath: "CardBack")
     ]
-    
     static var sets: [TopLevelMenuItem] = [
         TopLevelMenuItem(id: "sets", name: "Sets", imageType: .asset, imagePath: "CardBack")
     ]
-    
     static var pokedex: [PokedexMenuItem] = [
         PokedexMenuItem(id: .kanto, name: "Kanto (#1 - #151)",
                          imageType: .url, imageURL: getPokemonSpritePath(dex: 151)),
@@ -72,11 +70,9 @@ struct SecondLevelItems {
         CollectionMenuItem(id: .want, name: "Wishlist", imageType: .icon, imagePath: "star.fill"),
         CollectionMenuItem(id: .favorite, name: "Favorites", imageType: .icon, imagePath: "heart.fill")
     ]
-    
     static var sets: [TopLevelMenuItem] = [
         TopLevelMenuItem(id: "sets", name: "Sets", imageType: .asset, imagePath: "CardBack")
     ]
-    
     static var pokedex: [TopLevelMenuItem] = [
         TopLevelMenuItem(id: "pokedex.kanto", name: "Kanto (#1 - #151)",
                          imageType: .url, imageURL: getPokemonSpritePath(dex: 151)),

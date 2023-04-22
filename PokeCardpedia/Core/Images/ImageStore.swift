@@ -11,10 +11,7 @@ import SwiftUI
 
 @objc(ImageStored)
 public class ImageStored: NSManagedObject {
-    
     lazy var image: Image? = {
-        
         return nil
     }()
-    
 }

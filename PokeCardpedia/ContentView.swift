@@ -60,9 +60,6 @@ struct TierOneListView: View {
                 }
             }
         }
-        .onChange(of: activeFirstLevel, perform: { newVal in
-            print(newVal)
-        })
     }
 }
 
@@ -95,7 +92,6 @@ struct DexSubMenuView: View {
     let region: Region
     @Binding var activeFirstLevel: String?
     @ObservedObject var core = Core.core
-    
     func getRange() -> ClosedRange<Int> {
         switch region {
         case .kanto:
@@ -118,7 +114,6 @@ struct DexSubMenuView: View {
             return 906...1010
         }
     }
-    
     @ViewBuilder
     var body: some View {
         VStack {
@@ -127,7 +122,7 @@ struct DexSubMenuView: View {
                 ForEach(getRange(), id: \.self) { elem in
                     HStack {
                         MenuThumbnailImage(url: getPokemonSpritePath(dex: elem))
-                        Text(String("#\(elem)"))
+                        Text("#\(elem) \(PokemonNameset.common.getLocalizedName(id: elem) ?? "")")
                             .font(.system(.title3, design: .rounded))
                             .bold()
                     }.onTapGesture {
@@ -229,7 +224,8 @@ struct ContentView: View {
                         PagerView(imageDetailShown: $imageDetailShown, activePage: $activeImage)
                         if lock.isLocked {
                             Text("Card amounts are locked. Tap on the lock" +
-                                 " icon in the navigation menu to allow editing.").foregroundColor(Color(uiColor: .systemRed))
+                                 " icon in the navigation menu to allow editing.")
+                            .foregroundColor(Color(uiColor: .systemRed))
                         }
                     }
                 }
@@ -266,7 +262,8 @@ struct ContentView: View {
                             }
                         Spacer()
                         Image(systemName: (filterBy == .favorite ? "heart.fill" : "heart"))
-                            .foregroundColor((filterBy == .favorite ? Color(uiColor: .black): Color(uiColor: .systemGray)))
+                            .foregroundColor((filterBy == .favorite ?
+                                              Color(uiColor: .black): Color(uiColor: .systemGray)))
                             .padding(10)
                             .background((filterBy == .favorite ? Color(uiColor: .systemPink) : .clear))
                             .cornerRadius(10)
@@ -276,8 +273,10 @@ struct ContentView: View {
                         Spacer()
                         HStack {
                             Image(systemName: "checkmark.square")
-                                .foregroundColor((filterBy == .owned ? Color(uiColor: .black): Color(uiColor: .systemGray)))
-                            Text("\(Core.core.activeUniqueOwned)").foregroundColor(filterBy == .owned ? .black : .primary)
+                                .foregroundColor((filterBy == .owned ?
+                                                  Color(uiColor: .black): Color(uiColor: .systemGray)))
+                            Text("\(Core.core.activeUniqueOwned)").foregroundColor(filterBy == .owned ?
+                                .black : .primary)
                         }
                         .padding(10)
                         .background((filterBy == .owned ? Color(uiColor: .systemGreen) : .clear))
@@ -317,7 +316,6 @@ struct ContentView: View {
             partialUsername = CoreSettings.settings.trainerName
         }
     }
-    
     private func addItem() {
         withAnimation {
             let newItem = Item(context: viewContext)
