@@ -1,4 +1,11 @@
-# Sources used
+*For Ani-chan (アニちゃん), my beta tester and favorite "customer" :)*
+*I love you a lot (とても大好きです).*
+
+## About this app
+
+This all started as a tool to help me sort my thousands of cards, but has evolved into a digital twin of my physical collection. This still is a work in progress, with a target for weekly commits.
+
+## Sources used
 
 This is a working list of the APIs and other data sources used in building this app.
 
