@@ -1,4 +1,4 @@
-*For Ani-chan (アニちゃん), my beta tester and favorite "customer" :)*
+*For Ani-chan (アニちゃん), my beta tester and favorite "customer" :)*. 
 *I love you a lot (とても大好きです).*
 
 ## About this app
