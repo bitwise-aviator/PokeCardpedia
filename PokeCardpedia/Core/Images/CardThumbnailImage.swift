@@ -9,12 +9,18 @@ import Foundation
 import SwiftUI
 import NukeUI
 
+/// A view showing a small card image.
 struct CardThumbnailImage: View {
+    /// Source card object, provides URL & collection tracking.
     var card: Card
+    /// Whether the user has a positive number of copies of `card`. Used to determine if grayscale applied.
     var haveIt: Bool
+    /// When applicable, the card being shown in the `PagerView`.
     @Binding var activeImage: String
+    /// Denotes whether the `PagerView` is active.
     @Binding var imageDetailShown: Bool
     @ViewBuilder
+    /// View body.
     var body: some View {
         LazyImage(request: ImageRequest(url: card.imagePaths.small)) { state in
             if let image = state.image {

@@ -8,30 +8,53 @@
 import Foundation
 import pokemon_tcg_sdk_swift
 
+enum CardType {
+    // these types probably should be core data entities though...
+    // use struct for outlining.
+    case pokemon(data: PokemonCardData)
+    case trainer(data: TrainerCardData)
+    case energy(data: EnergyCardData)
+}
+
+/// Core object for a Pokémon TCG card.
 class Card: ObservableObject {
+    /// RegEx used to extract sorting components from card ID.
     static let sortRegex = /(?<prefix>[A-Z]*)(?<number>[0-9]+)(?<suffix>[A-Z]*)/
+    /// RegEx used to extract the set number from the card ID.
     static let setNumberFromIdRegex = /[a-zA-Z0-9]+-(?<number>[a-zA-Z0-9]+)/
+    /// Card ID as returned from the Pokémon TCG API.
     let id: String
+    /// Pokémon TCG API code for the card's set.
     let setCode: String
+    /// Card number within its set.
     let setNumber: String
+    /// URLs to image paths.
     let imagePaths: CardImageUrl
+    /// Pokédex numbers (Pokémon only, to be migrated to `PokemonCardData`)
     var dex: [Int]?
+    /// Blob data for card's small image. Unused, might be deprecated.
     lazy var imageDataSmall: Data? = {
         nil
     }()
+    /// Blob data for card's large image. Unused, might be deprecated.
     lazy var imageDataLarge: Data? = {
         nil
     }()
+    /// Modified version of the API's returned ID to facilitate sorting.
     var sortId: String {
         let match = setNumber.firstMatch(of: Card.sortRegex)
         guard let match else {return "\(setCode)-\(setNumber)"}
         let formattedNumber = String(format: "%03d", Int(match.output.number)!)
         return String("\(setCode)-\(match.output.prefix)\(formattedNumber)\(match.output.suffix)")
     }
+    /// URL for the card's set icon. Premade from `Card.setCode`
     var setIconUrl: URL? {
         return URL(string: "https://images.pokemontcg.io/\(setCode)/symbol.png")
     }
+    /// Tracks card ownership & wishlisting.
     @Published var collection: CardCollectionData?
+    /// Creates a Card instance from a JSON API response.
+    /// - Parameter source: Pokémon TCG API card JSON, in struct format
     init(from source: CardFromJson) {
         id = source.id
         setCode = source.set.id
@@ -40,9 +63,13 @@ class Card: ObservableObject {
         collection = nil
         dex = source.nationalPokedexNumbers
     }
-    // init? is a failable initializer, where nil can be returned if initalization cannot be completed,
-    // such as a guard statement triggering.
+    /// Creates a Card instance from a stored Core Data CollectionTracker record.
+    /// Note: this method will fail if the provided record contains null `id` or `set` properties and/or
+    /// a set number cannot be extracted from the `id` property (i.e. does not match with `Card.setNumberFromIdRegex`)
+    /// - Parameter source: a CollectionTracker Core Data record.
     init?(from source: CollectionTracker) {
+        // init? is a failable initializer, where nil can be returned if initalization cannot be completed,
+        // such as a guard statement triggering.
         guard let newId = source.id, let newSet = source.set else {
             print("Failed unwrapping... id: \(String(describing: source.id)), set: \(String(describing: source.set)) ")
             return nil
@@ -60,6 +87,8 @@ class Card: ObservableObject {
         collection = source.toNativeForm
         dex = nil
     }
+    /// Adds/remove card to favorites list
+    /// - Parameter target: add to (true) or remove from (false) favorites list.
     func setFavorite(_ target: Bool) {
         if var newCollection = collection {
             newCollection.favorite = target
@@ -69,6 +98,8 @@ class Card: ObservableObject {
             }
         }
     }
+    /// Adds/remove card to wishlist
+    /// - Parameter target: add to (true) or remove from (false) wishlist.
     func setWantIt(_ target: Bool) {
         if var newCollection = collection {
             newCollection.wantIt = target
@@ -79,6 +110,8 @@ class Card: ObservableObject {
             print(target, success)
         }
     }
+    /// Alters card count in user's collection.
+    /// - Parameter target: new number of cards owned. Must be non-negative.
     func setNumberOwned(_ target: Int16) {
         if var newCollection = collection, target >= 0 {
             newCollection.amount = target
@@ -90,6 +123,7 @@ class Card: ObservableObject {
             print(target, success)
         }
     }
+    /// Shorthand method to add one copy of card to collection. Currently unused, might be deprecated.
     func addOne() {
         if self.collection != nil {
             let newCount = self.collection!.amount + 1
@@ -100,56 +134,12 @@ class Card: ObservableObject {
     }
 }
 
-/*
-protocol Card: ObservableObject {
-    // Objective-C Interface: list properties and functions only.
-    var id: String {get}
-    var setCode: String {get}
-    var setNumber: String {get}
-    // Image
-    var imagePaths: CardImageUrl {get}
-    var imageDataSmall: Data? {get set}
-    var imageDataLarge: Data? {get set}
-    var collection: CardCollectionData? {get set}
-}
-
-extension Card {
-    // Objective-C Implementation: if providing default property values or function bodies, do so here.
-    func setFavorite(_ target: Bool) {
-        if var newCollection = collection {
-            newCollection.favorite = target
-            let success = PersistenceController.shared.patchCard(self)
-            if success {
-                collection = newCollection
-            }
-        }
-    }
-    
-    func setWantIt(_ target: Bool) {
-        if var newCollection = collection {
-            newCollection.wantIt = target
-            let success = PersistenceController.shared.patchCard(self)
-            if success {
-                collection = newCollection
-            }
-            print(target, success)
-        }
-    }
-    
-    func setNumberOwned(_ target: Int16) {
-        if var newCollection = collection, target >= 0 {
-            newCollection.amount = target
-            let success = PersistenceController.shared.patchCard(self)
-            if success {
-                collection = newCollection
-            }
-        }
-    }
-}
-*/
-
+/// Tracks collection status for `Card` objects in memory. Mirrors Core Data CollectionTracker entity.
 struct CardCollectionData {
+    /// Whether card is in favorites list.
     var favorite: Bool = false
+    /// Whether card is in wishlist.
     var wantIt: Bool = false
+    /// Number of copies of card owned.
     var amount: Int16 = 0
 }

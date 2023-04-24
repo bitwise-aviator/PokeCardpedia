@@ -8,8 +8,11 @@
 import SwiftUI
 import NavigationStack
 
+/// Allows backward navigation inside navigation bar.
 struct BackButtonView: View {
+    /// Label text.
     let text: String
+    /// View body.
     var body: some View {
         PopView(destination: .root) {
             HStack {

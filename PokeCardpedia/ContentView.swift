@@ -10,6 +10,9 @@ import CoreData
 import NukeUI
 import NavigationStack
 
+/// Generates a reversed boolean binding.
+/// - Parameter value: the input boolean binding.
+/// - Returns: a binding to a boolean that will show the reverse value.
 prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
     Binding<Bool>(
         get: { !value.wrappedValue },
@@ -17,6 +20,7 @@ prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
     )
 }
 
+/// Geographical Pokémon regions.
 enum Region {
     case kanto, johto, hoenn, sinnoh, unova, kalos, alola, galar, paldea
 }
@@ -73,14 +77,7 @@ struct SetSubMenuView: View {
             List(selection: $core.activeSet) {
                 if let sets = core.sets {
                     ForEach(Array(sets.enumerated()), id: \.element) { _, elem in
-                        HStack {
-                            MenuThumbnailImage(url: URL(string: elem.images.symbol))
-                            Text(elem.name)
-                                .font(.system(.title3, design: .rounded))
-                                .bold()
-                        }.onTapGesture {
-                            core.setActiveSet(set: elem)
-                        }
+                        SetButtonView(from: elem)
                     }
                 }
             }

@@ -170,16 +170,17 @@ class Core: ObservableObject {
             self.updateActiveCounters()
         }
     }
+    func fetchCards(by selector: ViewMode) -> [String: CollectionTracker]? {
+        switch selector {
+        case .owned: return PersistenceController.shared.fetchCards([.owned(true)])?.toDict()
+        case .favorite: return PersistenceController.shared.fetchCards([.favorite(true)])?.toDict()
+        case .want: return PersistenceController.shared.fetchCards([.wantIt(true)])?.toDict()
+        default: return nil
+        }
+    }
     func getCardsByViewMode(_ view: ViewMode) {
         Task {
-            let fetched = {
-                switch view {
-                case .owned: return PersistenceController.shared.fetchCards([.owned(true)])?.toDict()
-                case .favorite: return PersistenceController.shared.fetchCards([.favorite(true)])?.toDict()
-                case .want: return PersistenceController.shared.fetchCards([.wantIt(true)])?.toDict()
-                default: return nil
-                }
-            }()
+            let fetched = fetchCards(by: view)
             // let fetched = PersistenceController.shared.fetchCards([.owned(true)])?.toDict()
             if let fetched {
                 for key in Array(fetched.keys) {
@@ -221,7 +222,7 @@ class Core: ObservableObject {
             }
         }
     }
-    init() {
+    private init() {
         Task {
             _ = PokemonNameset.common // trigger lazy initialization of Pokemon names object.
         }

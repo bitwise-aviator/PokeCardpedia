@@ -7,6 +7,12 @@
 
 import Foundation
 
+typealias SetDictByYear = [Int: [SetFromJson]]
+
+enum SetOrder {
+    case releaseDate
+}
+
 extension Data {
     var prettyPrintedJSONString: NSString? { /// NSString gives us a nice sanitized debugDescription
         guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
@@ -50,6 +56,31 @@ struct SetFromJson: Codable, Hashable {
     let series: String
     let images: SetImagePath
     let releaseDate: String
+    var releasedOn: Date {
+        return DateHandler.shared.fullYearMonthDay.date(from: releaseDate) ??
+        DateHandler.shared.fullYearMonthDay.date(from: "1970/01/01")!
+    }
+}
+
+extension [SetFromJson] {
+    var releaseYears: [Int] {
+        var resultSet = Set<Int>()
+        for elem in self {
+            resultSet.insert(elem.releasedOn.year)
+        }
+        return [Int](resultSet).sorted()
+    }
+    var groupedByYear: SetDictByYear {
+        var dict = SetDictByYear()
+        for elem in self {
+            if dict[elem.releasedOn.year] == nil {
+                dict[elem.releasedOn.year] = [elem]
+            } else {
+                dict[elem.releasedOn.year]?.append(elem)
+            }
+        }
+        return dict
+    }
 }
 
 struct CardFromJson: Codable {
@@ -84,26 +115,42 @@ struct CardImagePath: Codable {
     let large: String
 }
 
+/// Stores URLs for a `Card`'s remote image data.
 struct CardImageUrl: Hashable {
+    /// Path for small (thumbnail) size image.
     let small: URL?
+    /// Path for large (detail) size image.
     let large: URL?
+    /// Checks if two CardImageUrl instances are memberwise equal.
+    /// - Parameters:
+    ///   - lhs: a CardImageUrl instance
+    ///   - rhs: another CardImageUrl instance
+    /// - Returns: true if both small & large URLs are equal, else false.
     static func == (lhs: CardImageUrl, rhs: CardImageUrl) -> Bool {
-        lhs.small == rhs.small
+        lhs.small == rhs.small && lhs.large == rhs.large
     }
+    /// Creates hashable conformance.
+    /// - Parameter hasher: storage for the struct's hash value.
     func hash(into hasher: inout Hasher) {
         hasher.combine(small)
     }
+    /// Convenience initializer from API response JSON.
+    /// - Parameter pathObject: source from JSON structure.
     init(pathObject: CardImagePath) {
-        small = URL(string: pathObject.small)
-        large = URL(string: pathObject.large)
+        self.init(small: URL(string: pathObject.small),
+                  large: URL(string: pathObject.large))
     }
+    /// Memberwise initialization.
+    /// - Parameters:
+    ///   - smallUrl: URL for small (thumbnail) size image.
+    ///   - largeUrl: URL for large (detail) size image.
     init(small smallUrl: URL?, large largeUrl: URL?) {
         small = smallUrl
         large = largeUrl
     }
 }
 
-func parseSetsFromJson(data: Data?) -> [SetFromJson]? {
+func parseSetsFromJson(data: Data?, orderBy: SetOrder = .releaseDate) -> [SetFromJson]? {
     do {
         guard let data else {return nil}
         let decoder = JSONDecoder()
@@ -117,7 +164,11 @@ func parseSetsFromJson(data: Data?) -> [SetFromJson]? {
             jsonStruct = SetJsonData(data: [jsonSingleOutput.data])
         }
         guard let jsonStruct else {return nil}
-        return jsonStruct.data
+        var structedData = jsonStruct.data
+        if orderBy == .releaseDate {
+            structedData.sort(by: {$0.releasedOn < $1.releasedOn})
+        }
+        return structedData
         /*guard jsonStruct.data.count > 0 else {return nil}
         // print(jsonStruct.data[0])
         print(jsonStruct.data.map {"\($0.name) \($0.series)"} )

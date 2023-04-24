@@ -10,8 +10,6 @@ import SwiftUI
 struct CardDetailView: View {
     @ObservedObject var lock = Padlock.lock
     @Binding var imageDetailShown: Bool
-    // @Binding var activeCard: String
-    // @Binding var activeImage: String
     @ObservedObject var card: Card
     var favorite: Bool {
         card.collection!.favorite
