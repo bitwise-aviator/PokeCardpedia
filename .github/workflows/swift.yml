@@ -22,4 +22,4 @@ jobs:
         target: PokeCardpedia
         destination: platform=macOS
         action: build
-    - name: Build
+      name: Build
