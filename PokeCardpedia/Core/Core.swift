@@ -143,8 +143,9 @@ class Core: ObservableObject {
                 if let parsedCards = parseCardsFromJson(data: data) {
                     parsedCards.forEach { elem in
                         // Skip loaded data
-                        guard loadedData[elem.sortId] == nil && loadedData[elem.sortId]?.collection == nil else {
-                            loadedData[elem.sortId]!.dex = elem.nationalPokedexNumbers
+                        guard loadedData[elem.sortId] == nil && loadedData[elem.sortId]?.collection == nil && loadedData[elem.sortId]?.superCardType == nil else {
+                            var pokedexData = PokemonCardData(dex: elem.nationalPokedexNumbers)
+                            loadedData[elem.sortId]!.superCardType = .pokemon(data: pokedexData)
                             return
                         }
                         // Skip bad data
@@ -165,7 +166,7 @@ class Core: ObservableObject {
         loadedDexs.insert(dex)
         DispatchQueue.main.async {
             self.activeData = self.loadedData.filter({
-                return $0.value.dex?.contains(dex) ?? false
+                return $0.value.isOfPokedex(dex)
             })
             self.updateActiveCounters()
         }

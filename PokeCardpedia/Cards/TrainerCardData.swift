@@ -7,6 +7,6 @@
 
 import Foundation
 
-/// Stores data specific to Trainer cards. To be only used inside a `CardType.trainer` enum instance.
+/// Stores data specific to Trainer cards. To be only used inside a `SuperCardType.trainer` enum instance.
 struct TrainerCardData {
 }

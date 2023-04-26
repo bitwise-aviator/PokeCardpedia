@@ -8,7 +8,7 @@
 import Foundation
 import pokemon_tcg_sdk_swift
 
-enum CardType {
+enum SuperCardType {
     // these types probably should be core data entities though...
     // use struct for outlining.
     case pokemon(data: PokemonCardData)
@@ -28,10 +28,12 @@ class Card: ObservableObject {
     let setCode: String
     /// Card number within its set.
     let setNumber: String
+    /// Card name.
+    let name: String?
     /// URLs to image paths.
     let imagePaths: CardImageUrl
-    /// Pokédex numbers (Pokémon only, to be migrated to `PokemonCardData`)
-    var dex: [Int]?
+    /// Holds card type and type-specific data. Will become `let` constant on full implementation.
+    var superCardType: SuperCardType?
     /// Blob data for card's small image. Unused, might be deprecated.
     lazy var imageDataSmall: Data? = {
         nil
@@ -60,8 +62,16 @@ class Card: ObservableObject {
         setCode = source.set.id
         setNumber = source.number
         imagePaths = CardImageUrl(pathObject: source.images)
+        name = source.name
         collection = nil
-        dex = source.nationalPokedexNumbers
+        switch source.supertype {
+        case "Pokémon": superCardType = .pokemon(data: PokemonCardData(from: source))
+        case "Trainer": superCardType = .trainer(data: TrainerCardData())
+        case "Energy": superCardType = .energy(data: EnergyCardData())
+        default:
+            print("No supertype found for string \(source.supertype)")
+            superCardType = nil
+        }
     }
     /// Creates a Card instance from a stored Core Data CollectionTracker record.
     /// Note: this method will fail if the provided record contains null `id` or `set` properties and/or
@@ -84,8 +94,9 @@ class Card: ObservableObject {
         let smallUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber).png")
         let largeUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber)_hires.png")
         imagePaths = CardImageUrl(small: smallUrl, large: largeUrl)
+        name = nil
         collection = source.toNativeForm
-        dex = nil
+        superCardType = nil
     }
     /// Adds/remove card to favorites list
     /// - Parameter target: add to (true) or remove from (false) favorites list.
@@ -130,6 +141,15 @@ class Card: ObservableObject {
             // ~= is contains
             guard 0...999 ~= newCount else {return}
             self.setNumberOwned(newCount)
+        }
+    }
+    /// Checks if this card features the Pokémon with the specified National Pokédex number.
+    /// - Parameter dex: the Pokédex number.
+    /// - Returns: true if a Pokémon card and includes the specified Pokémon.
+    func isOfPokedex(_ dex: Int) -> Bool {
+        switch self.superCardType {
+        case .pokemon(data: let data): return data.dex?.contains(dex) ?? false
+        default: return false
         }
     }
 }

@@ -83,6 +83,7 @@ extension [SetFromJson] {
     }
 }
 
+/// Auto-decooded struct from API response
 struct CardFromJson: Codable {
     let id: String
     let set: SetFromJson
