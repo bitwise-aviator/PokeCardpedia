@@ -131,6 +131,7 @@ struct DexSubMenuView: View {
     }
 }
 
+/// Stores main UI view.
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.scenePhase) var scenePhase
