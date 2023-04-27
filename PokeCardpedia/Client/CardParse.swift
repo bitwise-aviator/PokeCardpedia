@@ -87,11 +87,14 @@ extension [SetFromJson] {
 struct CardFromJson: Codable {
     let id: String
     let set: SetFromJson
-    let name: String
     let number: String
+    let name: String
+    let rarity: String?
     let supertype: String
     let types: [String]?
     let subtypes: [String]?
+    // Disabling swiftlint check below, struct properties must match JSON keys.
+    let hp: String? // swiftlint:disable:this identifier_name
     let images: CardImagePath
     let nationalPokedexNumbers: [Int]?
     var sortId: String {

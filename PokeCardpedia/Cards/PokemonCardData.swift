@@ -11,12 +11,28 @@ import Foundation
 struct PokemonCardData {
     /// National Pokédex number(s)
     let dex: [Int]?
-    
+    /// Pokémon types (elements)
+    let types: [Element]?
+    /// Subtypes (Basic, Stage 1, Stage 2)
+    let subtypes: [String]?
+    /// Hit points
+    let hitPoints: Int?
     init(from source: CardFromJson) {
         dex = source.nationalPokedexNumbers
+        types = source.types?.compactMap({value in
+            guard let result = Element(rawValue: value.lowercased()) else {
+                print("Could not match element \(value) to enum.")
+                return nil
+            }
+            return result
+        })
+        subtypes = source.subtypes
+        hitPoints = Int(source.hp ?? "")
     }
-    
     init(dex: [Int]?) {
         self.dex = dex
+        types = nil
+        subtypes = nil
+        hitPoints = nil
     }
 }

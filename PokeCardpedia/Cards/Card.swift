@@ -29,7 +29,9 @@ class Card: ObservableObject {
     /// Card number within its set.
     let setNumber: String
     /// Card name.
-    let name: String?
+    @Published var name: String?
+    /// Card rarity.
+    @Published var rarity: String?
     /// URLs to image paths.
     let imagePaths: CardImageUrl
     /// Holds card type and type-specific data. Will become `let` constant on full implementation.
@@ -63,10 +65,12 @@ class Card: ObservableObject {
         setNumber = source.number
         imagePaths = CardImageUrl(pathObject: source.images)
         name = source.name
+        rarity = source.rarity
         collection = nil
         switch source.supertype {
-        case "Pokémon": superCardType = .pokemon(data: PokemonCardData(from: source))
-        case "Trainer": superCardType = .trainer(data: TrainerCardData())
+        case "Pokémon":
+            superCardType = .pokemon(data: PokemonCardData(from: source))
+        case "Trainer": superCardType = .trainer(data: TrainerCardData(from: source))
         case "Energy": superCardType = .energy(data: EnergyCardData())
         default:
             print("No supertype found for string \(source.supertype)")
@@ -94,9 +98,37 @@ class Card: ObservableObject {
         let smallUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber).png")
         let largeUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber)_hires.png")
         imagePaths = CardImageUrl(small: smallUrl, large: largeUrl)
-        name = nil
+        name = source.name
+        rarity = source.rarity
         collection = source.toNativeForm
         superCardType = nil
+    }
+    /// Retrieves remaining data from server to complete its Core Data record.
+    /// Always run this after creating cards from Core Data records, then persist the data into Core Data.
+    /// If data is not persisted, it will trigger a lot of unnecessary API calls and possibly cause server rejection.
+    func completeData() async {
+        // Add more parameters as complexity expands.
+        guard name == nil || rarity == nil else { return }
+        print("Requesting additional data for id: \(id)")
+        guard let cardResponse = await ApiClient.client.getById(id: id) else {
+            print("Did not receive a API response for id: \(id)")
+            return
+        }
+        guard let completingData = parseCardsFromJson(data: cardResponse),
+              completingData.count == 1 else {
+            print("Could not parse a unique record for id: \(id)")
+            return
+        }
+        if let tempCard = completingData.first?.toCardObject() {
+            merge(from: tempCard)
+            let success = true // await PersistenceController.shared.completeCard(self)
+            if success {
+                print("Merged data for id: \(self.id)")
+            } else {
+                print("Could not merge data for id: \(self.id)")
+            }
+        }
+        
     }
     /// Adds/remove card to favorites list
     /// - Parameter target: add to (true) or remove from (false) favorites list.
@@ -150,6 +182,13 @@ class Card: ObservableObject {
         switch self.superCardType {
         case .pokemon(data: let data): return data.dex?.contains(dex) ?? false
         default: return false
+        }
+    }
+    
+    func merge(from source: Card) {
+        DispatchQueue.main.async {
+            self.name = self.name ?? source.name
+            self.rarity = self.rarity ?? source.rarity
         }
     }
 }

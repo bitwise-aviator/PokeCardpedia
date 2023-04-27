@@ -55,18 +55,24 @@ struct CardThumbnail: View {
                 }.offset(x: -5, y: 5)
             }
             if Core.core.viewMode == .set {
-                Text("\(card.setNumber)").font(.footnote).padding(.horizontal, 5)
+                Label {
+                    Text("\(card.setNumber)").font(.footnote).padding(.trailing, 5)
+                } icon: {
+                    RarityImage(rarity: card.rarity)
+                }
             } else {
                 Label {
                     Text("\(card.setNumber)").font(.footnote).padding(.trailing, 5)
-                } icon: { AsyncImage(url: card.setIconUrl) { image in
-                        image.resizable().scaledToFit().frame(width: 10, height: 10)
-                    } placeholder: {
-                        Image(systemName: "questionmark.app.fill")
-                            .resizable().scaledToFit().frame(width: 10, height: 10)
+                } icon: {
+                    HStack {
+                        SetIconImage(url: card.setIconUrl)
+                        RarityImage(rarity: card.rarity)
                     }
                 }
             }
+        }.task(priority: .userInitiated) {
+            // Use this to get extra info about the card when this view first appears.
+            await card.completeData()
         }
     }
 }

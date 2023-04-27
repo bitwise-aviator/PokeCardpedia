@@ -39,7 +39,11 @@ extension CollectionTracker {
 struct PersistenceController {
     static let shared = PersistenceController()
     static let context = shared.container.viewContext
-
+    static let privateContext: NSManagedObjectContext = {
+        let priv = PersistenceController.shared.container.newBackgroundContext()
+        return priv
+    }()
+    
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
@@ -123,7 +127,28 @@ struct PersistenceController {
         })
     }
      */
-    func patchCard(_ card: some Card, with newData: CardCollectionData) -> Bool {
+    func completeCard(_ card: Card, isConcurrent: Bool = true) async -> Bool {
+        PersistenceController.privateContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        let cardCollectionItem = CollectionTracker(context: PersistenceController.privateContext)
+        cardCollectionItem.id = card.id
+        cardCollectionItem.set = card.setCode
+        cardCollectionItem.amount = card.collection?.amount ?? 0
+        cardCollectionItem.favorite = card.collection?.favorite ?? false
+        cardCollectionItem.wantIt = card.collection?.wantIt ?? false
+        cardCollectionItem.name = card.name
+        cardCollectionItem.rarity = card.rarity
+        print(cardCollectionItem)
+        return await PersistenceController.privateContext.perform {
+            do {
+                try PersistenceController.privateContext.save()
+                return true
+            } catch {
+                print(error)
+                return false
+            }
+        }
+    }
+    func patchCard(_ card: Card, with newData: CardCollectionData) -> Bool {
         PersistenceController.shared.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         let cardCollectionItem = CollectionTracker(context: PersistenceController.shared.container.viewContext)
         cardCollectionItem.id = card.id
@@ -131,6 +156,8 @@ struct PersistenceController {
         cardCollectionItem.amount = newData.amount
         cardCollectionItem.favorite = newData.favorite
         cardCollectionItem.wantIt = newData.wantIt
+        cardCollectionItem.name = card.name
+        cardCollectionItem.rarity = card.rarity
         do {
             try PersistenceController.shared.container.viewContext.save()
             return true

@@ -143,8 +143,10 @@ class Core: ObservableObject {
                 if let parsedCards = parseCardsFromJson(data: data) {
                     parsedCards.forEach { elem in
                         // Skip loaded data
-                        guard loadedData[elem.sortId] == nil && loadedData[elem.sortId]?.collection == nil && loadedData[elem.sortId]?.superCardType == nil else {
-                            var pokedexData = PokemonCardData(dex: elem.nationalPokedexNumbers)
+                        guard loadedData[elem.sortId] == nil
+                                && loadedData[elem.sortId]?.collection == nil
+                                && loadedData[elem.sortId]?.superCardType == nil else {
+                            let pokedexData = PokemonCardData(dex: elem.nationalPokedexNumbers)
                             loadedData[elem.sortId]!.superCardType = .pokemon(data: pokedexData)
                             return
                         }
@@ -187,6 +189,9 @@ class Core: ObservableObject {
                 for key in Array(fetched.keys) {
                     if let item = fetched[key], let newCard = Card(from: item), loadedData[newCard.sortId] == nil {
                         loadedData[newCard.sortId] = newCard
+                        /*Task(priority: .userInitiated) {
+                            await newCard.completeData()
+                        }*/
                      }
                 }
             }
