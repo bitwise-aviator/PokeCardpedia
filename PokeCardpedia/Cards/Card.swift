@@ -71,7 +71,7 @@ class Card: ObservableObject {
         case "Pokémon":
             superCardType = .pokemon(data: PokemonCardData(from: source))
         case "Trainer": superCardType = .trainer(data: TrainerCardData(from: source))
-        case "Energy": superCardType = .energy(data: EnergyCardData())
+        case "Energy": superCardType = .energy(data: EnergyCardData(from: source))
         default:
             print("No supertype found for string \(source.supertype)")
             superCardType = nil
@@ -124,11 +124,10 @@ class Card: ObservableObject {
             let success = true // await PersistenceController.shared.completeCard(self)
             if success {
                 print("Merged data for id: \(self.id)")
-            } else {
+            } /*else {
                 print("Could not merge data for id: \(self.id)")
-            }
+            }*/
         }
-        
     }
     /// Adds/remove card to favorites list
     /// - Parameter target: add to (true) or remove from (false) favorites list.
@@ -184,7 +183,6 @@ class Card: ObservableObject {
         default: return false
         }
     }
-    
     func merge(from source: Card) {
         DispatchQueue.main.async {
             self.name = self.name ?? source.name

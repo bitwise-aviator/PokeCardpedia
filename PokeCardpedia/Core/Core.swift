@@ -60,19 +60,19 @@ class Core: ObservableObject {
             // 1) Get JSON response from API (include image URLs, not image data).
             // Simultaneously, fire a FetchRequest for cards in the same set.
             enum DataResult {
-                case cardData(Data?)
+                case cardData([Data]?)
                 case collectionData([String: CollectionTracker]?)
             }
             let result = await withTaskGroup(of: DataResult.self) { group -> (
-                cardData: Data?, collectionData: [String: CollectionTracker]?) in
+                cardData: [Data]?, collectionData: [String: CollectionTracker]?) in
                 group.addTask {
-                    return await .cardData(ApiClient.client.getBySetId(id: set))
+                    return await .cardData(ApiClient.client.getBySetId(id: set, recursive: true))
                 }
                 group.addTask {
                     let fetched = PersistenceController.shared.fetchCards([.bySet(id: set)])
                     return .collectionData(fetched?.toDict())
                 }
-                var cardData: Data?
+                var cardData: [Data]?
                 var collectionData: [String: CollectionTracker]?
                 for await value in group {
                     switch value {

@@ -18,4 +18,5 @@ enum Element: String {
     case darkness
     case metal
     case dragon
+    case fairy
 }

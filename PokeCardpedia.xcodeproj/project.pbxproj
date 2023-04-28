@@ -58,6 +58,7 @@
 		DCD6E03229F9D7AA000904DF /* TrainerSubtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03129F9D7AA000904DF /* TrainerSubtype.swift */; };
 		DCD6E03429F9E056000904DF /* SetIconImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03329F9E056000904DF /* SetIconImage.swift */; };
 		DCD6E03629F9E1A1000904DF /* RarityImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03529F9E1A1000904DF /* RarityImage.swift */; };
+		DCD6E03829FAA69A000904DF /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03729FAA69A000904DF /* Deck.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,7 @@
 		DCD6E03129F9D7AA000904DF /* TrainerSubtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainerSubtype.swift; sourceTree = "<group>"; };
 		DCD6E03329F9E056000904DF /* SetIconImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetIconImage.swift; sourceTree = "<group>"; };
 		DCD6E03529F9E1A1000904DF /* RarityImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RarityImage.swift; sourceTree = "<group>"; };
+		DCD6E03729FAA69A000904DF /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,6 +286,7 @@
 				DC679B5229EC60C300668E0D /* Images */,
 				DC679B4A29E8D4B900668E0D /* CoreSettings.swift */,
 				DC10EF0229F5924A00168736 /* DateHandler.swift */,
+				DCD6E03929FAA6A1000904DF /* DeckManagement */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -319,6 +322,14 @@
 				DC10EEF229F4842C00168736 /* MenuThumbnailImage.swift */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		DCD6E03929FAA6A1000904DF /* DeckManagement */ = {
+			isa = PBXGroup;
+			children = (
+				DCD6E03729FAA69A000904DF /* Deck.swift */,
+			);
+			path = DeckManagement;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -500,6 +511,7 @@
 				DC660CD329BD098700610965 /* Persistence.swift in Sources */,
 				DC10EF0329F5924A00168736 /* DateHandler.swift in Sources */,
 				DC10EEEF29F47EC400168736 /* CardThumbnailImage.swift in Sources */,
+				DCD6E03829FAA69A000904DF /* Deck.swift in Sources */,
 				DC660D3F29BEC8E200610965 /* PokemonCardData.swift in Sources */,
 				DC660CCC29BD098600610965 /* ContentView.swift in Sources */,
 				DC679B3729E4C34C00668E0D /* CardThumbnail.swift in Sources */,

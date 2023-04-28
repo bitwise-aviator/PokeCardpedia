@@ -150,16 +150,6 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
-    /*private func testData() async {
-        let data = await ApiClient.client.getBySetId(id: "bwp")
-        //let data = await ApiClient.client.getById(id: "g1-72"/*"bwp-BW94"*/)
-        //let data = await ApiClient.client.getSetById()
-        
-        if let data {
-            //imageUrls = parseCardsFromJson(data: data)
-            imageUrls = parseCardsFromJson(data: data)
-        }
-    }*/
     let multiLineLayout = [GridItem(.adaptive(minimum: 150))]
     let singleLineLayout = [GridItem(.fixed(150))]
     var userNamePossessive: String {
@@ -215,7 +205,6 @@ struct ContentView: View {
                     VStack {
                         Button(action: {
                             imageDetailShown = false
-                            activeImage = ""
                         }, label: {
                             Text("Go back")
                         })
@@ -246,6 +235,10 @@ struct ContentView: View {
                             }.onChange(of: activeImage, perform: { newValue in
                                 scroller.scrollTo(newValue)
                             })
+                            .onAppear {
+                                scroller.scrollTo(activeImage, anchor: .center)
+                                activeImage = ""
+                            }
                         }
                     }
                     HStack {

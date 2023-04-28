@@ -205,3 +205,14 @@ func parseCardsFromJson(data: Data) -> [CardFromJson]? {
         return nil
     }
 }
+
+func parseCardsFromJson(data: [Data]) -> [CardFromJson]? {
+    let decoder = JSONDecoder()
+    var results = [CardFromJson]()
+    // print(data.prettyPrintedJSONString ?? "")
+    for item in data {
+        guard let parsed = parseCardsFromJson(data: item) else {return nil}
+        results += parsed
+    }
+    return results
+}

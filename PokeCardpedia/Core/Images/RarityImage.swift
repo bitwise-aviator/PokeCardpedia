@@ -22,7 +22,15 @@ struct RarityImage: View {
         case "rare": Image(systemName: "star.fill").resizable().scaledToFit().frame(width: 10, height: 10)
         case "promo": HStack {
             Image(systemName: "star.fill").resizable().scaledToFit().frame(width: 10, height: 10)
-            Text("P").fontWeight(.bold)
+            Text("P").fontWeight(.bold).scaledToFit().frame(width: 10, height: 10)
+        }
+        case "rare secret": HStack {
+            Image(systemName: "star.fill").resizable().scaledToFit().frame(width: 10, height: 10)
+            Text("S").fontWeight(.bold).scaledToFit().frame(width: 10, height: 10)
+        }
+        case "rare holo": HStack {
+            Image(systemName: "star.fill").resizable().scaledToFit().frame(width: 10, height: 10)
+            Text("H").fontWeight(.bold).scaledToFit().frame(width: 10, height: 10)
         }
         case nil: Image(systemName: "questionmark.app").resizable().scaledToFit().frame(width: 10, height: 10)
         default: Image(systemName: "star").resizable().scaledToFit().frame(width: 10, height: 10)
