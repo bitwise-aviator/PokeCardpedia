@@ -5,6 +5,8 @@
 
 This all started as a tool to help me sort my thousands of cards, but has evolved into a digital twin of my physical collection. This still is a work in progress, with a target for weekly commits.
 
+This is a fan-made app for fellow Pokémon and Pokémon TCG fans to further enjoy the game, have fun tracking their collection virtually, and appraise their collection's value. **The developers are in no way affiliated with Nintendo, The Pokémon Company, Creatures, or GAME FREAK. Pokémon and the Pokémon TCG are the copyrighted property of these entities.**
+
 ## Sources used
 
 This is a working list of the APIs and other data sources used in building this app.
