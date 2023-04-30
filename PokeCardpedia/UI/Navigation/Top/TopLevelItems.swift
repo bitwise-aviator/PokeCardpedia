@@ -11,6 +11,12 @@ enum ImageType {
     case url, icon, asset
 }
 
+/// Geographical Pokémon regions.
+enum Region {
+    case kanto, johto, hoenn, sinnoh, unova, kalos, alola, galar, paldea
+}
+
+
 struct TopLevelMenuItem: Identifiable, Hashable {
     var id: String
     var name: String

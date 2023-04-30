@@ -20,11 +20,6 @@ prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
     )
 }
 
-/// Geographical Pokémon regions.
-enum Region {
-    case kanto, johto, hoenn, sinnoh, unova, kalos, alola, galar, paldea
-}
-
 enum Filter {
     case owned
     case favorite
