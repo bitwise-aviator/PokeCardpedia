@@ -10,6 +10,7 @@ import Foundation
 enum EnergySubtype: String {
     case basic
     case special
+    case teamPlasma = "team plasma"
 }
 
 /// Stores data specific to Energy cards. To be only used inside a `SuperCardType.energy` enum instance.

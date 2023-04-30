@@ -23,7 +23,7 @@
 		DC10EF0329F5924A00168736 /* DateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC10EF0229F5924A00168736 /* DateHandler.swift */; };
 		DC10EF0529F59AB900168736 /* SetButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC10EF0429F59AB900168736 /* SetButtonView.swift */; };
 		DC660CCA29BD098600610965 /* PokeCardpediaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CC929BD098600610965 /* PokeCardpediaApp.swift */; };
-		DC660CCC29BD098600610965 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CCB29BD098600610965 /* ContentView.swift */; };
+		DC660CCC29BD098600610965 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CCB29BD098600610965 /* MainView.swift */; };
 		DC660CCE29BD098700610965 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC660CCD29BD098700610965 /* Assets.xcassets */; };
 		DC660CD129BD098700610965 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC660CD029BD098700610965 /* Preview Assets.xcassets */; };
 		DC660CD329BD098700610965 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC660CD229BD098700610965 /* Persistence.swift */; };
@@ -59,6 +59,12 @@
 		DCD6E03429F9E056000904DF /* SetIconImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03329F9E056000904DF /* SetIconImage.swift */; };
 		DCD6E03629F9E1A1000904DF /* RarityImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03529F9E1A1000904DF /* RarityImage.swift */; };
 		DCD6E03829FAA69A000904DF /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03729FAA69A000904DF /* Deck.swift */; };
+		DCD6E03B29FDF3ED000904DF /* DeckMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03A29FDF3ED000904DF /* DeckMenuItemView.swift */; };
+		DCD6E03D29FDF4EB000904DF /* DeckButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03C29FDF4EB000904DF /* DeckButtonView.swift */; };
+		DCD6E04529FDF81C000904DF /* TopLevelListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E04429FDF81C000904DF /* TopLevelListView.swift */; };
+		DCD6E04929FDF8B8000904DF /* DeckSubMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E04829FDF8B8000904DF /* DeckSubMenuView.swift */; };
+		DCD6E04C29FDF914000904DF /* DexSubMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E04B29FDF914000904DF /* DexSubMenuView.swift */; };
+		DCD6E04F29FDF94C000904DF /* SetSubMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E04E29FDF94C000904DF /* SetSubMenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,7 +95,7 @@
 		DC10EF0429F59AB900168736 /* SetButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetButtonView.swift; sourceTree = "<group>"; };
 		DC660CC629BD098600610965 /* PokeCardpedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokeCardpedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC660CC929BD098600610965 /* PokeCardpediaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeCardpediaApp.swift; sourceTree = "<group>"; };
-		DC660CCB29BD098600610965 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DC660CCB29BD098600610965 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		DC660CCD29BD098700610965 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DC660CD029BD098700610965 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DC660CD229BD098700610965 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -125,6 +131,12 @@
 		DCD6E03329F9E056000904DF /* SetIconImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetIconImage.swift; sourceTree = "<group>"; };
 		DCD6E03529F9E1A1000904DF /* RarityImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RarityImage.swift; sourceTree = "<group>"; };
 		DCD6E03729FAA69A000904DF /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
+		DCD6E03A29FDF3ED000904DF /* DeckMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckMenuItemView.swift; sourceTree = "<group>"; };
+		DCD6E03C29FDF4EB000904DF /* DeckButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckButtonView.swift; sourceTree = "<group>"; };
+		DCD6E04429FDF81C000904DF /* TopLevelListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLevelListView.swift; sourceTree = "<group>"; };
+		DCD6E04829FDF8B8000904DF /* DeckSubMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckSubMenuView.swift; sourceTree = "<group>"; };
+		DCD6E04B29FDF914000904DF /* DexSubMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DexSubMenuView.swift; sourceTree = "<group>"; };
+		DCD6E04E29FDF94C000904DF /* SetSubMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSubMenuView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,16 +210,7 @@
 				DC660CC929BD098600610965 /* PokeCardpediaApp.swift */,
 				DC679B3F29E8CB8400668E0D /* Core */,
 				DC679B3129E3182600668E0D /* Settings.bundle */,
-				DC660D4E29BFFA9700610965 /* Client */,
-				DC660D3729BEC5DD00610965 /* Cards */,
-				DC660CCB29BD098600610965 /* ContentView.swift */,
-				DC679B4029E8CBDF00668E0D /* NavItems */,
-				DC679B3A29E4C95E00668E0D /* Sprites.swift */,
-				DC679B4529E8D10000668E0D /* ViewModels */,
-				DC679B3829E4C5A300668E0D /* TopLevelItems.swift */,
-				DC679B3629E4C34C00668E0D /* CardThumbnail.swift */,
-				DC660D5529C3EF9900610965 /* CardDetailView.swift */,
-				DCA0E35229E1E2D400E54F9B /* PagerView.swift */,
+				DCD6E03E29FDF575000904DF /* UI */,
 				DC660CCD29BD098700610965 /* Assets.xcassets */,
 				DC660CD229BD098700610965 /* Persistence.swift */,
 				DC660CD429BD098700610965 /* PokeCardpedia.xcdatamodeld */,
@@ -281,47 +284,15 @@
 		DC679B3F29E8CB8400668E0D /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				DC660D4E29BFFA9700610965 /* Client */,
+				DC660D3729BEC5DD00610965 /* Cards */,
 				DC660D5329C2BC5500610965 /* Core.swift */,
 				DC10EEF029F4814A00168736 /* Padlock.swift */,
-				DC679B5229EC60C300668E0D /* Images */,
 				DC679B4A29E8D4B900668E0D /* CoreSettings.swift */,
 				DC10EF0229F5924A00168736 /* DateHandler.swift */,
 				DCD6E03929FAA6A1000904DF /* DeckManagement */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		DC679B4029E8CBDF00668E0D /* NavItems */ = {
-			isa = PBXGroup;
-			children = (
-				DC679B4129E8CC1200668E0D /* CollectionLockView.swift */,
-				DC679B4329E8D03700668E0D /* UsernameView.swift */,
-				DC679B4829E8D3D500668E0D /* CollectionMenuItemView.swift */,
-				DC679B4E29E8D77A00668E0D /* CollectionSubMenuView.swift */,
-				DC679B4C29E8D6E900668E0D /* SetMenuItemView.swift */,
-				DC10EF0429F59AB900168736 /* SetButtonView.swift */,
-				DC679B5029E8D82100668E0D /* BackButtonView.swift */,
-			);
-			path = NavItems;
-			sourceTree = "<group>";
-		};
-		DC679B4529E8D10000668E0D /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		DC679B5229EC60C300668E0D /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				DC10EEEE29F47EC400168736 /* CardThumbnailImage.swift */,
-				DCD6E03329F9E056000904DF /* SetIconImage.swift */,
-				DCD6E03529F9E1A1000904DF /* RarityImage.swift */,
-				DC10EEF429F485D700168736 /* CardLargeImage.swift */,
-				DC10EEF229F4842C00168736 /* MenuThumbnailImage.swift */,
-			);
-			path = Images;
 			sourceTree = "<group>";
 		};
 		DCD6E03929FAA6A1000904DF /* DeckManagement */ = {
@@ -330,6 +301,117 @@
 				DCD6E03729FAA69A000904DF /* Deck.swift */,
 			);
 			path = DeckManagement;
+			sourceTree = "<group>";
+		};
+		DCD6E03E29FDF575000904DF /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				DCD6E04029FDF68A000904DF /* Display */,
+				DC660CCB29BD098600610965 /* MainView.swift */,
+				DCD6E03F29FDF67A000904DF /* Navigation */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		DCD6E03F29FDF67A000904DF /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				DC679B5029E8D82100668E0D /* BackButtonView.swift */,
+				DCD6E04729FDF87B000904DF /* Top */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		DCD6E04029FDF68A000904DF /* Display */ = {
+			isa = PBXGroup;
+			children = (
+				DCD6E04229FDF71A000904DF /* Icons */,
+				DCD6E04129FDF6B0000904DF /* Thumbnails */,
+				DCD6E04329FDF797000904DF /* BigPicture */,
+			);
+			path = Display;
+			sourceTree = "<group>";
+		};
+		DCD6E04129FDF6B0000904DF /* Thumbnails */ = {
+			isa = PBXGroup;
+			children = (
+				DC10EEEE29F47EC400168736 /* CardThumbnailImage.swift */,
+				DC679B3629E4C34C00668E0D /* CardThumbnail.swift */,
+			);
+			path = Thumbnails;
+			sourceTree = "<group>";
+		};
+		DCD6E04229FDF71A000904DF /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				DC679B3A29E4C95E00668E0D /* Sprites.swift */,
+				DCD6E03329F9E056000904DF /* SetIconImage.swift */,
+				DCD6E03529F9E1A1000904DF /* RarityImage.swift */,
+				DC10EEF229F4842C00168736 /* MenuThumbnailImage.swift */,
+			);
+			path = Icons;
+			sourceTree = "<group>";
+		};
+		DCD6E04329FDF797000904DF /* BigPicture */ = {
+			isa = PBXGroup;
+			children = (
+				DCA0E35229E1E2D400E54F9B /* PagerView.swift */,
+				DC660D5529C3EF9900610965 /* CardDetailView.swift */,
+				DC10EEF429F485D700168736 /* CardLargeImage.swift */,
+			);
+			path = BigPicture;
+			sourceTree = "<group>";
+		};
+		DCD6E04629FDF862000904DF /* Deck */ = {
+			isa = PBXGroup;
+			children = (
+				DCD6E04829FDF8B8000904DF /* DeckSubMenuView.swift */,
+				DCD6E03C29FDF4EB000904DF /* DeckButtonView.swift */,
+			);
+			path = Deck;
+			sourceTree = "<group>";
+		};
+		DCD6E04729FDF87B000904DF /* Top */ = {
+			isa = PBXGroup;
+			children = (
+				DC679B3829E4C5A300668E0D /* TopLevelItems.swift */,
+				DCD6E04429FDF81C000904DF /* TopLevelListView.swift */,
+				DC679B4329E8D03700668E0D /* UsernameView.swift */,
+				DC679B4129E8CC1200668E0D /* CollectionLockView.swift */,
+				DC679B4829E8D3D500668E0D /* CollectionMenuItemView.swift */,
+				DC679B4C29E8D6E900668E0D /* SetMenuItemView.swift */,
+				DCD6E03A29FDF3ED000904DF /* DeckMenuItemView.swift */,
+				DCD6E05029FDF9BD000904DF /* Collection */,
+				DCD6E04D29FDF944000904DF /* Set */,
+				DCD6E04A29FDF90A000904DF /* Dex */,
+				DCD6E04629FDF862000904DF /* Deck */,
+			);
+			path = Top;
+			sourceTree = "<group>";
+		};
+		DCD6E04A29FDF90A000904DF /* Dex */ = {
+			isa = PBXGroup;
+			children = (
+				DCD6E04B29FDF914000904DF /* DexSubMenuView.swift */,
+			);
+			path = Dex;
+			sourceTree = "<group>";
+		};
+		DCD6E04D29FDF944000904DF /* Set */ = {
+			isa = PBXGroup;
+			children = (
+				DCD6E04E29FDF94C000904DF /* SetSubMenuView.swift */,
+				DC10EF0429F59AB900168736 /* SetButtonView.swift */,
+			);
+			path = Set;
+			sourceTree = "<group>";
+		};
+		DCD6E05029FDF9BD000904DF /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				DC679B4E29E8D77A00668E0D /* CollectionSubMenuView.swift */,
+			);
+			path = Collection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -513,7 +595,9 @@
 				DC10EEEF29F47EC400168736 /* CardThumbnailImage.swift in Sources */,
 				DCD6E03829FAA69A000904DF /* Deck.swift in Sources */,
 				DC660D3F29BEC8E200610965 /* PokemonCardData.swift in Sources */,
-				DC660CCC29BD098600610965 /* ContentView.swift in Sources */,
+				DCD6E04529FDF81C000904DF /* TopLevelListView.swift in Sources */,
+				DCD6E04F29FDF94C000904DF /* SetSubMenuView.swift in Sources */,
+				DC660CCC29BD098600610965 /* MainView.swift in Sources */,
 				DC679B3729E4C34C00668E0D /* CardThumbnail.swift in Sources */,
 				DC679B5129E8D82100668E0D /* BackButtonView.swift in Sources */,
 				DC679B4929E8D3D500668E0D /* CollectionMenuItemView.swift in Sources */,
@@ -521,12 +605,15 @@
 				DC660CD629BD098700610965 /* PokeCardpedia.xcdatamodeld in Sources */,
 				DC679B3929E4C5A300668E0D /* TopLevelItems.swift in Sources */,
 				DC660D3D29BEC8C500610965 /* TrainerCardData.swift in Sources */,
+				DCD6E04C29FDF914000904DF /* DexSubMenuView.swift in Sources */,
 				DC679B4D29E8D6E900668E0D /* SetMenuItemView.swift in Sources */,
 				DCD6E03229F9D7AA000904DF /* TrainerSubtype.swift in Sources */,
 				DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */,
+				DCD6E03D29FDF4EB000904DF /* DeckButtonView.swift in Sources */,
 				DC660D5429C2BC5500610965 /* Core.swift in Sources */,
 				DC660CCA29BD098600610965 /* PokeCardpediaApp.swift in Sources */,
 				DC10EEFE29F4966000168736 /* PokemonNameset.swift in Sources */,
+				DCD6E03B29FDF3ED000904DF /* DeckMenuItemView.swift in Sources */,
 				DC679B4229E8CC1200668E0D /* CollectionLockView.swift in Sources */,
 				DC679B3B29E4C95E00668E0D /* Sprites.swift in Sources */,
 				DC679B4429E8D03700668E0D /* UsernameView.swift in Sources */,
@@ -538,6 +625,7 @@
 				DC660D5029BFFAD100610965 /* CardParse.swift in Sources */,
 				DC10EEF329F4842C00168736 /* MenuThumbnailImage.swift in Sources */,
 				DC10EF0529F59AB900168736 /* SetButtonView.swift in Sources */,
+				DCD6E04929FDF8B8000904DF /* DeckSubMenuView.swift in Sources */,
 				DCD6E03029F9D195000904DF /* Element.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

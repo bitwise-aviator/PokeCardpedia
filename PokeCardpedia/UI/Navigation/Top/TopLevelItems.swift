@@ -39,6 +39,9 @@ struct TopLevelItems {
     static var myCollection: [TopLevelMenuItem] = [
         TopLevelMenuItem(id: "collection", name: "Collection", imageType: .asset, imagePath: "CardBack")
     ]
+    static var myDecks: [TopLevelMenuItem] = [
+        TopLevelMenuItem(id: "decks", name: "Decks", imageType: .asset, imagePath: "CardBack")
+    ]
     static var sets: [TopLevelMenuItem] = [
         TopLevelMenuItem(id: "sets", name: "Sets", imageType: .asset, imagePath: "CardBack")
     ]

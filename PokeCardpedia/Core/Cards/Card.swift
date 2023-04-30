@@ -55,6 +55,8 @@ class Card: ObservableObject {
     var setIconUrl: URL? {
         return URL(string: "https://images.pokemontcg.io/\(setCode)/symbol.png")
     }
+    /// Reference to core.
+    let core = Core.core
     /// Tracks card ownership & wishlisting.
     @Published var collection: CardCollectionData?
     /// Creates a Card instance from a JSON API response.
@@ -102,6 +104,9 @@ class Card: ObservableObject {
         rarity = source.rarity
         collection = source.toNativeForm
         superCardType = nil
+    }
+    func isComplete() -> Bool {
+        return name != nil && rarity != nil && superCardType != nil
     }
     /// Retrieves remaining data from server to complete its Core Data record.
     /// Always run this after creating cards from Core Data records, then persist the data into Core Data.
@@ -154,7 +159,7 @@ class Card: ObservableObject {
     }
     /// Alters card count in user's collection.
     /// - Parameter target: new number of cards owned. Must be non-negative.
-    func setNumberOwned(_ target: Int16) {
+    @MainActor func setNumberOwned(_ target: Int16) {
         if var newCollection = collection, target >= 0 {
             newCollection.amount = target
             let success = PersistenceController.shared.patchCard(self, with: newCollection)
@@ -166,7 +171,7 @@ class Card: ObservableObject {
         }
     }
     /// Shorthand method to add one copy of card to collection. Currently unused, might be deprecated.
-    func addOne() {
+    @MainActor func addOne() {
         if self.collection != nil {
             let newCount = self.collection!.amount + 1
             // ~= is contains
@@ -184,9 +189,12 @@ class Card: ObservableObject {
         }
     }
     func merge(from source: Card) {
-        DispatchQueue.main.async {
-            self.name = self.name ?? source.name
-            self.rarity = self.rarity ?? source.rarity
+        if !isComplete() {
+            DispatchQueue.main.async {
+                self.name = self.name ?? source.name
+                self.rarity = self.rarity ?? source.rarity
+                self.superCardType = self.superCardType ?? source.superCardType
+            }
         }
     }
 }

@@ -16,13 +16,19 @@ enum ViewMode: String {
     case none
 }
 
-class Core: ObservableObject {
+@MainActor class Core: ObservableObject {
     static let core = Core() // singleton
     @Published var viewMode: ViewMode?
     @Published var activeSet: SetFromJson?
     @Published var activeDex: Int?
     @Published private(set) var sets: [SetFromJson]?
     @Published private(set) var setImages: [String: Data] = [:]
+    /* To avoid encountered errors with save requests for persistent storage
+     and to keep the main thread free, saves will be done on the main thread
+     only when this queue is vacated. */
+    /// Stores sets in the loading queue.
+    private var loadingSets = Set<String>()
+    /// Stores sets that have been successfully loaded.
     private var loadedSets = Set<String>()
     private var loadedDexs = Set<Int>()
     private var loadedData: [String: Card] = [:]
@@ -56,9 +62,11 @@ class Core: ObservableObject {
         (activeOwned, activeUniqueOwned) = (owned, unique)
     }
     func getCardsBySet(set: String) async {
-        if !loadedSets.contains(set) {
+        if !loadedSets.contains(set) && !loadingSets.contains(set) {
+            loadingSets.insert(set) // Moving this line here to avoid unnecessary duplicate requests.
             // 1) Get JSON response from API (include image URLs, not image data).
             // Simultaneously, fire a FetchRequest for cards in the same set.
+            print("Added set \(set) to loading queue. Queue length: \(loadingSets.count)")
             enum DataResult {
                 case cardData([Data]?)
                 case collectionData([String: CollectionTracker]?)
@@ -84,31 +92,51 @@ class Core: ObservableObject {
                 }
                 return (cardData: cardData, collectionData: collectionData)
             }
-            // 2) Check if data is already loaded. If not, merge into.
-            if let data = result.cardData {
-                if let parsedCards = parseCardsFromJson(data: data) {
-                    parsedCards.forEach { elem in
-                        // Skip loaded data
-                        guard loadedData[elem.sortId] == nil else {return}
-                        // Skip bad data
-                        // guard let cardObject = elem.toCardObject() else {return}
-                        let cardObject = elem.toCardObject()
-                        loadedData[elem.sortId] = cardObject
-                        if let collectionRecord = result.collectionData?[elem.id] {
-                            loadedData[elem.sortId]!.collection = collectionRecord.toNativeForm
-                        } else {
-                            loadedData[elem.sortId]!.collection = PersistenceController.shared
-                                .newCardCollectionDefaults(loadedData[elem.sortId]!)?.toNativeForm
-                        }
-                    }
+            // 2) Check if data was received and is OK.
+            guard let data = result.cardData, let parsedCards = parseCardsFromJson(data: data) else {
+                loadingSets.remove(set) // Remove the lock on duplicate requests if fails.
+                print("Fetching set \(set) failed: removing from loading queue. Queue length: \(loadingSets.count)")
+                if loadingSets.isEmpty {
+                    print("Queue has been vacated")
+                    // TODO: Fire a save request here.
+                }
+                return
+            }
+            // 3) Check if data is already loaded. If not, merge into.
+            parsedCards.forEach { elem in
+                // Skip/complete loaded data.
+                guard loadedData[elem.sortId] == nil else {
+                    loadedData[elem.sortId]?.merge(from: elem.toCardObject())
+                    return
+                }
+                // Skip bad data
+                // guard let cardObject = elem.toCardObject() else {return}
+                let cardObject = elem.toCardObject()
+                loadedData[elem.sortId] = cardObject
+                if let collectionRecord = result.collectionData?[elem.id] {
+                    loadedData[elem.sortId]!.collection = collectionRecord.toNativeForm
+                } else {
+                    loadedData[elem.sortId]!.collection = PersistenceController.shared
+                        .newCardCollectionDefaults(loadedData[elem.sortId]!)?.toNativeForm
                 }
             }
+            loadedSets.insert(set)
+            loadingSets.remove(set)
+            print("Set \(set) loaded OK, transferred to loadedSets. Loading queue length: \(loadingSets.count)")
+            if loadingSets.isEmpty {
+                print("Queue has been vacated")
+                // TODO: Fire a save request here.
+            }
         }
-        // 3) Refine active view accordingly.
-        loadedSets.insert(set)
-        DispatchQueue.main.async {
-            self.activeData = self.loadedData.filter({$0.value.setCode == set})
-            self.updateActiveCounters()
+        // 4) Refine active view accordingly - but ONLY if same set is still active.
+        /* This prevents behavior where we're only trying to load sets in the background
+        or where multiple sets have been requested in a short period of time and the UI refresh
+        has not been able to follow up fast enough. */
+        if activeSet?.id == set {
+            DispatchQueue.main.async {
+                self.activeData = self.loadedData.filter({$0.value.setCode == set})
+                self.updateActiveCounters()
+            }
         }
     }
     func getCardsByPokedex(dex: Int) async {
@@ -143,11 +171,8 @@ class Core: ObservableObject {
                 if let parsedCards = parseCardsFromJson(data: data) {
                     parsedCards.forEach { elem in
                         // Skip loaded data
-                        guard loadedData[elem.sortId] == nil
-                                && loadedData[elem.sortId]?.collection == nil
-                                && loadedData[elem.sortId]?.superCardType == nil else {
-                            let pokedexData = PokemonCardData(dex: elem.nationalPokedexNumbers)
-                            loadedData[elem.sortId]!.superCardType = .pokemon(data: pokedexData)
+                        guard loadedData[elem.sortId] == nil else {
+                            loadedData[elem.sortId]?.merge(from: elem.toCardObject())
                             return
                         }
                         // Skip bad data

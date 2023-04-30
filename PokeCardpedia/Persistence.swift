@@ -43,7 +43,6 @@ struct PersistenceController {
         let priv = PersistenceController.shared.container.newBackgroundContext()
         return priv
     }()
-    
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext

@@ -12,4 +12,6 @@ enum TrainerSubtype: String {
     case item
     case supporter
     case stadium
+    case teamPlasma = "team plasma"
+    case aceSpec = "ace spec"
 }

@@ -72,7 +72,7 @@ struct CardThumbnail: View {
             }
         }.task(priority: .userInitiated) {
             // Use this to get extra info about the card when this view first appears.
-            await card.completeData()
+            await Core.core.getCardsBySet(set: card.setCode)// card.completeData()
         }
     }
 }
