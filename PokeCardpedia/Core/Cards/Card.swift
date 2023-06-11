@@ -7,6 +7,14 @@
 
 import Foundation
 import pokemon_tcg_sdk_swift
+import CoreData
+
+enum DataSource {
+    case tracker
+    case json
+    case hybrid
+    case storage
+}
 
 enum SuperCardType {
     // these types probably should be core data entities though...
@@ -14,6 +22,16 @@ enum SuperCardType {
     case pokemon(data: PokemonCardData)
     case trainer(data: TrainerCardData)
     case energy(data: EnergyCardData)
+}
+
+extension SuperCardType {
+    var typeToString: String {
+        switch self {
+        case .pokemon: return "pokemon"
+        case .trainer: return "trainer"
+        case .energy: return "energy"
+        }
+    }
 }
 
 /// Core object for a Pokémon TCG card.
@@ -30,6 +48,21 @@ class Card: ObservableObject {
     let setNumber: String
     /// Card name.
     @Published var name: String?
+    /// Card name, for deck-building purposes.
+    var legalName: String? {
+        guard let name = name else { return nil }
+        // Pokémon TCG rules say that levels (LV.X, LV.20, etc.) are not part of the
+        // card's name. For non-LV.X instances, the API already omits the level.
+        // This handles LV.X cases.
+        if name.hasSuffix("LV.X") {
+            guard let match = try? /(?<name>.+) LV.X/.firstMatch(in: name) else {
+                return name
+            }
+            return String(match.output.name)
+        } else {
+            return name
+        }
+    }
     /// Card rarity.
     @Published var rarity: String?
     /// URLs to image paths.
@@ -58,17 +91,21 @@ class Card: ObservableObject {
     /// Reference to core.
     let core = Core.core
     /// Tracks card ownership & wishlisting.
-    @Published var collection: CardCollectionData?
+    // @Published var collection: CardCollectionData?
+    var collectionId: NSManagedObjectID?
+    var persistentId: NSManagedObjectID?
+    var origin: DataSource
+    var dataVersion: String?
     /// Creates a Card instance from a JSON API response.
     /// - Parameter source: Pokémon TCG API card JSON, in struct format
     init(from source: CardFromJson) {
+        origin = .json
         id = source.id
         setCode = source.set.id
         setNumber = source.number
         imagePaths = CardImageUrl(pathObject: source.images)
         name = source.name
         rarity = source.rarity
-        collection = nil
         switch source.supertype {
         case "Pokémon":
             superCardType = .pokemon(data: PokemonCardData(from: source))
@@ -90,6 +127,7 @@ class Card: ObservableObject {
             print("Failed unwrapping... id: \(String(describing: source.id)), set: \(String(describing: source.set)) ")
             return nil
         }
+        origin = .tracker
         id = newId
         setCode = newSet
         guard let match = id.firstMatch(of: Card.setNumberFromIdRegex) else {
@@ -100,14 +138,30 @@ class Card: ObservableObject {
         let smallUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber).png")
         let largeUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber)_hires.png")
         imagePaths = CardImageUrl(small: smallUrl, large: largeUrl)
-        name = source.name
-        rarity = source.rarity
-        collection = source.toNativeForm
+        //collection = source.toNativeForm
+        collectionId = source.objectID
         superCardType = nil
     }
-    func isComplete() -> Bool {
-        return name != nil && rarity != nil && superCardType != nil
+    
+    init(from source: GeneralCardData) {
+        origin = .storage
+        dataVersion = source.dataVersion
+        id = source.id
+        setCode = source.set!
+        setNumber = source.setNumber!
+        let smallUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber).png")
+        let largeUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber)_hires.png")
+        imagePaths = CardImageUrl(small: smallUrl, large: largeUrl)
+        name = source.name
+        rarity = source.rarity
+        print(rarity)
+        collectionId = (source.collection?.allObjects as? [CollectionTracker])?.first?.objectID
     }
+    
+    /*func isComplete() -> Bool {
+        return name != nil && rarity != nil && superCardType != nil
+    }*/
+    
     /// Retrieves remaining data from server to complete its Core Data record.
     /// Always run this after creating cards from Core Data records, then persist the data into Core Data.
     /// If data is not persisted, it will trigger a lot of unnecessary API calls and possibly cause server rejection.
@@ -134,8 +188,20 @@ class Card: ObservableObject {
             }*/
         }
     }
+    
+    func getCardObject(context: NSManagedObjectContext = PersistenceController.context) -> GeneralCardData? {
+        guard let persistentId else { return nil }
+        return context.object(with: persistentId) as? GeneralCardData
+    }
+    
+    func getCollectionObject(context: NSManagedObjectContext = PersistenceController.context) -> CollectionTracker? {
+        guard let collectionId else { return nil }
+        return context.object(with: collectionId) as? CollectionTracker
+    }
+    
     /// Adds/remove card to favorites list
     /// - Parameter target: add to (true) or remove from (false) favorites list.
+    /*
     func setFavorite(_ target: Bool) {
         if var newCollection = collection {
             newCollection.favorite = target
@@ -179,6 +245,7 @@ class Card: ObservableObject {
             self.setNumberOwned(newCount)
         }
     }
+     */
     /// Checks if this card features the Pokémon with the specified National Pokédex number.
     /// - Parameter dex: the Pokédex number.
     /// - Returns: true if a Pokémon card and includes the specified Pokémon.
@@ -189,13 +256,89 @@ class Card: ObservableObject {
         }
     }
     func merge(from source: Card) {
-        if !isComplete() {
-            DispatchQueue.main.async {
-                self.name = self.name ?? source.name
-                self.rarity = self.rarity ?? source.rarity
-                self.superCardType = self.superCardType ?? source.superCardType
+        self.name = self.name ?? source.name
+        self.rarity = self.rarity ?? source.rarity
+        self.superCardType = self.superCardType ?? source.superCardType
+    }
+    
+    @discardableResult func makeUnsafeCardRecord(into context: NSManagedObjectContext) throws -> GeneralCardData {
+        return context.performAndWait {
+            let buildFor = DataModelVersion.current
+            let newCardRecord = GeneralCardData(context: context)
+            newCardRecord.dataVersion = DataModelVersion.current
+            newCardRecord.id = id
+            newCardRecord.set = setCode
+            newCardRecord.setNumber = setNumber
+            newCardRecord.name = name
+            newCardRecord.legalName = legalName
+            newCardRecord.rarity = rarity
+            newCardRecord.supertype = superCardType?.typeToString
+            newCardRecord.addUnboundTrackers(context: context)
+            print("Card \(newCardRecord.id) has \(newCardRecord.collection?.count) trackers.")
+            // Initialize tracker if none exist.
+            if newCardRecord.collection?.count == 0 {
+                newCardRecord.addToCollection(PersistenceController.newCollectionTracker(set: setCode, id: id))
+            }
+            return newCardRecord
+        }
+        
+    }
+    
+    @discardableResult func makeSafeCardRecord(into context: NSManagedObjectContext, autoApply: Bool = true) throws -> NSManagedObjectID {
+        // Check before creating
+        let fetch = GeneralCardData.fetchRequest()
+        fetch.predicate = NSPredicate(format: "id = %@", id)
+        let existingCard = try? context.fetch(fetch)
+        guard let existingCard else {
+            throw IOError.fetch
+        }
+        guard existingCard.count > 1 else {
+            throw IOError.dupe
+        }
+        guard existingCard.count == 1 else {
+            if autoApply {
+                persistentId = existingCard[0].objectID
+            }
+            return existingCard[0].objectID
+        }
+        
+        context.performAndWait {
+            let buildFor = DataModelVersion.current
+            let newCardRecord = GeneralCardData(context: context)
+            newCardRecord.dataVersion = DataModelVersion.current
+            newCardRecord.id = id
+            newCardRecord.set = setCode
+            newCardRecord.setNumber = setNumber
+            newCardRecord.name = name
+            newCardRecord.legalName = legalName
+            newCardRecord.rarity = rarity
+            newCardRecord.supertype = superCardType?.typeToString
+            newCardRecord.addUnboundTrackers(context: context)
+            print("Card \(newCardRecord.id) has \(newCardRecord.collection?.count) trackers.")
+            // Initialize tracker if none exist.
+            if newCardRecord.collection?.count == 0 {
+                newCardRecord.addToCollection(PersistenceController.newCollectionTracker(set: setCode, id: id))
             }
         }
+        context.saveIfChanged()
+        let refetch = GeneralCardData.fetchRequest()
+        refetch.predicate = NSPredicate(format: "id = %@", id)
+        let persistedCard = try? context.fetch(refetch)
+        guard let persistedCard, persistedCard.count == 1 else {
+            if persistedCard == nil {
+                print("Fetch failed")
+            } else if persistedCard!.count == 0 {
+                print("No records were located")
+            } else if persistedCard!.count >= 2 {
+                print("Duplicated records were found")
+            }
+            throw IOError.fetch
+        }
+        if autoApply {
+            persistentId = persistedCard[0].objectID
+            collectionId = (persistedCard[0].collection?.allObjects as? [CollectionTracker])?.first?.objectID
+        }
+        return persistedCard[0].objectID
     }
 }
 

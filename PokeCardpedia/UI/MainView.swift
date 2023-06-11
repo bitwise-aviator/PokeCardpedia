@@ -81,12 +81,12 @@ struct MainView: View {
                                 let cardData = core.activeData
                                 ForEach(Array(cardData.keys).sorted(by: <), id: \.self) {
                                     if (filterBy == .none) ||
-                                        (filterBy == .owned && (cardData[$0]?.collection?.amount ?? 0) > 0) ||
-                                        (filterBy == .favorite && (cardData[$0]?.collection?.favorite ?? false)) ||
-                                        (filterBy == .want && (cardData[$0]?.collection?.wantIt ?? false)) {
+                                        (filterBy == .owned && (cardData[$0]?.getCollectionObject()?.amount ?? 0) > 0) ||
+                                        (filterBy == .favorite && (cardData[$0]?.getCollectionObject()?.favorite ?? false)) ||
+                                        (filterBy == .want && (cardData[$0]?.getCollectionObject()?.wantIt ?? false)) {
                                         CardThumbnail(activeImage: $activeImage,
                                                       imageDetailShown: $imageDetailShown,
-                                                      card: cardData[$0]!).id($0)
+                                                      card: cardData[$0]!, collection: cardData[$0]!.getCollectionObject()!).id($0)
                                     }
                                 }
                             }
@@ -120,12 +120,12 @@ struct MainView: View {
                                 let cardData = core.activeData
                                 ForEach(Array(cardData.keys).sorted(by: <), id: \.self) {
                                     if (filterBy == .none) ||
-                                        (filterBy == .owned && (cardData[$0]?.collection?.amount ?? 0) > 0) ||
-                                        (filterBy == .favorite && (cardData[$0]?.collection?.favorite ?? false)) ||
-                                        (filterBy == .want && (cardData[$0]?.collection?.wantIt ?? false)) {
+                                        (filterBy == .owned && (cardData[$0]?.getCollectionObject()?.amount ?? 0) > 0) ||
+                                        (filterBy == .favorite && (cardData[$0]?.getCollectionObject()?.favorite ?? false)) ||
+                                        (filterBy == .want && (cardData[$0]?.getCollectionObject()?.wantIt ?? false)) {
                                         CardThumbnail(activeImage: $activeImage,
                                                       imageDetailShown: $imageDetailShown,
-                                                      card: cardData[$0]!).id($0)
+                                                      card: cardData[$0]!, collection: cardData[$0]!.getCollectionObject()!).id($0)
                                     }
                                 }
                             }.onChange(of: activeImage, perform: { newValue in

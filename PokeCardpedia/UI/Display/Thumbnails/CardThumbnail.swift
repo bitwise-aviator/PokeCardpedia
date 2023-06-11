@@ -12,17 +12,18 @@ struct CardThumbnail: View {
     @Binding var activeImage: String
     @Binding var imageDetailShown: Bool
     @ObservedObject var card: Card
+    @ObservedObject var collection: CollectionTracker
     var favorite: Bool {
-        card.collection!.favorite
+        collection.favorite
     }
     var wantIt: Bool {
-        card.collection!.wantIt
+        collection.wantIt
     }
     var haveIt: Bool {
-        card.collection!.amount > 0
+        collection.amount > 0
     }
     var amount: Int {
-        Int(card.collection!.amount)
+        Int(collection.amount)
     }
     @ViewBuilder
     var body: some View {
@@ -72,7 +73,14 @@ struct CardThumbnail: View {
             }
         }.task(priority: .userInitiated) {
             // Use this to get extra info about the card when this view first appears.
-            await Core.core.getCardsBySet(set: card.setCode)// card.completeData()
+            if [ViewMode.none, .favorite, .owned, .want].contains(Core.core.viewMode) {
+                // Skip completion if the card has all the data being supported as of current revision.
+                guard card.persistentId == nil else {
+                    return
+                }
+                print("Card \(card.id) has requested extra data...")
+                await Core.core.getCardsBySet(set: card.setCode)// card.completeData()
+            }
         }
     }
 }

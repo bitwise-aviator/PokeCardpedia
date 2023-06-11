@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum ViewMode: String {
     case set
@@ -18,6 +19,7 @@ enum ViewMode: String {
 
 @MainActor class Core: ObservableObject {
     static let core = Core() // singleton
+    static let loadQueue = DispatchQueue(label: "com.pokecard.cdload", qos: .userInteractive)
     @Published var viewMode: ViewMode?
     @Published var activeSet: SetFromJson?
     @Published var activeDex: Int?
@@ -27,9 +29,9 @@ enum ViewMode: String {
      and to keep the main thread free, saves will be done on the main thread
      only when this queue is vacated. */
     /// Stores sets in the loading queue.
-    private var loadingSets = Set<String>()
+    private var queryQueue = Set<String>()
     /// Stores sets that have been successfully loaded.
-    private var loadedSets = Set<String>()
+    private var queried = Set<String>()
     private var loadedDexs = Set<Int>()
     private var loadedData: [String: Card] = [:]
     @Published private(set) var activeData: [String: Card] = [:]
@@ -57,75 +59,116 @@ enum ViewMode: String {
         getCardsByViewMode(viewMode)
     }
     func updateActiveCounters() {
-        let owned: Int = Array(activeData.values).reduce(0) { $0 + Int($1.collection?.amount ?? 0) }
-        let unique: Int = Array(activeData.values).reduce(0) { $0 + min(Int($1.collection?.amount ?? 0), 1)}
+        let owned: Int = Array(activeData.values).reduce(0) { $0 +
+            Int($1.getCollectionObject()?.amount ?? 0) }
+        let unique: Int = Array(activeData.values).reduce(0) { $0 + min(Int($1.getCollectionObject()?.amount ?? 0), 1)}
         (activeOwned, activeUniqueOwned) = (owned, unique)
     }
-    func getCardsBySet(set: String) async {
-        if !loadedSets.contains(set) && !loadingSets.contains(set) {
-            loadingSets.insert(set) // Moving this line here to avoid unnecessary duplicate requests.
-            // 1) Get JSON response from API (include image URLs, not image data).
-            // Simultaneously, fire a FetchRequest for cards in the same set.
-            print("Added set \(set) to loading queue. Queue length: \(loadingSets.count)")
-            enum DataResult {
-                case cardData([Data]?)
-                case collectionData([String: CollectionTracker]?)
-            }
-            let result = await withTaskGroup(of: DataResult.self) { group -> (
-                cardData: [Data]?, collectionData: [String: CollectionTracker]?) in
-                group.addTask {
-                    return await .cardData(ApiClient.client.getBySetId(id: set, recursive: true))
-                }
-                group.addTask {
-                    let fetched = PersistenceController.shared.fetchCards([.bySet(id: set)])
-                    return .collectionData(fetched?.toDict())
-                }
-                var cardData: [Data]?
-                var collectionData: [String: CollectionTracker]?
-                for await value in group {
-                    switch value {
-                    case .cardData(let value):
-                        cardData = value
-                    case .collectionData(let value):
-                        collectionData = value
+    
+    func matchCardData(of input: [CardFromJson], by query: [SearchType], context: NSManagedObjectContext) throws {
+        guard let fetched = (context.fetchCards(query) as [GeneralCardData]?)?.toDict() else { throw IOError.fetch }
+        
+        var newRecords = [String: String]()
+        input.forEach { elem in
+            // Merge if loaded.
+            guard loadedData[elem.sortId] == nil else {
+                loadedData[elem.sortId]!.merge(from: elem.toCardObject())
+                // If no CD record found, create.
+                let record = fetched[elem.id]
+                if record == nil {
+                    do {
+                        // print("Card \(elem.id) is not persisted.")
+                        try loadedData[elem.sortId]!.makeUnsafeCardRecord(into: context)
+                        newRecords[elem.sortId] = elem.id
+                    } catch {
+                        print(error)
                     }
-                }
-                return (cardData: cardData, collectionData: collectionData)
-            }
-            // 2) Check if data was received and is OK.
-            guard let data = result.cardData, let parsedCards = parseCardsFromJson(data: data) else {
-                loadingSets.remove(set) // Remove the lock on duplicate requests if fails.
-                print("Fetching set \(set) failed: removing from loading queue. Queue length: \(loadingSets.count)")
-                if loadingSets.isEmpty {
-                    print("Queue has been vacated")
-                    // TODO: Fire a save request here.
+                } else if !record!.isCurrent {
+                    print("Need to update - merging")
+                    let oid = fetched[elem.id]!.objectID
+                    do {
+                        try (PersistenceController.context.object(with: oid) as! GeneralCardData).updateFromCard(card: loadedData[elem.sortId]!)
+                    } catch {
+                        print(error)
+                    }
+                    // print("Card \(elem.id) was already persisted for version \(fetched[elem.id]!.dataVersion) with \(fetched[elem.id]!.collection?.count) trackers.")
                 }
                 return
             }
-            // 3) Check if data is already loaded. If not, merge into.
-            parsedCards.forEach { elem in
-                // Skip/complete loaded data.
-                guard loadedData[elem.sortId] == nil else {
-                    loadedData[elem.sortId]?.merge(from: elem.toCardObject())
-                    return
+            // Create if it doesn't.
+            loadedData[elem.sortId] = elem.toCardObject()
+            let record = fetched[elem.id]
+            if fetched[elem.id] == nil {
+                do {
+                    // print("Card \(elem.id) is not persisted.")
+                    try loadedData[elem.sortId]!.makeUnsafeCardRecord(into: context)
+                    newRecords[elem.sortId] = elem.id
+                } catch {
+                    print(error)
                 }
-                // Skip bad data
-                // guard let cardObject = elem.toCardObject() else {return}
-                let cardObject = elem.toCardObject()
-                loadedData[elem.sortId] = cardObject
-                if let collectionRecord = result.collectionData?[elem.id] {
-                    loadedData[elem.sortId]!.collection = collectionRecord.toNativeForm
-                } else {
-                    loadedData[elem.sortId]!.collection = PersistenceController.shared
-                        .newCardCollectionDefaults(loadedData[elem.sortId]!)?.toNativeForm
+            } else if !record!.isCurrent {
+                print("Need to update - unmerged")
+                let oid = fetched[elem.id]!.objectID
+                do {
+                    try (PersistenceController.context.object(with: oid) as! GeneralCardData).updateFromCard(card: loadedData[elem.sortId]!)
+                } catch {
+                    print(error)
+                }
+                // print("Card \(elem.id) was already persisted for version \(fetched[elem.id]!.dataVersion) with \(fetched[elem.id]!.collection?.count) trackers.")
+            }
+        }
+        print(PersistenceController.context.hasChanges)
+        PersistenceController.context.saveIfChanged(recursive: true)
+        guard let reFetched = (context.fetchCards(query) as [GeneralCardData]?)?.toDict() else { throw IOError.fetch }
+        for (key, value) in newRecords {
+            guard let card = loadedData[key] else { continue }
+            if reFetched[value] != nil {
+                card.persistentId = reFetched[value]!.objectID
+                card.collectionId = (reFetched[value]!.collection?.allObjects.first as? CollectionTracker)?.objectID
+                card.dataVersion = reFetched[value]?.dataVersion
+            }
+        }
+    }
+    
+    func getCardsBySet(set: String) async {
+        let loadId = "set:\(set)"
+        if !queried.contains(loadId) && !queryQueue.contains(loadId) {
+            queryQueue.insert(loadId) // Moving this line here to avoid unnecessary duplicate requests.
+            // 1) Get JSON response from API (include image URLs, not image data).
+            // Simultaneously, fire a FetchRequest for cards in the same set.
+            print("Added set \(set) to loading queue. Queue length: \(queryQueue.count)")
+
+            guard let cardResponse = await ApiClient.client.getBySetId(id: set, recursive: true),
+                  let parsedCards = parseCardsFromJson(data: cardResponse) else {
+                queryQueue.remove(loadId)
+                print("Fetching set \(set) failed: removed from loading queue. Queue length: \(queryQueue.count)")
+                if queryQueue.isEmpty {
+                    print("Queue has been vacated")
+                    PersistenceController.context.saveIfChanged(recursive: true)
+                }
+                return
+            }
+            let startTime = CFAbsoluteTimeGetCurrent()
+            do {
+                try self.matchCardData(of: parsedCards, by: [.bySet(id: set)], context: PersistenceController.context)
+            } catch {
+                print(error)
+                queryQueue.remove(loadId)
+                print("Matching set \(set) failed: removed from loading queue. Queue length: \(queryQueue.count)")
+                if queryQueue.isEmpty {
+                    print("Queue has been vacated")
+                    PersistenceController.context.saveIfChanged(recursive: true)
                 }
             }
-            loadedSets.insert(set)
-            loadingSets.remove(set)
-            print("Set \(set) loaded OK, transferred to loadedSets. Loading queue length: \(loadingSets.count)")
-            if loadingSets.isEmpty {
+            let diff = CFAbsoluteTimeGetCurrent() - startTime
+            print("Runtime: \(diff)s")
+            
+            queried.insert(loadId)
+            queryQueue.remove(loadId)
+            print("Set \(set) loaded OK. Loading queue length: \(queryQueue.count)")
+            if queryQueue.isEmpty {
                 print("Queue has been vacated")
-                // TODO: Fire a save request here.
+                PersistenceController.context.saveIfChanged(recursive: true)
             }
         }
         // 4) Refine active view accordingly - but ONLY if same set is still active.
@@ -140,62 +183,54 @@ enum ViewMode: String {
         }
     }
     func getCardsByPokedex(dex: Int) async {
-        if !loadedDexs.contains(dex) {
+        let loadId = "dex:\(String(dex))"
+        if !queried.contains(loadId) && !queryQueue.contains(loadId) {
+            queryQueue.insert(loadId) // Moving this line here to avoid unnecessary duplicate requests.
             // 1) Get JSON response from API (include image URLs, not image data).
             // Simultaneously, fire a FetchRequest for cards in the same set.
-            enum DataResult {
-                case cardData(Data?)
-                case collectionData([String: CollectionTracker]?)
+            print("Added Pokédex #\(String(dex)) to loading queue. Queue length: \(queryQueue.count)")
+
+            guard let cardResponse = await ApiClient.client.getByPokedex(id: dex),
+                  let parsedCards = parseCardsFromJson(data: cardResponse) else {
+                queryQueue.remove(loadId)
+                print("Fetching Pokédex #\(String(dex)) failed: removed from loading queue. Queue length: \(queryQueue.count)")
+                if queryQueue.isEmpty {
+                    print("Queue has been vacated")
+                    PersistenceController.context.saveIfChanged(recursive: true)
+                }
+                return
             }
-            let result = await withTaskGroup(of: DataResult.self) { group -> (
-                cardData: Data?, collectionData: [String: CollectionTracker]?) in
-                group.addTask {
-                    return await .cardData(ApiClient.client.getByPokedex(id: dex))
+            let startTime = CFAbsoluteTimeGetCurrent()
+            do {
+                try self.matchCardData(of: parsedCards, by: [], context: PersistenceController.context)
+            } catch {
+                print(error)
+                queryQueue.remove(loadId)
+                print("Matching Pokédex #\(String(dex)) failed: removed from loading queue. Queue length: \(queryQueue.count)")
+                if queryQueue.isEmpty {
+                    print("Queue has been vacated")
+                    PersistenceController.context.saveIfChanged(recursive: true)
                 }
-                group.addTask {
-                    let fetched = PersistenceController.shared.fetchCards([])
-                    return .collectionData(fetched?.toDict())
-                }
-                var cardData: Data?
-                var collectionData: [String: CollectionTracker]?
-                for await value in group {
-                    switch value {
-                    case .cardData(let value): cardData = value
-                    case .collectionData(let value): collectionData = value
-                    }
-                }
-                return (cardData: cardData, collectionData: collectionData)
             }
-            // 2) Check if data is already loaded. If not, merge into.
-            if let data = result.cardData {
-                if let parsedCards = parseCardsFromJson(data: data) {
-                    parsedCards.forEach { elem in
-                        // Skip loaded data
-                        guard loadedData[elem.sortId] == nil else {
-                            loadedData[elem.sortId]?.merge(from: elem.toCardObject())
-                            return
-                        }
-                        // Skip bad data
-                        // guard let cardObject = elem.toCardObject() else {return}
-                        let cardObject = elem.toCardObject()
-                        loadedData[elem.sortId] = cardObject
-                        if let collectionRecord = result.collectionData?[elem.id] {
-                            loadedData[elem.sortId]!.collection = collectionRecord.toNativeForm
-                        } else {
-                            loadedData[elem.sortId]!.collection = PersistenceController.shared
-                                .newCardCollectionDefaults(loadedData[elem.sortId]!)?.toNativeForm
-                        }
-                    }
-                }
+            let diff = CFAbsoluteTimeGetCurrent() - startTime
+            print("Runtime: \(diff)s")
+            
+            queried.insert(loadId)
+            queryQueue.remove(loadId)
+            print("Pokédex #\(String(dex)) loaded OK. Loading queue length: \(queryQueue.count)")
+            if queryQueue.isEmpty {
+                print("Queue has been vacated")
+                PersistenceController.context.saveIfChanged(recursive: true)
             }
         }
         // 3) Refine active view accordingly.
-        loadedDexs.insert(dex)
-        DispatchQueue.main.async {
-            self.activeData = self.loadedData.filter({
-                return $0.value.isOfPokedex(dex)
-            })
-            self.updateActiveCounters()
+        if activeDex == dex {
+            DispatchQueue.main.async {
+                self.activeData = self.loadedData.filter({
+                    return $0.value.isOfPokedex(dex)
+                })
+                self.updateActiveCounters()
+            }
         }
     }
     func fetchCards(by selector: ViewMode) -> [String: CollectionTracker]? {
@@ -211,21 +246,36 @@ enum ViewMode: String {
             let fetched = fetchCards(by: view)
             // let fetched = PersistenceController.shared.fetchCards([.owned(true)])?.toDict()
             if let fetched {
+                var created: Int = 0
+                var notCreated: Int = 0
                 for key in Array(fetched.keys) {
-                    if let item = fetched[key], let newCard = Card(from: item), loadedData[newCard.sortId] == nil {
-                        loadedData[newCard.sortId] = newCard
-                        /*Task(priority: .userInitiated) {
-                            await newCard.completeData()
-                        }*/
-                     }
+                    if let item = fetched[key] {
+                        var newCard: Card?
+                        // Check if card data is good and updated.
+                        if let cardInfo = item.cardDetails, cardInfo.isCurrent {
+                            newCard = Card(from: cardInfo)
+                            print("Created card from persist for \(item.id)")
+                            newCard!.persistentId = cardInfo.objectID
+                            newCard!.collectionId = item.objectID
+                            created += 1
+                        } else {
+                            newCard = Card(from: item)
+                            print("Did not create for \(item.id)")
+                            notCreated += 1
+                        }
+                        if let newCard, loadedData[newCard.sortId] == nil {
+                            loadedData[newCard.sortId] = newCard
+                        }
+                    }
                 }
+                print(created, "/", notCreated)
             }
             DispatchQueue.main.async {
                 let newActiveData: [String: Card]? = {
                     switch view {
-                    case .owned: return self.loadedData.filter({($0.value.collection?.amount ?? 0) > 0})
-                    case .favorite: return self.loadedData.filter({($0.value.collection?.favorite ?? false)})
-                    case .want: return self.loadedData.filter({($0.value.collection?.wantIt ?? false)})
+                    case .owned: return self.loadedData.filter({($0.value.getCollectionObject()?.amount ?? 0) > 0})
+                    case .favorite: return self.loadedData.filter({($0.value.getCollectionObject()?.favorite ?? false)})
+                    case .want: return self.loadedData.filter({($0.value.getCollectionObject()?.wantIt ?? false)})
                     default: return nil
                     }
                 }()

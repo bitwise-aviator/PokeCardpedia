@@ -93,6 +93,7 @@ struct CardFromJson: Codable {
     let supertype: String
     let types: [String]?
     let subtypes: [String]?
+    let evolvesFrom: String?
     // Disabling swiftlint check below, struct properties must match JSON keys.
     let hp: String? // swiftlint:disable:this identifier_name
     let images: CardImagePath

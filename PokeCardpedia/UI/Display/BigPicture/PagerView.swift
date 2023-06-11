@@ -26,7 +26,7 @@ struct PagerView: View {
     /// View body.
     var body: some View {
         Pager(page: page, data: Array(Core.core.activeData.keys.sorted()), id: \.self, content: { index in
-            CardDetailView(imageDetailShown: $imageDetailShown, card: Core.core.activeData[index]!)
+            CardDetailView(imageDetailShown: $imageDetailShown, card: Core.core.activeData[index]!, collection: Core.core.activeData[index]!.getCollectionObject()!)
         }).itemAspectRatio(0.7)
             .itemSpacing(10)
             .padding(8)

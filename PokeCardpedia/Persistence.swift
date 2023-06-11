@@ -18,7 +18,18 @@ extension [CollectionTracker] {
     func toDict() -> [String: CollectionTracker] {
         var dict: [String: CollectionTracker] = [:]
         self.forEach {elem in
+            //print(elem.objectID)
             dict[elem.id!] = elem
+        }
+        return dict
+    }
+}
+
+extension [GeneralCardData] {
+    func toDict() -> [String: GeneralCardData] {
+        var dict: [String: GeneralCardData] = [:]
+        self.forEach {elem in
+            dict[elem.id] = elem
         }
         return dict
     }
@@ -28,21 +39,85 @@ extension CollectionTracker {
     var toNativeForm: CardCollectionData {
         return CardCollectionData(favorite: self.favorite, wantIt: self.wantIt, amount: self.amount)
     }
+    /*
     func mergeWithCard(_ card: some Card) {
         guard card.id == self.id, card.setCode == self.set else {
             return
         }
         card.collection = self.toNativeForm
+    } */
+}
+
+extension NSManagedObjectContext {
+    @discardableResult func saveIfChanged(recursive: Bool = false) -> Bool {
+        guard self.hasChanges else { return true }
+        do {
+            try self.save()
+            if recursive && self.parent != nil {
+                return self.parent!.saveIfChanged(recursive: true)
+            } else {
+                return true
+            }
+        } catch {
+            print(error)
+            return false
+        }
+    }
+    
+    func addSearchParameters<T>(_ searchParameters: [SearchType], to request: NSFetchRequest<T>) {
+        var predicates = [NSPredicate]()
+        searchParameters.forEach({ parameter in
+            switch parameter {
+            case .owned(true): predicates.append(NSPredicate(format: "amount > 0"))
+            case .owned(false): predicates.append(NSPredicate(format: "amount = 0"))
+            case .favorite(let flag): predicates.append(NSPredicate(format: "favorite = %d", flag))
+            case .wantIt(let flag): predicates.append(NSPredicate(format: "wantIt = %d", flag))
+            case .bySet(id: let id):
+                predicates.append(NSPredicate(format: "set = %@", id))
+            }
+        })
+        if predicates.isEmpty {
+            return
+        } else if predicates.count == 1 {
+            request.predicate = predicates[0]
+        } else {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        }
+    }
+    
+    func fetchCards(_ searchParameters: [SearchType] = []) -> [GeneralCardData]? {
+        let fetchRequest = GeneralCardData.fetchRequest()
+        addSearchParameters(searchParameters, to: fetchRequest)
+        do {
+            return try PersistenceController.context.fetch(fetchRequest)
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+    
+    func fetchCards(_ searchParameters: [SearchType] = []) -> [CollectionTracker]? {
+        // Note: records retrieved will satisfy ALL criteria parameters passed.
+        // Passing mutually exclusive parameters, such as owned and not owned, will return nothing.
+        let fetchRequest = CollectionTracker.fetchRequest()
+        addSearchParameters(searchParameters, to: fetchRequest)
+        do {
+            return try PersistenceController.context.fetch(fetchRequest)
+        } catch {
+            print(error)
+            return nil
+        }
     }
 }
 
 struct PersistenceController {
     static let shared = PersistenceController()
     static let context = shared.container.viewContext
-    static let privateContext: NSManagedObjectContext = {
-        let priv = PersistenceController.shared.container.newBackgroundContext()
-        return priv
-    }()
+    /* static let backgroundContext: NSManagedObjectContext = {
+        let bgContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        bgContext.parent = context
+        return bgContext
+    }() */
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
@@ -90,7 +165,58 @@ struct PersistenceController {
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
     }
+    
+    static func newCollectionTracker(_ card: Card, context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) -> NSManagedObjectID {
+        // return the object ID if possible to facilitate thread safety.
+        return context.performAndWait {
+            print("Creating tracker for id: \(card.id)")
+            let newTracker = CollectionTracker(context: context)
+            newTracker.id = card.id
+            newTracker.set = card.setCode
+            newTracker.amount = 0
+            newTracker.favorite = false
+            newTracker.wantIt = false
+            print("Tracker successfully created w/ id: \(newTracker.objectID)")
+            return newTracker.objectID
+        }
+    }
+
+    static func newCollectionTracker(set: String, id: String, context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) -> NSManagedObjectID {
+        // return the object ID if possible to facilitate thread safety.
+        return context.performAndWait {
+            print("Creating tracker for id: \(id)")
+            let newTracker = CollectionTracker(context: context)
+            newTracker.id = id
+            newTracker.set = set
+            newTracker.amount = 0
+            newTracker.favorite = false
+            newTracker.wantIt = false
+            print("Tracker successfully created w/ id: \(newTracker.objectID)")
+            return newTracker.objectID
+        }
+    }
+    
+    static func newCollectionTracker(set: String, id: String, context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) -> CollectionTracker {
+        // less safe: returns the object itself but for short-term use.
+        return context.performAndWait {
+            print("Creating tracker for id: \(id)")
+            let newTracker = CollectionTracker(context: context)
+            newTracker.id = id
+            newTracker.set = set
+            newTracker.amount = 0
+            newTracker.favorite = false
+            newTracker.wantIt = false
+            print("Tracker successfully created w/ id: \(newTracker.objectID)")
+            return newTracker
+        }
+    }
+    
+    static func addCardToTracker(_ card: Card, to tracker: CollectionTracker) {
+        
+    }
+
     func newCardCollectionDefaults(_ card: some Card) -> CollectionTracker? {
         PersistenceController.shared.container.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         let cardCollectionItem = CollectionTracker(context: PersistenceController.context)
@@ -126,27 +252,27 @@ struct PersistenceController {
         })
     }
      */
+    /*
     func completeCard(_ card: Card, isConcurrent: Bool = true) async -> Bool {
-        PersistenceController.privateContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        let cardCollectionItem = CollectionTracker(context: PersistenceController.privateContext)
+        PersistenceController.backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        let cardCollectionItem = CollectionTracker(context: PersistenceController.backgroundContext)
         cardCollectionItem.id = card.id
         cardCollectionItem.set = card.setCode
         cardCollectionItem.amount = card.collection?.amount ?? 0
         cardCollectionItem.favorite = card.collection?.favorite ?? false
         cardCollectionItem.wantIt = card.collection?.wantIt ?? false
-        cardCollectionItem.name = card.name
-        cardCollectionItem.rarity = card.rarity
         print(cardCollectionItem)
-        return await PersistenceController.privateContext.perform {
+        return await PersistenceController.backgroundContext.perform {
             do {
-                try PersistenceController.privateContext.save()
+                try PersistenceController.backgroundContext.save()
                 return true
             } catch {
                 print(error)
                 return false
             }
         }
-    }
+    } */
+    
     func patchCard(_ card: Card, with newData: CardCollectionData) -> Bool {
         PersistenceController.shared.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         let cardCollectionItem = CollectionTracker(context: PersistenceController.shared.container.viewContext)
@@ -155,8 +281,6 @@ struct PersistenceController {
         cardCollectionItem.amount = newData.amount
         cardCollectionItem.favorite = newData.favorite
         cardCollectionItem.wantIt = newData.wantIt
-        cardCollectionItem.name = card.name
-        cardCollectionItem.rarity = card.rarity
         do {
             try PersistenceController.shared.container.viewContext.save()
             return true
@@ -165,6 +289,7 @@ struct PersistenceController {
             return false
         }
     }
+    // TODO: Migrate.
     func fetchCards(_ searchParameters: [SearchType] = []) -> [CollectionTracker]? {
         // Note: records retrieved will satisfy ALL criteria parameters passed.
         // Passing mutually exclusive parameters, such as owned and not owned, will return nothing.

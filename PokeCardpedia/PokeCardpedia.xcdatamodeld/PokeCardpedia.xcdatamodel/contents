@@ -1,13 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="CollectionTracker" representedClassName="CollectionTracker" syncable="YES" codeGenerationType="class">
+    <entity name="CDElement" representedClassName="CDElement" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <relationship name="pokemon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PokemonData" inverseName="types" inverseEntity="PokemonData"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CDEnergySubtype" representedClassName="CDEnergySubtype" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <relationship name="energy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EnergyData" inverseName="subtypes" inverseEntity="EnergyData"/>
+    </entity>
+    <entity name="CDPokemonSubtype" representedClassName="CDPokemonSubtype" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <relationship name="pokemon" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PokemonData" inverseName="subtypes" inverseEntity="PokemonData"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CDTrainerSubtype" representedClassName="CDTrainerSubtype" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <relationship name="trainer" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrainerData" inverseName="subtypes" inverseEntity="TrainerData"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CollectionTracker" representedClassName="CollectionTracker" syncable="YES">
         <attribute name="amount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="favorite" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="String" defaultValueString=""/>
+        <attribute name="set" attributeType="String"/>
+        <attribute name="wantIt" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="cardDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeneralCardData" inverseName="collection" inverseEntity="GeneralCardData"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="DexNumber" representedClassName="DexNumber" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="pokemon" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PokemonData" inverseName="dex" inverseEntity="PokemonData"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="EnergyData" representedClassName="EnergyData" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <relationship name="root" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeneralCardData" inverseName="energyData" inverseEntity="GeneralCardData"/>
+        <relationship name="subtypes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDEnergySubtype" inverseName="energy" inverseEntity="CDEnergySubtype"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="GeneralCardData" representedClassName="GeneralCardData" syncable="YES">
+        <attribute name="dataVersion" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="legalName" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="rarity" optional="YES" attributeType="String"/>
         <attribute name="set" attributeType="String"/>
-        <attribute name="wantIt" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="setNumber" attributeType="String"/>
+        <attribute name="supertype" optional="YES" attributeType="String"/>
+        <relationship name="collection" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CollectionTracker" inverseName="cardDetails" inverseEntity="CollectionTracker"/>
+        <relationship name="energyData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EnergyData" inverseName="root" inverseEntity="EnergyData"/>
+        <relationship name="pokemonData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PokemonData" inverseName="root" inverseEntity="PokemonData"/>
+        <relationship name="trainerData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrainerData" inverseName="root" inverseEntity="TrainerData"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
@@ -18,14 +86,17 @@
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="PokemonData" representedClassName="PokemonData" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="String"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="id"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
+        <attribute name="hitPoints" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="dex" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DexNumber" inverseName="pokemon" inverseEntity="DexNumber"/>
+        <relationship name="root" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeneralCardData" inverseName="pokemonData" inverseEntity="GeneralCardData"/>
+        <relationship name="subtypes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDPokemonSubtype" inverseName="pokemon" inverseEntity="CDPokemonSubtype"/>
+        <relationship name="types" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDElement" inverseName="pokemon" inverseEntity="CDElement"/>
     </entity>
     <entity name="StoredImage" representedClassName="StoredImage" syncable="YES">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="TrainerData" representedClassName="TrainerData" syncable="YES" codeGenerationType="class">
+        <relationship name="root" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeneralCardData" inverseName="trainerData" inverseEntity="GeneralCardData"/>
+        <relationship name="subtypes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDTrainerSubtype" inverseName="trainer" inverseEntity="CDTrainerSubtype"/>
     </entity>
 </model>

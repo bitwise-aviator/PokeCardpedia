@@ -21,11 +21,11 @@ struct CollectionLockView: View {
         HStack {
             Image(systemName: lock.isLocked ? "lock.fill" : "lock.open.fill")
                 .resizable().scaledToFit().frame(width: 50, height: 50)
-            Toggle(isOn: !lockBinding) {
+            Toggle(isOn: lockBinding) {
                 Text(lock.isLocked ? "Locked" : "Unlocked")
                     .font(.system(.title3, design: .rounded))
                     .bold()
-            }.tint(.red).foregroundColor(lock.isLocked ? .green : .red)
+            }.tint(.green).foregroundColor(lock.isLocked ? .green : .red)
         }
     }
 }

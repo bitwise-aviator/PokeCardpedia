@@ -52,8 +52,11 @@
 		DC679B4D29E8D6E900668E0D /* SetMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B4C29E8D6E900668E0D /* SetMenuItemView.swift */; };
 		DC679B4F29E8D77A00668E0D /* CollectionSubMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B4E29E8D77A00668E0D /* CollectionSubMenuView.swift */; };
 		DC679B5129E8D82100668E0D /* BackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC679B5029E8D82100668E0D /* BackButtonView.swift */; };
+		DC8AD4842A217B9C00DEDA60 /* CardIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8AD4832A217B9C00DEDA60 /* CardIO.swift */; };
 		DCA0E35129E1E22200E54F9B /* SwiftUIPager in Frameworks */ = {isa = PBXBuildFile; productRef = DCA0E35029E1E22200E54F9B /* SwiftUIPager */; };
 		DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0E35229E1E2D400E54F9B /* PagerView.swift */; };
+		DCA5B7532A10897A00C740CB /* CollectionTracker+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5B7512A10897A00C740CB /* CollectionTracker+CoreDataClass.swift */; };
+		DCA5B7542A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5B7522A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift */; };
 		DCD6E03029F9D195000904DF /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E02F29F9D195000904DF /* Element.swift */; };
 		DCD6E03229F9D7AA000904DF /* TrainerSubtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03129F9D7AA000904DF /* TrainerSubtype.swift */; };
 		DCD6E03429F9E056000904DF /* SetIconImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03329F9E056000904DF /* SetIconImage.swift */; };
@@ -65,6 +68,8 @@
 		DCD6E04929FDF8B8000904DF /* DeckSubMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E04829FDF8B8000904DF /* DeckSubMenuView.swift */; };
 		DCD6E04C29FDF914000904DF /* DexSubMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E04B29FDF914000904DF /* DexSubMenuView.swift */; };
 		DCD6E04F29FDF94C000904DF /* SetSubMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E04E29FDF94C000904DF /* SetSubMenuView.swift */; };
+		DCF4D8AB2A34DADC0092CCF3 /* GeneralCardData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4D8A92A34DADC0092CCF3 /* GeneralCardData+CoreDataClass.swift */; };
+		DCF4D8AC2A34DADC0092CCF3 /* GeneralCardData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4D8AA2A34DADC0092CCF3 /* GeneralCardData+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,7 +130,10 @@
 		DC679B4C29E8D6E900668E0D /* SetMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMenuItemView.swift; sourceTree = "<group>"; };
 		DC679B4E29E8D77A00668E0D /* CollectionSubMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSubMenuView.swift; sourceTree = "<group>"; };
 		DC679B5029E8D82100668E0D /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
+		DC8AD4832A217B9C00DEDA60 /* CardIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIO.swift; sourceTree = "<group>"; };
 		DCA0E35229E1E2D400E54F9B /* PagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerView.swift; sourceTree = "<group>"; };
+		DCA5B7512A10897A00C740CB /* CollectionTracker+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionTracker+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DCA5B7522A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionTracker+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DCD6E02F29F9D195000904DF /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		DCD6E03129F9D7AA000904DF /* TrainerSubtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainerSubtype.swift; sourceTree = "<group>"; };
 		DCD6E03329F9E056000904DF /* SetIconImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetIconImage.swift; sourceTree = "<group>"; };
@@ -137,6 +145,8 @@
 		DCD6E04829FDF8B8000904DF /* DeckSubMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckSubMenuView.swift; sourceTree = "<group>"; };
 		DCD6E04B29FDF914000904DF /* DexSubMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DexSubMenuView.swift; sourceTree = "<group>"; };
 		DCD6E04E29FDF94C000904DF /* SetSubMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSubMenuView.swift; sourceTree = "<group>"; };
+		DCF4D8A92A34DADC0092CCF3 /* GeneralCardData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeneralCardData+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DCF4D8AA2A34DADC0092CCF3 /* GeneralCardData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeneralCardData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +216,7 @@
 		DC660CC829BD098600610965 /* PokeCardpedia */ = {
 			isa = PBXGroup;
 			children = (
+				DCA5B7482A106FEB00C740CB /* CDModel */,
 				DC10EEF929F4957200168736 /* Data */,
 				DC660CC929BD098600610965 /* PokeCardpediaApp.swift */,
 				DC679B3F29E8CB8400668E0D /* Core */,
@@ -213,6 +224,7 @@
 				DCD6E03E29FDF575000904DF /* UI */,
 				DC660CCD29BD098700610965 /* Assets.xcassets */,
 				DC660CD229BD098700610965 /* Persistence.swift */,
+				DC8AD4832A217B9C00DEDA60 /* CardIO.swift */,
 				DC660CD429BD098700610965 /* PokeCardpedia.xcdatamodeld */,
 				DC660CCF29BD098700610965 /* Preview Content */,
 			);
@@ -293,6 +305,17 @@
 				DCD6E03929FAA6A1000904DF /* DeckManagement */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		DCA5B7482A106FEB00C740CB /* CDModel */ = {
+			isa = PBXGroup;
+			children = (
+				DCA5B7512A10897A00C740CB /* CollectionTracker+CoreDataClass.swift */,
+				DCA5B7522A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift */,
+				DCF4D8A92A34DADC0092CCF3 /* GeneralCardData+CoreDataClass.swift */,
+				DCF4D8AA2A34DADC0092CCF3 /* GeneralCardData+CoreDataProperties.swift */,
+			);
+			path = CDModel;
 			sourceTree = "<group>";
 		};
 		DCD6E03929FAA6A1000904DF /* DeckManagement */ = {
@@ -594,12 +617,16 @@
 				DC10EF0329F5924A00168736 /* DateHandler.swift in Sources */,
 				DC10EEEF29F47EC400168736 /* CardThumbnailImage.swift in Sources */,
 				DCD6E03829FAA69A000904DF /* Deck.swift in Sources */,
+				DCF4D8AC2A34DADC0092CCF3 /* GeneralCardData+CoreDataProperties.swift in Sources */,
+				DCA5B7542A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift in Sources */,
 				DC660D3F29BEC8E200610965 /* PokemonCardData.swift in Sources */,
 				DCD6E04529FDF81C000904DF /* TopLevelListView.swift in Sources */,
 				DCD6E04F29FDF94C000904DF /* SetSubMenuView.swift in Sources */,
 				DC660CCC29BD098600610965 /* MainView.swift in Sources */,
+				DCA5B7532A10897A00C740CB /* CollectionTracker+CoreDataClass.swift in Sources */,
 				DC679B3729E4C34C00668E0D /* CardThumbnail.swift in Sources */,
 				DC679B5129E8D82100668E0D /* BackButtonView.swift in Sources */,
+				DCF4D8AB2A34DADC0092CCF3 /* GeneralCardData+CoreDataClass.swift in Sources */,
 				DC679B4929E8D3D500668E0D /* CollectionMenuItemView.swift in Sources */,
 				DC660D3929BEC5F000610965 /* Card.swift in Sources */,
 				DC660CD629BD098700610965 /* PokeCardpedia.xcdatamodeld in Sources */,
@@ -621,6 +648,7 @@
 				DC660D5629C3EF9900610965 /* CardDetailView.swift in Sources */,
 				DC660D3B29BEC7A300610965 /* EnergyCardData.swift in Sources */,
 				DCD6E03629F9E1A1000904DF /* RarityImage.swift in Sources */,
+				DC8AD4842A217B9C00DEDA60 /* CardIO.swift in Sources */,
 				DC10EEF529F485D700168736 /* CardLargeImage.swift in Sources */,
 				DC660D5029BFFAD100610965 /* CardParse.swift in Sources */,
 				DC10EEF329F4842C00168736 /* MenuThumbnailImage.swift in Sources */,

@@ -11,14 +11,16 @@ struct CardDetailView: View {
     @ObservedObject var lock = Padlock.lock
     @Binding var imageDetailShown: Bool
     @ObservedObject var card: Card
+    @ObservedObject var collection: CollectionTracker
+    
     var favorite: Bool {
-        card.collection!.favorite
+        collection.favorite
     }
     var wantIt: Bool {
-        card.collection!.wantIt
+        collection.wantIt
     }
     var counter: Int16 {
-        card.collection!.amount
+        collection.amount
     }
     @ViewBuilder
     var body: some View {
@@ -26,7 +28,7 @@ struct CardDetailView: View {
             CardLargeImage(url: card.imagePaths.large)
             HStack {
                 Button(action: {
-                    card.setWantIt(!wantIt)
+                    collection.modify(wantIt: !wantIt)
                 }, label: {
                     Label {
                         Text("I want it")
@@ -38,7 +40,7 @@ struct CardDetailView: View {
                     }.padding(10).background((wantIt ? Color(uiColor: .systemYellow) : .clear)).cornerRadius(10)
                 })
                 Button(action: {
-                    card.setFavorite(!favorite)
+                    collection.modify(favorite: !favorite)
                 }, label: {
                     Label {
                         Text("Love it")
@@ -52,7 +54,7 @@ struct CardDetailView: View {
                 Spacer().frame(width: 100)
                 if !lock.isLocked {
                     Button(action: {
-                        card.setNumberOwned(counter - 1)
+                        collection.modify(amount: max(0, counter - 1))
                     }, label: {
                         Image(systemName: "minus").foregroundColor(Color(uiColor: .systemGray)).padding(10)
                             .background((counter > 0 ? Color(uiColor: .clear) : .clear)).cornerRadius(10)
@@ -61,7 +63,7 @@ struct CardDetailView: View {
                 Text(String(counter)).foregroundColor(counter != 0 ? Color(uiColor: .systemGreen) : Color.primary)
                 if !lock.isLocked {
                     Button(action: {
-                        card.setNumberOwned(counter + 1)
+                        collection.modify(amount: min(999, counter + 1))
                     }, label: {
                         Image(systemName: "plus").foregroundColor(Color(uiColor: .systemGray)).padding(10)
                             .background((counter < 999 ? Color(uiColor: .clear) : .clear))
