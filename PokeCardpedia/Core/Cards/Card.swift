@@ -90,8 +90,6 @@ class Card: ObservableObject {
     }
     /// Reference to core.
     let core = Core.core
-    /// Tracks card ownership & wishlisting.
-    // @Published var collection: CardCollectionData?
     var collectionId: NSManagedObjectID?
     var persistentId: NSManagedObjectID?
     var origin: DataSource
@@ -101,6 +99,7 @@ class Card: ObservableObject {
     init(from source: CardFromJson) {
         origin = .json
         id = source.id
+        print("Initializing \(id) from \(origin)")
         setCode = source.set.id
         setNumber = source.number
         imagePaths = CardImageUrl(pathObject: source.images)
@@ -129,6 +128,7 @@ class Card: ObservableObject {
         }
         origin = .tracker
         id = newId
+        print("Initializing \(id) from \(origin)")
         setCode = newSet
         guard let match = id.firstMatch(of: Card.setNumberFromIdRegex) else {
             print("Failed unwrapping... id: \(id) did not produce a regex match")
@@ -138,7 +138,6 @@ class Card: ObservableObject {
         let smallUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber).png")
         let largeUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber)_hires.png")
         imagePaths = CardImageUrl(small: smallUrl, large: largeUrl)
-        //collection = source.toNativeForm
         collectionId = source.objectID
         superCardType = nil
     }
@@ -147,6 +146,7 @@ class Card: ObservableObject {
         origin = .storage
         dataVersion = source.dataVersion
         id = source.id
+        print("Initializing \(id) from \(origin)")
         setCode = source.set!
         setNumber = source.setNumber!
         let smallUrl = URL(string: "https://images.pokemontcg.io/\(setCode)/\(setNumber).png")
@@ -155,7 +155,8 @@ class Card: ObservableObject {
         name = source.name
         rarity = source.rarity
         print(rarity)
-        collectionId = (source.collection?.allObjects as? [CollectionTracker])?.first?.objectID
+        persistentId = source.objectID
+        getCollectionTrackerFor()
     }
     
     /*func isComplete() -> Bool {
@@ -339,6 +340,85 @@ class Card: ObservableObject {
             collectionId = (persistedCard[0].collection?.allObjects as? [CollectionTracker])?.first?.objectID
         }
         return persistedCard[0].objectID
+    }
+    
+    func getCollectionTrackerFor(_ user: UserInfo? = nil, context: NSManagedObjectContext = PersistenceController.context, autoApply: Bool = true) {
+        print("Getting tracker for persisted card \(self.id)")
+        guard persistentId != nil, let persisted = try? context.object(with: persistentId!) as? GeneralCardData else {
+            print("Failed to retrieve card record")
+            print("id: \(persistentId)")
+            return
+        }
+        let target: UserInfo?
+        if user != nil {
+            target = user
+        } else if let activeId = ActiveUserTracker.shared.activeUserId {
+            target = context.object(with: activeId) as? UserInfo
+        } else {
+            target = nil
+        }
+        print("Designated user: \(target?.ident)")
+        guard target != nil else {
+            return
+        }
+        guard let existingTrackers = persisted.collection?.allObjects as? [CollectionTracker] else {
+            return
+        }
+        collectionId = existingTrackers.first(where: {$0.owner?.ident == target!.ident})?.objectID
+        if collectionId != nil {
+            print("Found tracker for \(self.id) and user \(target?.ident)")
+        } else {
+            print("Did not find tracker for \(self.id) and user \(target?.ident)")
+        }
+        /*if collectionId == nil {
+            do {
+                try makeCollectionTrackerFor(target, context: context)
+                
+            } catch {
+                print(error)
+            }
+        } */
+    }
+    
+    @discardableResult func makeCollectionTrackerFor(_ user: UserInfo?, context: NSManagedObjectContext = PersistenceController.context, autoApply: Bool = true) throws -> NSManagedObjectID {
+        let target: UserInfo?
+        if user != nil {
+            target = user
+        } else if let activeId = ActiveUserTracker.shared.activeUserId {
+            target = context.object(with: activeId) as? UserInfo
+        } else {
+            target = nil
+        }
+        guard let target else {
+            throw IOError.badTracker
+        }
+        // Test first
+        let fetch = GeneralCardData.fetchRequest()
+        fetch.predicate = NSPredicate(format: "id = %@", id)
+        let preFetch = try? context.fetch(fetch)
+        guard let preFetch, preFetch.count == 1 else {
+            print("Prefetch failed")
+            throw IOError.fetch
+        }
+        print(preFetch.first!.collection!.count)
+        let newTracker = CollectionTracker(context: context, card: self, user: target)
+        context.saveIfChanged()
+        let reFetch = try? context.fetch(fetch)
+        guard let reFetch, reFetch.count == 1 else {
+            print("Refetch failed")
+            throw IOError.fetch
+        }
+        print(reFetch.first!.collection!.count)
+        guard let newCollection = reFetch.first!.collection?.allObjects as? [CollectionTracker],
+              let userTracker = newCollection.first(where: {elem in
+                  elem.owner?.objectID == target.objectID})
+        else {
+            throw IOError.fetch
+        }
+        if autoApply {
+            self.collectionId = userTracker.objectID
+        }
+        return userTracker.objectID
     }
 }
 

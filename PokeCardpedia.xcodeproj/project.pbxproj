@@ -57,6 +57,8 @@
 		DCA0E35329E1E2D400E54F9B /* PagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0E35229E1E2D400E54F9B /* PagerView.swift */; };
 		DCA5B7532A10897A00C740CB /* CollectionTracker+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5B7512A10897A00C740CB /* CollectionTracker+CoreDataClass.swift */; };
 		DCA5B7542A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5B7522A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift */; };
+		DCBC27592A3642D500E013E4 /* ActiveUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC27572A3642D500E013E4 /* ActiveUser+CoreDataClass.swift */; };
+		DCBC275A2A3642D500E013E4 /* ActiveUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC27582A3642D500E013E4 /* ActiveUser+CoreDataProperties.swift */; };
 		DCD6E03029F9D195000904DF /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E02F29F9D195000904DF /* Element.swift */; };
 		DCD6E03229F9D7AA000904DF /* TrainerSubtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03129F9D7AA000904DF /* TrainerSubtype.swift */; };
 		DCD6E03429F9E056000904DF /* SetIconImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03329F9E056000904DF /* SetIconImage.swift */; };
@@ -70,6 +72,8 @@
 		DCD6E04F29FDF94C000904DF /* SetSubMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E04E29FDF94C000904DF /* SetSubMenuView.swift */; };
 		DCF4D8AB2A34DADC0092CCF3 /* GeneralCardData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4D8A92A34DADC0092CCF3 /* GeneralCardData+CoreDataClass.swift */; };
 		DCF4D8AC2A34DADC0092CCF3 /* GeneralCardData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4D8AA2A34DADC0092CCF3 /* GeneralCardData+CoreDataProperties.swift */; };
+		DCF4D8AF2A36161B0092CCF3 /* UserInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4D8AD2A36161B0092CCF3 /* UserInfo+CoreDataClass.swift */; };
+		DCF4D8B02A36161B0092CCF3 /* UserInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4D8AE2A36161B0092CCF3 /* UserInfo+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,8 +136,10 @@
 		DC679B5029E8D82100668E0D /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
 		DC8AD4832A217B9C00DEDA60 /* CardIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIO.swift; sourceTree = "<group>"; };
 		DCA0E35229E1E2D400E54F9B /* PagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerView.swift; sourceTree = "<group>"; };
-		DCA5B7512A10897A00C740CB /* CollectionTracker+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionTracker+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DCA5B7512A10897A00C740CB /* CollectionTracker+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionTracker+CoreDataClass.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DCA5B7522A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionTracker+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DCBC27572A3642D500E013E4 /* ActiveUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActiveUser+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DCBC27582A3642D500E013E4 /* ActiveUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActiveUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DCD6E02F29F9D195000904DF /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		DCD6E03129F9D7AA000904DF /* TrainerSubtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainerSubtype.swift; sourceTree = "<group>"; };
 		DCD6E03329F9E056000904DF /* SetIconImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetIconImage.swift; sourceTree = "<group>"; };
@@ -147,6 +153,8 @@
 		DCD6E04E29FDF94C000904DF /* SetSubMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSubMenuView.swift; sourceTree = "<group>"; };
 		DCF4D8A92A34DADC0092CCF3 /* GeneralCardData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeneralCardData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		DCF4D8AA2A34DADC0092CCF3 /* GeneralCardData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeneralCardData+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DCF4D8AD2A36161B0092CCF3 /* UserInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DCF4D8AE2A36161B0092CCF3 /* UserInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,10 +318,14 @@
 		DCA5B7482A106FEB00C740CB /* CDModel */ = {
 			isa = PBXGroup;
 			children = (
+				DCBC27572A3642D500E013E4 /* ActiveUser+CoreDataClass.swift */,
+				DCBC27582A3642D500E013E4 /* ActiveUser+CoreDataProperties.swift */,
 				DCA5B7512A10897A00C740CB /* CollectionTracker+CoreDataClass.swift */,
 				DCA5B7522A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift */,
 				DCF4D8A92A34DADC0092CCF3 /* GeneralCardData+CoreDataClass.swift */,
 				DCF4D8AA2A34DADC0092CCF3 /* GeneralCardData+CoreDataProperties.swift */,
+				DCF4D8AD2A36161B0092CCF3 /* UserInfo+CoreDataClass.swift */,
+				DCF4D8AE2A36161B0092CCF3 /* UserInfo+CoreDataProperties.swift */,
 			);
 			path = CDModel;
 			sourceTree = "<group>";
@@ -611,9 +623,12 @@
 			files = (
 				DCD6E03429F9E056000904DF /* SetIconImage.swift in Sources */,
 				DC660D4D29BFF23900610965 /* ApiClient.swift in Sources */,
+				DCF4D8B02A36161B0092CCF3 /* UserInfo+CoreDataProperties.swift in Sources */,
 				DC10EEF129F4814A00168736 /* Padlock.swift in Sources */,
 				DC679B4B29E8D4B900668E0D /* CoreSettings.swift in Sources */,
 				DC660CD329BD098700610965 /* Persistence.swift in Sources */,
+				DCBC27592A3642D500E013E4 /* ActiveUser+CoreDataClass.swift in Sources */,
+				DCF4D8AF2A36161B0092CCF3 /* UserInfo+CoreDataClass.swift in Sources */,
 				DC10EF0329F5924A00168736 /* DateHandler.swift in Sources */,
 				DC10EEEF29F47EC400168736 /* CardThumbnailImage.swift in Sources */,
 				DCD6E03829FAA69A000904DF /* Deck.swift in Sources */,
@@ -642,6 +657,7 @@
 				DC10EEFE29F4966000168736 /* PokemonNameset.swift in Sources */,
 				DCD6E03B29FDF3ED000904DF /* DeckMenuItemView.swift in Sources */,
 				DC679B4229E8CC1200668E0D /* CollectionLockView.swift in Sources */,
+				DCBC275A2A3642D500E013E4 /* ActiveUser+CoreDataProperties.swift in Sources */,
 				DC679B3B29E4C95E00668E0D /* Sprites.swift in Sources */,
 				DC679B4429E8D03700668E0D /* UsernameView.swift in Sources */,
 				DC679B4F29E8D77A00668E0D /* CollectionSubMenuView.swift in Sources */,

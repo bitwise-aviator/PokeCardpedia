@@ -45,7 +45,7 @@ struct DataModelVersion {
             return false
         }
         // Check existence of a bound collection tracker.
-        guard let collection = input.collection?.allObjects as! [CollectionTracker]? else {
+        guard let collection = input.collection?.allObjects as? [CollectionTracker] else {
             print("Card \(input.id) does not match current version - collection tracker mismatch")
             return false
         }

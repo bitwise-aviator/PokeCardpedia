@@ -201,6 +201,20 @@ struct MainView: View {
         .onAppear {
             CoreSettings.settings.getAll()
             partialUsername = CoreSettings.settings.trainerName
+            // Retrieve user list.
+            if UserInfo.getAllUsers(), let allUsers = UserInfo.allUsers {
+                print("\(allUsers.count) users found.")
+                if allUsers.count == 0 {
+                    _ = try? UserInfo.makeFirstUser(partialUsername, icon: nil)
+                    UserInfo.getAllUsers()
+                }
+            } else {
+                print("WARNING: Failed!")
+            }
+            // Retrieve active user entity.
+            if ActiveUserTracker.shared.getActiveUser() {
+                print("Active user has UUID \(ActiveUserTracker.shared.activeUserUUID)")
+            }
         }
     }
     private func addItem() {

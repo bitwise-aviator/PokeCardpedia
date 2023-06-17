@@ -66,8 +66,8 @@ enum ViewMode: String {
     }
     
     func matchCardData(of input: [CardFromJson], by query: [SearchType], context: NSManagedObjectContext) throws {
-        guard let fetched = (context.fetchCards(query) as [GeneralCardData]?)?.toDict() else { throw IOError.fetch }
-        
+        guard let fetched = (context.fetchCards(query) as [GeneralCardData]?)?.toDict() else {
+            throw IOError.fetch }
         var newRecords = [String: String]()
         input.forEach { elem in
             // Merge if loaded.
@@ -77,7 +77,7 @@ enum ViewMode: String {
                 let record = fetched[elem.id]
                 if record == nil {
                     do {
-                        // print("Card \(elem.id) is not persisted.")
+                        print("Card \(elem.id) is not persisted.")
                         try loadedData[elem.sortId]!.makeUnsafeCardRecord(into: context)
                         newRecords[elem.sortId] = elem.id
                     } catch {
@@ -86,12 +86,13 @@ enum ViewMode: String {
                 } else if !record!.isCurrent {
                     print("Need to update - merging")
                     let oid = fetched[elem.id]!.objectID
-                    do {
-                        try (PersistenceController.context.object(with: oid) as! GeneralCardData).updateFromCard(card: loadedData[elem.sortId]!)
-                    } catch {
-                        print(error)
-                    }
-                    // print("Card \(elem.id) was already persisted for version \(fetched[elem.id]!.dataVersion) with \(fetched[elem.id]!.collection?.count) trackers.")
+                    (PersistenceController.context.object(with: oid) as? GeneralCardData)?.updateFromCard(card: loadedData[elem.sortId]!)
+                    print("Card \(elem.id) was already persisted for version \(fetched[elem.id]!.dataVersion) with \(fetched[elem.id]!.collection?.count) trackers.")
+                    
+                }
+                if let record {
+                    loadedData[elem.sortId]?.persistentId = record.objectID
+                    loadedData[elem.sortId]?.getCollectionTrackerFor()
                 }
                 return
             }
@@ -100,7 +101,7 @@ enum ViewMode: String {
             let record = fetched[elem.id]
             if fetched[elem.id] == nil {
                 do {
-                    // print("Card \(elem.id) is not persisted.")
+                    print("Card \(elem.id) is not persisted.")
                     try loadedData[elem.sortId]!.makeUnsafeCardRecord(into: context)
                     newRecords[elem.sortId] = elem.id
                 } catch {
@@ -109,12 +110,12 @@ enum ViewMode: String {
             } else if !record!.isCurrent {
                 print("Need to update - unmerged")
                 let oid = fetched[elem.id]!.objectID
-                do {
-                    try (PersistenceController.context.object(with: oid) as! GeneralCardData).updateFromCard(card: loadedData[elem.sortId]!)
-                } catch {
-                    print(error)
-                }
-                // print("Card \(elem.id) was already persisted for version \(fetched[elem.id]!.dataVersion) with \(fetched[elem.id]!.collection?.count) trackers.")
+                (PersistenceController.context.object(with: oid) as? GeneralCardData)?.updateFromCard(card: loadedData[elem.sortId]!)
+                print("Card \(elem.id) was already persisted for version \(fetched[elem.id]!.dataVersion) with \(fetched[elem.id]!.collection?.count) trackers.")
+            }
+            if let record {
+                loadedData[elem.sortId]?.persistentId = record.objectID
+                loadedData[elem.sortId]?.getCollectionTrackerFor()
             }
         }
         print(PersistenceController.context.hasChanges)
@@ -125,6 +126,11 @@ enum ViewMode: String {
             if reFetched[value] != nil {
                 card.persistentId = reFetched[value]!.objectID
                 card.collectionId = (reFetched[value]!.collection?.allObjects.first as? CollectionTracker)?.objectID
+                if card.collectionId == nil {
+                    try? card.makeCollectionTrackerFor(nil, autoApply: true)
+                    print(card.collectionId)
+                }
+                print("from set: \(card.collectionId)")
                 card.dataVersion = reFetched[value]?.dataVersion
             }
         }
@@ -249,6 +255,13 @@ enum ViewMode: String {
                 var created: Int = 0
                 var notCreated: Int = 0
                 for key in Array(fetched.keys) {
+                    guard key.separateCollectionTrackerKey() != nil else {
+                        print("Could not decode key: \(key)")
+                        continue
+                    }
+                    guard let ownerUUID = fetched[key]?.owner?.ident, ownerUUID == ActiveUserTracker.shared.activeUserUUID else {
+                        continue
+                    }
                     if let item = fetched[key] {
                         var newCard: Card?
                         // Check if card data is good and updated.

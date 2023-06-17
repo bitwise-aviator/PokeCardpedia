@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ActiveUser" representedClassName="ActiveUser" syncable="YES">
+        <relationship name="active" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInfo"/>
+    </entity>
     <entity name="CDElement" representedClassName="CDElement" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="String"/>
         <relationship name="pokemon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PokemonData" inverseName="types" inverseEntity="PokemonData"/>
@@ -38,11 +41,7 @@
         <attribute name="set" attributeType="String"/>
         <attribute name="wantIt" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="cardDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeneralCardData" inverseName="collection" inverseEntity="GeneralCardData"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="id"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInfo" inverseName="trackers" inverseEntity="UserInfo"/>
     </entity>
     <entity name="DexNumber" representedClassName="DexNumber" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -98,5 +97,11 @@
     <entity name="TrainerData" representedClassName="TrainerData" syncable="YES" codeGenerationType="class">
         <relationship name="root" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeneralCardData" inverseName="trainerData" inverseEntity="GeneralCardData"/>
         <relationship name="subtypes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDTrainerSubtype" inverseName="trainer" inverseEntity="CDTrainerSubtype"/>
+    </entity>
+    <entity name="UserInfo" representedClassName="UserInfo" syncable="YES">
+        <attribute name="ident" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sprite" optional="YES" attributeType="String"/>
+        <relationship name="trackers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CollectionTracker" inverseName="owner" inverseEntity="CollectionTracker"/>
     </entity>
 </model>

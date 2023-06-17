@@ -14,12 +14,20 @@ enum SearchType {
     case bySet(id: String)
 }
 
+extension String {
+    func separateCollectionTrackerKey() -> (user: String, card: String)? {
+        let pattern = /(?<user>[A-F0-9-]+)@(?<card>[A-Za-z0-9-]+)/
+        guard let match = self.firstMatch(of: pattern) else { return nil }
+        return (user: String(match.output.user), card: String(match.output.card))
+    }
+}
+
 extension [CollectionTracker] {
     func toDict() -> [String: CollectionTracker] {
         var dict: [String: CollectionTracker] = [:]
         self.forEach {elem in
-            //print(elem.objectID)
-            dict[elem.id!] = elem
+            let compoundKey = "\(elem.owner?.ident.uuidString ?? "nil")@\(elem.id!)"
+            dict[compoundKey] = elem
         }
         return dict
     }
