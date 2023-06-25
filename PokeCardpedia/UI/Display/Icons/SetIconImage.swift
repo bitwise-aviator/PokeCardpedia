@@ -13,18 +13,19 @@ import NukeUI
 struct SetIconImage: View {
     /// Source URL.
     var url: URL?
+    var dimension: CGFloat = 10
     @ViewBuilder
     /// View body.
     var body: some View {
         LazyImage(request: ImageRequest(url: url)) { state in
             if let image = state.image {
-                image.resizable().scaledToFit().frame(width: 10, height: 10)
+                image.resizable().scaledToFit().frame(width: dimension, height: dimension)
             } else if state.error != nil {
                 Image(systemName: "questionmark.app.fill")
-                    .resizable().foregroundColor(.red).scaledToFit().frame(width: 10, height: 10)
+                    .resizable().foregroundColor(.red).scaledToFit().frame(width: dimension, height: dimension)
             } else {
                 Image(systemName: "questionmark.app.fill")
-                    .resizable().scaledToFit().frame(width: 10, height: 10)
+                    .resizable().scaledToFit().frame(width: dimension, height: dimension)
             }
         }
     }

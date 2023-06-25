@@ -29,7 +29,7 @@ enum ViewMode: String {
      and to keep the main thread free, saves will be done on the main thread
      only when this queue is vacated. */
     /// Stores sets in the loading queue.
-    private var queryQueue = Set<String>()
+    private(set) var queryQueue = Set<String>()
     /// Stores sets that have been successfully loaded.
     private var queried = Set<String>()
     private var loadedDexs = Set<Int>()

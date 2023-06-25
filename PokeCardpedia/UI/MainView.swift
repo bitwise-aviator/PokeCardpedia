@@ -40,13 +40,13 @@ struct MainView: View {
     @State var imageDetailShown: Bool = false
     @State var filterBy = Filter.none
     @State var isShowingNameAlert = false
-
+    @State var galleryViewEnabled = true
     @State var navColumnVisiblity = NavigationSplitViewVisibility.automatic
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
-    let multiLineLayout = [GridItem(.adaptive(minimum: 150))]
+    // let multiLineLayout = [GridItem(.adaptive(minimum: 150))]
     let singleLineLayout = [GridItem(.fixed(150))]
     var userNamePossessive: String {
         let userName = CoreSettings.settings.trainerName
@@ -114,28 +114,10 @@ struct MainView: View {
                 }
             } else {
                 VStack {
-                    ScrollView {
-                        ScrollViewReader { scroller in
-                            LazyVGrid(columns: multiLineLayout) {
-                                let cardData = core.activeData
-                                ForEach(Array(cardData.keys).sorted(by: <), id: \.self) {
-                                    if (filterBy == .none) ||
-                                        (filterBy == .owned && (cardData[$0]?.getCollectionObject()?.amount ?? 0) > 0) ||
-                                        (filterBy == .favorite && (cardData[$0]?.getCollectionObject()?.favorite ?? false)) ||
-                                        (filterBy == .want && (cardData[$0]?.getCollectionObject()?.wantIt ?? false)) {
-                                        CardThumbnail(activeImage: $activeImage,
-                                                      imageDetailShown: $imageDetailShown,
-                                                      card: cardData[$0]!, collection: cardData[$0]!.getCollectionObject()!).id($0)
-                                    }
-                                }
-                            }.onChange(of: activeImage, perform: { newValue in
-                                scroller.scrollTo(newValue)
-                            })
-                            .onAppear {
-                                scroller.scrollTo(activeImage, anchor: .center)
-                                activeImage = ""
-                            }
-                        }
+                    if galleryViewEnabled {
+                        GalleryView(filterBy: $filterBy, activeImage: $activeImage, imageDetailShown: $imageDetailShown)
+                    } else {
+                        ListView(filterBy: $filterBy, activeImage: $activeImage, imageDetailShown: $imageDetailShown)
                     }
                     HStack {
                         Spacer()
@@ -177,6 +159,17 @@ struct MainView: View {
                             Text("\(Core.core.activeOwned)")
                         }
                         Spacer()
+                    }
+                }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(action: {
+                            galleryViewEnabled.toggle()
+                        }, label: {
+                            Image(systemName: galleryViewEnabled ?
+                                  "square.grid.3x3.square" : "list.bullet"
+                                       )
+                        })
                     }
                 }
             }

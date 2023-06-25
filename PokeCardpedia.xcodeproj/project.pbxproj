@@ -59,6 +59,9 @@
 		DCA5B7542A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5B7522A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift */; };
 		DCBC27592A3642D500E013E4 /* ActiveUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC27572A3642D500E013E4 /* ActiveUser+CoreDataClass.swift */; };
 		DCBC275A2A3642D500E013E4 /* ActiveUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC27582A3642D500E013E4 /* ActiveUser+CoreDataProperties.swift */; };
+		DCBF35922A4779220029C058 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBF35912A4779220029C058 /* GalleryView.swift */; };
+		DCBF35942A47B04B0029C058 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBF35932A47B04B0029C058 /* ListView.swift */; };
+		DCBF35962A47B1460029C058 /* CardListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBF35952A47B1460029C058 /* CardListItem.swift */; };
 		DCD6E03029F9D195000904DF /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E02F29F9D195000904DF /* Element.swift */; };
 		DCD6E03229F9D7AA000904DF /* TrainerSubtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03129F9D7AA000904DF /* TrainerSubtype.swift */; };
 		DCD6E03429F9E056000904DF /* SetIconImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD6E03329F9E056000904DF /* SetIconImage.swift */; };
@@ -140,6 +143,9 @@
 		DCA5B7522A10897A00C740CB /* CollectionTracker+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionTracker+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DCBC27572A3642D500E013E4 /* ActiveUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActiveUser+CoreDataClass.swift"; sourceTree = "<group>"; };
 		DCBC27582A3642D500E013E4 /* ActiveUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActiveUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DCBF35912A4779220029C058 /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
+		DCBF35932A47B04B0029C058 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		DCBF35952A47B1460029C058 /* CardListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListItem.swift; sourceTree = "<group>"; };
 		DCD6E02F29F9D195000904DF /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		DCD6E03129F9D7AA000904DF /* TrainerSubtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainerSubtype.swift; sourceTree = "<group>"; };
 		DCD6E03329F9E056000904DF /* SetIconImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetIconImage.swift; sourceTree = "<group>"; };
@@ -330,6 +336,15 @@
 			path = CDModel;
 			sourceTree = "<group>";
 		};
+		DCBF35902A4778BF0029C058 /* DetailViews */ = {
+			isa = PBXGroup;
+			children = (
+				DCBF35912A4779220029C058 /* GalleryView.swift */,
+				DCBF35932A47B04B0029C058 /* ListView.swift */,
+			);
+			path = DetailViews;
+			sourceTree = "<group>";
+		};
 		DCD6E03929FAA6A1000904DF /* DeckManagement */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +358,7 @@
 			children = (
 				DCD6E04029FDF68A000904DF /* Display */,
 				DC660CCB29BD098600610965 /* MainView.swift */,
+				DCBF35902A4778BF0029C058 /* DetailViews */,
 				DCD6E03F29FDF67A000904DF /* Navigation */,
 			);
 			path = UI;
@@ -363,6 +379,7 @@
 				DCD6E04229FDF71A000904DF /* Icons */,
 				DCD6E04129FDF6B0000904DF /* Thumbnails */,
 				DCD6E04329FDF797000904DF /* BigPicture */,
+				DCBF35952A47B1460029C058 /* CardListItem.swift */,
 			);
 			path = Display;
 			sourceTree = "<group>";
@@ -630,6 +647,7 @@
 				DCBC27592A3642D500E013E4 /* ActiveUser+CoreDataClass.swift in Sources */,
 				DCF4D8AF2A36161B0092CCF3 /* UserInfo+CoreDataClass.swift in Sources */,
 				DC10EF0329F5924A00168736 /* DateHandler.swift in Sources */,
+				DCBF35962A47B1460029C058 /* CardListItem.swift in Sources */,
 				DC10EEEF29F47EC400168736 /* CardThumbnailImage.swift in Sources */,
 				DCD6E03829FAA69A000904DF /* Deck.swift in Sources */,
 				DCF4D8AC2A34DADC0092CCF3 /* GeneralCardData+CoreDataProperties.swift in Sources */,
@@ -643,6 +661,7 @@
 				DC679B5129E8D82100668E0D /* BackButtonView.swift in Sources */,
 				DCF4D8AB2A34DADC0092CCF3 /* GeneralCardData+CoreDataClass.swift in Sources */,
 				DC679B4929E8D3D500668E0D /* CollectionMenuItemView.swift in Sources */,
+				DCBF35922A4779220029C058 /* GalleryView.swift in Sources */,
 				DC660D3929BEC5F000610965 /* Card.swift in Sources */,
 				DC660CD629BD098700610965 /* PokeCardpedia.xcdatamodeld in Sources */,
 				DC679B3929E4C5A300668E0D /* TopLevelItems.swift in Sources */,
@@ -660,6 +679,7 @@
 				DCBC275A2A3642D500E013E4 /* ActiveUser+CoreDataProperties.swift in Sources */,
 				DC679B3B29E4C95E00668E0D /* Sprites.swift in Sources */,
 				DC679B4429E8D03700668E0D /* UsernameView.swift in Sources */,
+				DCBF35942A47B04B0029C058 /* ListView.swift in Sources */,
 				DC679B4F29E8D77A00668E0D /* CollectionSubMenuView.swift in Sources */,
 				DC660D5629C3EF9900610965 /* CardDetailView.swift in Sources */,
 				DC660D3B29BEC7A300610965 /* EnergyCardData.swift in Sources */,

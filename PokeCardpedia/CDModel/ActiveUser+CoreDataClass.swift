@@ -24,6 +24,7 @@ class ActiveUserTracker: ObservableObject {
             return false
         }
         (activeUserId, activeUserUUID) = (userId, userInfo.ident)
+        print("\(userInfo.name) is the active user...")
         return true
     }
     //
@@ -85,5 +86,22 @@ public class ActiveUser: NSManagedObject {
     
     static func makeUserActive(user: UserInfo) -> Bool {
         return ActiveUser.makeUserActive(userInfoId: user.objectID)
+    }
+    
+    static func renameActiveUser(target: String) -> Bool {
+        guard 1...30 ~= target.count else {
+            return false
+        }
+        guard let activeUserObjectId = try? validateAndPurge(),
+              let activeUserObject = try? ActiveUser.context.object(with: activeUserObjectId) as? ActiveUser,
+              let activeUserData = try? activeUserObject.active
+        else {
+            return false
+        }
+        return ActiveUser.context.performAndWait {
+            activeUserData.name = target
+            print(ActiveUser.context.hasChanges)
+            return ActiveUser.context.saveIfChanged()
+        }
     }
 }
