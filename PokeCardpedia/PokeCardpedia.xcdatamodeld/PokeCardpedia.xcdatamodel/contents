@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22158.8" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ActiveUser" representedClassName="ActiveUser" syncable="YES">
         <relationship name="active" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInfo"/>
     </entity>
-    <entity name="CDElement" representedClassName="CDElement" syncable="YES" codeGenerationType="class">
+    <entity name="CDElement" representedClassName="CDElement" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String"/>
-        <relationship name="pokemon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PokemonData" inverseName="types" inverseEntity="PokemonData"/>
+        <relationship name="pokemon" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PokemonData" inverseName="types" inverseEntity="PokemonData"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
@@ -16,7 +16,7 @@
         <attribute name="id" optional="YES" attributeType="String"/>
         <relationship name="energy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EnergyData" inverseName="subtypes" inverseEntity="EnergyData"/>
     </entity>
-    <entity name="CDPokemonSubtype" representedClassName="CDPokemonSubtype" syncable="YES" codeGenerationType="class">
+    <entity name="CDPokemonSubtype" representedClassName="CDPokemonSubtype" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String"/>
         <relationship name="pokemon" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PokemonData" inverseName="subtypes" inverseEntity="PokemonData"/>
         <uniquenessConstraints>
@@ -43,7 +43,7 @@
         <relationship name="cardDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeneralCardData" inverseName="collection" inverseEntity="GeneralCardData"/>
         <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInfo" inverseName="trackers" inverseEntity="UserInfo"/>
     </entity>
-    <entity name="DexNumber" representedClassName="DexNumber" syncable="YES" codeGenerationType="class">
+    <entity name="DexNumber" representedClassName="DexNumber" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="pokemon" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PokemonData" inverseName="dex" inverseEntity="PokemonData"/>
         <uniquenessConstraints>
@@ -84,7 +84,7 @@
     <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
-    <entity name="PokemonData" representedClassName="PokemonData" syncable="YES" codeGenerationType="class">
+    <entity name="PokemonData" representedClassName="PokemonData" syncable="YES">
         <attribute name="hitPoints" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="dex" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DexNumber" inverseName="pokemon" inverseEntity="DexNumber"/>
         <relationship name="root" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeneralCardData" inverseName="pokemonData" inverseEntity="GeneralCardData"/>

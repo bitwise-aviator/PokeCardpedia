@@ -162,14 +162,22 @@ struct MainView: View {
                     }
                 }
                 .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
+                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
                         Button(action: {
-                            galleryViewEnabled.toggle()
+                            galleryViewEnabled = true
                         }, label: {
-                            Image(systemName: galleryViewEnabled ?
-                                  "square.grid.3x3.square" : "list.bullet"
-                                       )
+                            Image(systemName: "square.grid.3x3.square")
                         })
+                        .tint(galleryViewEnabled ? Color.accentColor : Color.gray)
+                    }
+                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
+                        Button(action: {
+                            galleryViewEnabled = false
+                        }, label: {
+                            Image(systemName: "list.bullet")
+                                .border(galleryViewEnabled ? .clear : .blue)
+                        })
+                        .tint(galleryViewEnabled ? Color.gray : Color.accentColor)
                     }
                 }
             }

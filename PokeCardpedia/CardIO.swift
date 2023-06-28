@@ -16,9 +16,16 @@ enum IOError: Error {
 
 /// Use to track which CoreData records need to be updated.
 struct DataModelVersion {
-    /* Current version: 000.1
+    /* Current version: 000.2
     (Versions with 00X.X correspond to beta/intermediate releases.
      Must have:
+     - Compliance w/ previous versions.
+     - If Pokémon card:
+     -- pokemonData relationship not nil.
+     -- pokemonData hitPoints not nil.
+     -- pokemonData dex, root, subtypes, types not nil.
+     
+     ---- Previous v000.1 ----
      - Completed GeneralCardData attributes
      -- dataVersion == 000.1
      -- id, name, rarity, supertype not nil
@@ -26,11 +33,10 @@ struct DataModelVersion {
      -- amount, favorite, id, set, wantIt not nil
      - GeneralCardData collection relationship populated.
     */
-    static let current: String = "000.1"
+    static let current: String = "000.2"
     static func validateCurrentVersion(_ input: GeneralCardData) -> Bool {
         // Check GeneralCardData completion.
-        guard input.id != nil,
-              input.set != nil,
+        guard input.set != nil,
               input.setNumber != nil,
                 input.name != nil,
                 input.rarity != nil,
@@ -65,6 +71,18 @@ struct DataModelVersion {
             print("Card \(input.id) does not match current version - trackers mismatched")
             return false
         }
+        
+        switch input.supertype {
+        case "pokemon":
+            guard let pokemonData = input.pokemonData else { return false }
+            guard pokemonData.dex?.count ?? 0 > 0,
+                  pokemonData.subtypes?.count ?? 0 > 0,
+                  pokemonData.types?.count ?? 0 > 0 else {
+                      return false
+                  }
+        default: ()
+        }
+        
         return true
     }
     //

@@ -94,6 +94,11 @@ enum ViewMode: String {
                     loadedData[elem.sortId]?.persistentId = record.objectID
                     loadedData[elem.sortId]?.getCollectionTrackerFor()
                 }
+                if loadedData[elem.sortId] == nil {
+                    print("No data found for \(elem.sortId)")
+                } else if loadedData[elem.sortId]?.collectionId == nil {
+                    print("WARN: No collection for \(elem.sortId)")
+                }
                 return
             }
             // Create if it doesn't.
@@ -116,6 +121,11 @@ enum ViewMode: String {
             if let record {
                 loadedData[elem.sortId]?.persistentId = record.objectID
                 loadedData[elem.sortId]?.getCollectionTrackerFor()
+            }
+            if loadedData[elem.sortId] == nil {
+                print("No data found for \(elem.sortId)")
+            } else if loadedData[elem.sortId]?.collectionId == nil {
+                print("WARN: No collection for \(elem.sortId)")
             }
         }
         print(PersistenceController.context.hasChanges)

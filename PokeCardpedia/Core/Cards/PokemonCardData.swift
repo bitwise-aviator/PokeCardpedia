@@ -20,6 +20,15 @@ enum PokemonSubtype: String {
     case fusionStrike = "fusion strike"
     case singleStrike = "single strike"
     case rapidStrike = "rapid strike"
+    case levelUp = "level-up"
+    case star
+    case baby
+    case mega
+    case prime
+    case legend
+    case sp // swiftlint:disable:this identifier_name
+    case tera
+    case vUnion = "v-union"
 }
 
 /// Stores data specific to Pokémon cards. To be only used inside a `SuperCardType.pokemon` enum instance.
@@ -50,6 +59,13 @@ struct PokemonCardData {
         })
         hitPoints = Int(source.hp ?? "")
     }
+    init(fromPersist source: PokemonData) {
+        dex = (source.dex?.allObjects as? [DexNumber])?.compactMap({Int($0.id)})
+        types = (source.types?.allObjects as? [CDElement])?.compactMap({Element(rawValue: $0.id ?? "")})
+        subtypes = (source.subtypes?.allObjects as? [CDPokemonSubtype])?.compactMap({PokemonSubtype(rawValue: $0.id ?? "")})
+        hitPoints = source.hitPoints != 0 ? Int(source.hitPoints) : nil
+    }
+    
     init(dex: [Int]?) {
         self.dex = dex
         types = nil

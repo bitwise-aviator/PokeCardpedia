@@ -53,10 +53,30 @@ struct CardListItem: View {
                 // Space indefinitely.
                 Spacer()
                 HStack {
+                    switch card.superCardType {
+                    case .pokemon(data: let data):
+                        // Elements
+                        if let types = data.types {
+                            ForEach(types, id: \.self) { elem in
+                                Image(elem.rawValue.lowercased()).resizable().frame(width: 20, height: 20)
+                            }
+                        }
+                        // HP
+                        if let hitPt = data.hitPoints {
+                            VStack {
+                                Text("HP").font(.system(size: 8))
+                                Text(String(hitPt)).font(.system(size: 15))
+                            }.frame(width: 40, height: 30)
+                        }
+                    default: EmptyView()
+                    }
+                }
+                HStack {
+                    Spacer()
                     RarityImage(rarity: card.rarity, dimension: 15)
                     Image(systemName: wantIt ? "star.fill" : "star" ).foregroundColor(Color(uiColor: .systemYellow))
                     Image(systemName: favorite ? "heart.fill" : "heart" ).foregroundColor(Color(uiColor: .systemPink))
-                }
+                }.frame(width: min(width / 8, 120), height: 30).padding(.trailing, 5)
             }.frame(height: 30).padding(.vertical, 5).background(haveIt ? Color(uiColor: .systemGray3) : Color(uiColor: .systemBackground))
         }
         .onTapGesture {

@@ -156,6 +156,9 @@ class Card: ObservableObject {
         rarity = source.rarity
         print(rarity)
         persistentId = source.objectID
+        if source.supertype == "pokemon", let pokemonData = source.pokemonData {
+            superCardType = .pokemon(data: PokemonCardData(fromPersist: pokemonData))
+        }
         getCollectionTrackerFor()
     }
     
@@ -369,6 +372,13 @@ class Card: ObservableObject {
             print("Found tracker for \(self.id) and user \(target?.ident)")
         } else {
             print("Did not find tracker for \(self.id) and user \(target?.ident)")
+            do {
+                try makeCollectionTrackerFor(target!)
+                print("Generated new tracker for \(self.id) and user \(target?.ident)")
+            } catch {
+                print(error)
+                print("Failed to generate new tracker for \(self.id) and user \(target?.ident)")
+            }
         }
         /*if collectionId == nil {
             do {
